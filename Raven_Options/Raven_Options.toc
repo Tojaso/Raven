@@ -1,0 +1,12 @@
+## Interface: 80100
+## Title: Raven Options
+## Notes: Load on demand options panel for Raven
+## Author: Tomber
+## Dependencies: Raven
+## LoadOnDemand: 1
+
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
+
+Options.lua
