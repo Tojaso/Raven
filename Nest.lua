@@ -698,10 +698,10 @@ function MOD.Nest_CreateBarGroup(name)
 		bg.frame:SetFrameLevel(bg.frame:GetFrameLevel() + 20) -- higher than other addons
 		bg.frame:SetMovable(true); bg.frame:SetClampedToScreen(true)
 		PCSetPoint(bg.frame, "CENTER", UIParent, "CENTER")	
-		bg.backdrop = CreateFrame("Frame", "RavenBarGroupBackdrop" .. xname, bg.frame)
+		bg.backdrop = CreateFrame("Frame", "RavenBarGroupBackdrop" .. xname, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 		bg.backdropTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 		bg.borderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
-		bg.anchor = CreateFrame("Button", nil, bg.frame)
+		bg.anchor = CreateFrame("Button", nil, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 		bg.anchor:SetBackdrop(anchorDefaults)
 		bg.anchor:SetBackdropColor(0.3, 0.3, 0.3, 0.9)
 		bg.anchor:SetBackdropBorderColor(0, 0, 0, 0.9)
@@ -1016,7 +1016,7 @@ function MOD.Nest_CreateBar(bg, name)
 		bar.container = CreateFrame("Frame", bname .. "Container", bar.frame)
 		bar.fgTexture = bar.container:CreateTexture(nil, "BACKGROUND", nil, 2)	
 		bar.bgTexture = bar.container:CreateTexture(nil, "BACKGROUND", nil, 1)
-		bar.backdrop = CreateFrame("Frame", bname .. "Backdrop", bar.container)
+		bar.backdrop = CreateFrame("Frame", bname .. "Backdrop", bar.container, BackdropTemplateMixin and "BackdropTemplate")
 		bar.spark = bar.container:CreateTexture(nil, "OVERLAY")
 		bar.spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 		bar.spark:SetSize(10, 10)
@@ -2518,7 +2518,7 @@ function MOD.Nest_TriggerUpdate() update = true end
 -- Validate a resolution string with format "w x h" as used by the system menu for selecting display settings
 local function ValidResolution(res)
 	if type(res) == "string" then
-		local w, h = DecodeResolution(res)
+		local w, h = GetCurrentResolution(res)
 		if w and h and type(w) == "number" and type(h) == "number" then
 			if w > 0 and h > 0 then return true end
 		end
