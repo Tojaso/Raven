@@ -75,7 +75,7 @@ local iconBackdrop = { -- backdrop initialization for icons when using optional 
 }
 
 local bgTemplate = { -- these fields are preserved when a bar group is deleted
-	attributes = 0, callbacks = 0, frame = 0, backdrop = 0, backdropTable = 0, borderTable = 0, anchor = 0, bars = 0, 
+	attributes = 0, callbacks = 0, frame = 0, backdrop = 0, backdropTable = 0, borderTable = 0, anchor = 0, bars = 0,
 	position = 0, sorter = 0, sortFunction = 0, locked = 0, moving = 0, count = 0,
 }
 
@@ -84,7 +84,7 @@ local barTemplate = { -- these fields are preserved when a bar is deleted
 	textFrame = 0, labelText = 0, timeText = 0, icon = 0, iconTexture = 0, cooldown = 0, iconTextFrame = 0, iconText = 0, iconBorder = 0,
 	tukbar = 0, tukcolor_r = 0, tukcolor_g = 0, tukcolor_b = 0, tukcolor_a = 0, buttonData = 0, segments = 0, segmentsAllocated = 0,
 }
-		
+
 -- Check if using Tukui skin for icon and bar borders (which may require a reloadui)
 local function UseTukui() return Raven.frame.CreateBackdrop and Raven.frame.SetOutside and Raven.db.global.TukuiSkin end
 local function GetTukuiFont(font) if Raven.db.global.TukuiFont and ChatFrame1 then return ChatFrame1:GetFont() else return font end end
@@ -170,7 +170,7 @@ local function SplashEffect(bar, anchor1, frame, anchor2, xoffset, yoffset)
 		b = {} -- initialize a new animation
 		b.frame = CreateFrame("Frame", nil, UIParent)
 		b.frame:SetFrameLevel(bar.frame:GetFrameLevel() + 10)
-		b.texture = b.frame:CreateTexture(nil, "ARTWORK") -- texture for the texture to be animated	
+		b.texture = b.frame:CreateTexture(nil, "ARTWORK") -- texture for the texture to be animated
 		b.anim = b.frame:CreateAnimationGroup()
 		b.anim:SetLooping("NONE")
 		local scale = b.anim:CreateAnimation("Scale")
@@ -220,7 +220,7 @@ local function PulseEffect(bar)
 			a = {} -- initialize a new animation for this pulse effect
 			a.frame = CreateFrame("Frame", nil, UIParent)
 			a.frame:SetFrameStrata("HIGH")
-			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated	
+			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated
 			a.anim = a.frame:CreateAnimationGroup()
 			a.anim:SetLooping("NONE")
 			local alpha1 = a.anim:CreateAnimation("Alpha")
@@ -270,13 +270,13 @@ local function FaderEffect(bar, toAlpha, fade)
 		anim:SetToFinalAlpha(true)
 		bar.frame.fader = anim
 	end
-	
+
 	local isPlaying = anim:IsPlaying()
 	local alpha = anim.alpha
 	local current = bar.frame:GetAlpha() -- actual current alpha for the bar
 	local fromAlpha = isPlaying and alpha:GetToAlpha() or current -- for comparison, check target alpha if animation is playing otherwise use current
 	local delta = math.floor(math.abs(fromAlpha - toAlpha) * 100) -- zero if comparison is within 1% of same value
-	
+
 	if not fade then -- just go straight to the target alpha if fade is disabled
 		if isPlaying then anim:Stop() end
 		bar.frame:SetAlpha(toAlpha)
@@ -312,7 +312,7 @@ local function FlashEffect(bar, maxAlpha, minAlpha, period)
 		anim:SetScript("OnUpdate", function() bar.frame:SetAlpha(FlashAlpha(maxAlpha, minAlpha, period)) end)
 		anim.maxAlpha = maxAlpha; anim.minAlpha = minAlpha; anim.flashPeriod = period
 	end
-	
+
 	if not anim:IsPlaying() then anim:Stop(); anim:Play() end
 end
 
@@ -331,7 +331,7 @@ local function ShineEffect(bar, color)
 			a = {} -- initialize a new animation for this shine effect
 			a.frame = CreateFrame("Frame", nil, UIParent)
 			a.frame:SetFrameStrata("HIGH")
-			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated	
+			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated
 			a.texture:SetTexture("Interface\\Cooldown\\star4")
 			a.texture:SetBlendMode("ADD")
 			a.anim = a.frame:CreateAnimationGroup()
@@ -399,7 +399,7 @@ local function SparkleEffect(bar, color)
 			a = {} -- initialize a new animation for this sparkle effect
 			a.frame = CreateFrame("Frame", nil, UIParent)
 			a.frame:SetFrameStrata("HIGH")
-			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated	
+			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated
 			a.texture:SetTexture("Interface\\Cooldown\\starburst")
 			a.texture:SetBlendMode("ADD")
 			a.sparkleTextures = {}
@@ -414,15 +414,15 @@ local function SparkleEffect(bar, color)
 			x:SetScale(1, 1); x:SetDuration(0.33); x:SetOrder(1)
 			x = a.anim:CreateAnimation("Alpha")
 			x:SetFromAlpha(1); x:SetToAlpha(0); x:SetStartDelay(0.45); x:SetDuration(0.15); x:SetOrder(1)
-			
+
 			for i = 1, 8 do -- create sparklers
 				local name = "Raven_Animation" .. tostring(sparkleCount) .. "_Spark" .. tostring(i)
-				local tex = a.frame:CreateTexture(name, "ARTWORK") -- texture to be animated	
+				local tex = a.frame:CreateTexture(name, "ARTWORK") -- texture to be animated
 				tex:SetTexture("Interface\\Cooldown\\star4")
 				tex:SetBlendMode("ADD")
 				a.sparkleTextures[i] = tex
 				local s = sparkles[i]
-				
+
 				x = a.anim:CreateAnimation("Alpha")
 				x:SetTarget(name); x:SetFromAlpha(0); x:SetToAlpha(1); x:SetSmoothing("IN")
 				x:SetStartDelay(s.delay); x:SetDuration(0.15); x:SetOrder(1)
@@ -493,7 +493,7 @@ local function GlowEffect(bar, color)
 		if a then glowEffectPool[a] = nil else
 			a = {} -- initialize a new table for this glow effect
 			a.frame = CreateFrame("Frame", nil, UIParent)
-			a.texture = a.frame:CreateTexture(nil, "BACKGROUND") -- texture to be animated	
+			a.texture = a.frame:CreateTexture(nil, "BACKGROUND") -- texture to be animated
 			a.texture:SetTexture("Interface\\SpellActivationOverlay\\IconAlert")
 			a.texture:SetTexCoord(0.00781250, 0.50781250, 0.53515625, 0.78515625)
 			a.texture:SetBlendMode("ADD")
@@ -593,7 +593,7 @@ local function SortStartUp(a, b) return sortValues(a, b, "start", true) end
 
 local function SortClassDown(a, b)
 	if a.group ~= b.group then return a.group < b.group end
-	if a.gname ~= b.gname then return a.gname < b.gname end	
+	if a.gname ~= b.gname then return a.gname < b.gname end
 	if a.sortPlayer then if a.isMine ~= b.isMine then return a.isMine end end -- priority #1: optional isMine for cast by player detection
 	if a.class ~= b.class then return a.class > b.class end -- priority #2: selected sort function
 	if a.sortTime and (math.abs(a.timeLeft - b.timeLeft) >= 0.05) then return (a.timeLeft < b.timeLeft) end -- priority #3: optional increasing timeLeft
@@ -697,11 +697,11 @@ function MOD.Nest_CreateBarGroup(name)
 		bg.frame = CreateFrame("Frame", "RavenBarGroup" .. xname, UIParent) -- add name for reference from other addons
 		bg.frame:SetFrameLevel(bg.frame:GetFrameLevel() + 20) -- higher than other addons
 		bg.frame:SetMovable(true); bg.frame:SetClampedToScreen(true)
-		PCSetPoint(bg.frame, "CENTER", UIParent, "CENTER")	
-		bg.backdrop = CreateFrame("Frame", "RavenBarGroupBackdrop" .. xname, bg.frame)
+		PCSetPoint(bg.frame, "CENTER", UIParent, "CENTER")
+		bg.backdrop = CreateFrame("Frame", "RavenBarGroupBackdrop" .. xname, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 		bg.backdropTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 		bg.borderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
-		bg.anchor = CreateFrame("Button", nil, bg.frame)
+		bg.anchor = CreateFrame("Button", nil, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 		bg.anchor:SetBackdrop(anchorDefaults)
 		bg.anchor:SetBackdropColor(0.3, 0.3, 0.3, 0.9)
 		bg.anchor:SetBackdropBorderColor(0, 0, 0, 0.9)
@@ -759,7 +759,7 @@ function MOD.Nest_DeleteBarGroup(bg)
 	bg.anchor:Hide(); bg.backdrop:Hide(); HideTimeline(bg)
 	barGroups[bg.name] = nil
 	bg.name = nil
-	
+
 	for n in pairs(bg.attributes) do bg.attributes[n] = nil end
 	for n in pairs(bg.callbacks) do bg.callbacks[n] = nil end
 	for n in pairs(bg) do if not bgTemplate[n] then bg[n] = nil end end -- remove all settings that don't belong
@@ -878,7 +878,7 @@ function MOD.Nest_SetBarGroupStripe(bg, fullWidth, w, h, inset, offset, barInset
 	bg.stBorderTexture = btex; bg.stBorderWidth = bw; bg.stBorderOffset = bo; bg.stBorderColor = bc; bg.stFullWidth = fullWidth
 	bg.update = true
 end
-			
+
 -- Sort the bars in a bar group using the designated sort method and direction (default is sort by name alphabetically)
 function MOD.Nest_BarGroupSortFunction(bg, sortMethod, sortDirection, sortTime, sortPlayer)
 	if sortMethod == "time" then -- sort by time left on the bar
@@ -944,9 +944,9 @@ function MOD.Nest_SetRelativeAnchorPoint(bg, rTo, rFrame, rPoint, rX, rY, rLB, r
 	if rFrame and GetClickFrame(rFrame) then -- set relative to a specific frame
 		PCSetPoint(bg.frame, rPoint or "CENTER", GetClickFrame(rFrame), rPoint or "CENTER", rX, rY)
 		if pixelPerfect then -- have to re-align relative to bottom left since we can't be sure that anchor point itself is pixel aligned
-			PCSetPoint(bg.frame, "BOTTOMLEFT", nil, "BOTTOMLEFT", bg.frame:GetLeft(), bg.frame:GetBottom())	
+			PCSetPoint(bg.frame, "BOTTOMLEFT", nil, "BOTTOMLEFT", bg.frame:GetLeft(), bg.frame:GetBottom())
 		end
-		bg.relativeTo = nil -- remove relative anchor point	
+		bg.relativeTo = nil -- remove relative anchor point
 	elseif bg.relativeTo and not rTo then -- removing a relative anchor point
 		PCSetPoint(bg.frame, "BOTTOMLEFT", nil, "BOTTOMLEFT", bg.frame:GetLeft(), bg.frame:GetBottom())
 		bg.relativeTo = nil -- remove relative anchor point
@@ -958,7 +958,7 @@ end
 
 -- Set callbacks for a bar group
 function MOD.Nest_SetBarGroupCallbacks(bg, onMove, onClick, onEnter, onLeave)
-	bg.callbacks.onMove = onMove; bg.callbacks.onClick = onClick; bg.callbacks.onEnter = onEnter; bg.callbacks.onLeave = onLeave	
+	bg.callbacks.onMove = onMove; bg.callbacks.onClick = onClick; bg.callbacks.onEnter = onEnter; bg.callbacks.onLeave = onLeave
 end
 
 -- Set opacity for a bar group, including mouseover override
@@ -1014,19 +1014,19 @@ function MOD.Nest_CreateBar(bg, name)
 		bar = { buttonName = bname }
 		bar.frame = CreateFrame("Button", bname .. "Frame", bg.frame)
 		bar.container = CreateFrame("Frame", bname .. "Container", bar.frame)
-		bar.fgTexture = bar.container:CreateTexture(nil, "BACKGROUND", nil, 2)	
+		bar.fgTexture = bar.container:CreateTexture(nil, "BACKGROUND", nil, 2)
 		bar.bgTexture = bar.container:CreateTexture(nil, "BACKGROUND", nil, 1)
-		bar.backdrop = CreateFrame("Frame", bname .. "Backdrop", bar.container)
+		bar.backdrop = CreateFrame("Frame", bname .. "Backdrop", bar.container, BackdropTemplateMixin and "BackdropTemplate")
 		bar.spark = bar.container:CreateTexture(nil, "OVERLAY")
 		bar.spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 		bar.spark:SetSize(10, 10)
 		bar.spark:SetBlendMode("ADD")
-		bar.spark:SetTexCoord(0, 1, 0, 1)	
+		bar.spark:SetTexCoord(0, 1, 0, 1)
 		bar.tick = bar.container:CreateTexture(nil, "OVERLAY")
 		bar.textFrame = CreateFrame("Frame", bname .. "TextFrame", bar.container)
-		bar.labelText = bar.textFrame:CreateFontString(nil, "OVERLAY")		
+		bar.labelText = bar.textFrame:CreateFontString(nil, "OVERLAY")
 		bar.timeText = bar.textFrame:CreateFontString(nil, "OVERLAY")
-		bar.icon = CreateFrame("Button", bname, bar.frame)
+		bar.icon = CreateFrame("Button", bname, bar.frame, BackdropTemplateMixin and "BackdropTemplate")
 		bar.iconTexture = bar.icon:CreateTexture(bname .. "IconTexture", "ARTWORK") -- texture for the bar's icon
 		bar.cooldown = CreateFrame("Cooldown", bname .. "Cooldown", bar.icon, "CooldownFrameTemplate") -- cooldown overlay to animate timer
 		bar.cooldown.noCooldownCount = Raven.db.global.HideOmniCC
@@ -1034,7 +1034,7 @@ function MOD.Nest_CreateBar(bg, name)
 		bar.cooldown:SetHideCountdownNumbers(true); bar.cooldown:SetDrawBling(false); bar.cooldown:SetDrawEdge(Raven.db.global.IconClockEdge) -- added in WoD
 		bar.iconTextFrame = CreateFrame("Frame", bname .. "IconTextFrame", bar.frame)
 		bar.iconText = bar.iconTextFrame:CreateFontString(nil, "OVERLAY", nil, 4)
-		bar.iconBorder = bar.iconTextFrame:CreateTexture(nil, "BACKGROUND", nil, 3)		
+		bar.iconBorder = bar.iconTextFrame:CreateTexture(nil, "BACKGROUND", nil, 3)
 		if UseTukui() then
 			bar.tukbar = CreateFrame("Frame", bname .. "Tukbar", bar.container)
 			bar.tukbar:CreateBackdrop("Transparent")
@@ -1050,7 +1050,7 @@ function MOD.Nest_CreateBar(bg, name)
 				end
 			end
 		end
-		
+
 		if MSQ then -- if using ButtonFacade, create and initialize a button data table
 			bar.buttonData = {} -- only initialize once so no garbage collection issues
 			for k, v in pairs(MSQ_ButtonData) do bar.buttonData[k] = v end
@@ -1088,8 +1088,8 @@ end
 local function AllocateSegments(bar)
 	local name = bar.buttonName .. "Segment"
 	for i = 1, 10 do
-		local f = CreateFrame("Frame", name .. tostring(i), bar.container)
-		f.fgTexture = f:CreateTexture(nil, "BACKGROUND", nil, 2)	
+		local f = CreateFrame("Frame", name .. tostring(i), bar.container, BackdropTemplateMixin and "BackdropTemplate")
+		f.fgTexture = f:CreateTexture(nil, "BACKGROUND", nil, 2)
 		f.bgTexture = f:CreateTexture(nil, "BACKGROUND", nil, 1)
 		bar.segments[i] = f
 	end
@@ -1107,14 +1107,14 @@ function MOD.Nest_DeleteBar(bg, bar)
 	if MOD.tooltipBar == bar then MOD.tooltipBar = nil; GameTooltip:Hide() end -- disable tooltip update when bar is deleted
 	local config = MOD.Nest_SupportedConfigurations[bg.configuration]
 	if config.bars == "timeline" and bg.tlSplash then BarGroup_TimelineAnimation(bg, bar, config) end
-	
+
 	ReleaseShineEffect(bar) -- stop animations for special effects and release any allocated resources
 	ReleaseSparkleEffect(bar)
 	ReleaseGlowEffect(bar)
 	ReleasePulseEffect(bar)
 	ReleaseFaderEffect(bar)
 	ReleaseFlashEffect(bar)
-	
+
 	bar.icon:EnableMouse(false); bar.frame:EnableMouse(false)
 	bar.frame:SetScript("OnMouseUp", nil)
 	bar.frame:SetScript("OnEnter", nil)
@@ -1151,7 +1151,7 @@ function MOD.Nest_DeleteBar(bg, bar)
 	end
 	bg.bars[bar.name] = nil
 	bar.name = nil
-	
+
 	for n in pairs(bar) do if not barTemplate[n] then bar[n] = nil end end -- remove all settings that don't belong
 	for n in pairs(bar.attributes) do bar.attributes[n] = nil end -- clear bar attributes
 	for n in pairs(bar.callbacks) do bar.callbacks[n] = nil end -- reset bar callbacks
@@ -1251,7 +1251,7 @@ function MOD.Nest_GetAttribute(bar, name) return bar.attributes[name] end
 
 -- Set callbacks for a bar
 function MOD.Nest_SetCallbacks(bar, onClick, onEnter, onLeave)
-	bar.callbacks.onClick = onClick; bar.callbacks.onEnter = onEnter; bar.callbacks.onLeave = onLeave	
+	bar.callbacks.onClick = onClick; bar.callbacks.onEnter = onEnter; bar.callbacks.onLeave = onLeave
 end
 
 -- Set saturation and brightness of RGB colors by converting into HSL, adjusting saturation, then converting back to RGB
@@ -1273,7 +1273,7 @@ function MOD.Nest_AdjustColor(r, g, b, saturation, brightness)
 	cs = LevelAdjust(cs, saturation) -- adjust the saturation, using original -1 .. +1 scale
 	if brightness < -1 then brightness = -1 elseif brightness > 1 then brightness = 1 end
 	cv = LevelAdjust(cv, brightness / 2) -- adjust the brightness, restricting the range to -0.5 to +0.5
-	
+
 	CS:SetColorHSV(ch, cs, cv)
 	return CS:GetColorRGB()
 end
@@ -1302,7 +1302,7 @@ function MOD.Nest_IntermediateColor(ar, ag, ab, br, bg, bb, frac)
 	end
 	local cs = as - (as - bs) * frac
 	local cv = av - (av - bv) * frac
-	
+
 	CS:SetColorHSV(ch, cs, cv)
 	return CS:GetColorRGB()
 end
@@ -1335,12 +1335,12 @@ local function BarGroup_UpdateBackground(bg, config)
 			back = CreateFrame("Frame", nil, bg.frame)
 			back:SetFrameLevel(bg.frame:GetFrameLevel() + 2) -- higher than bar group's backdrop
 			back.bar = back:CreateTexture(nil, "BACKGROUND")
-			back.backdrop = CreateFrame("Frame", nil, back)
+			back.backdrop = CreateFrame("Frame", nil, backBackdropTemplateMixin and "BackdropTemplate")
 			bg.stBorderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 			bg.background = back
 		end
 		local w, h = bg.stWidth, bg.stHeight
-		PSetSize(back, w, h); PSetSize(back.bar, w, h); 
+		PSetSize(back, w, h); PSetSize(back.bar, w, h);
 		back:Show(); back.bar:ClearAllPoints(); back.bar:SetAllPoints(back); back.bar:Show()
 		back.anchorPoint = bg.growDirection and "BOTTOM" or "TOP"
 		if bg.stTexture then back.bar:SetTexture(bg.stTexture) end
@@ -1362,7 +1362,7 @@ local function BarGroup_UpdateBackground(bg, config)
 			back = CreateFrame("Frame", nil, bg.frame)
 			back:SetFrameLevel(bg.frame:GetFrameLevel() + 2) -- higher than bar group's backdrop
 			back.bar = back:CreateTexture(nil, "BACKGROUND")
-			back.backdrop = CreateFrame("Frame", nil, back)
+			back.backdrop = CreateFrame("Frame", nil, back, BackdropTemplateMixin and "BackdropTemplate")
 			back.labels = {}; back.labelCount = 0
 			bg.background = back
 		end
@@ -1377,7 +1377,7 @@ local function BarGroup_UpdateBackground(bg, config)
 			if not bg.growDirection then back.anchorPoint = "TOPLEFT"; dir = -1; edge = "BOTTOM"; justV = "BOTTOM" end
 			offX = 0; offY = -dir
 		end
-		PSetSize(back, w, h); back:SetAlpha(bg.tlAlpha); PSetSize(back.bar, w, h); 
+		PSetSize(back, w, h); back:SetAlpha(bg.tlAlpha); PSetSize(back.bar, w, h);
 		if bg.borderTexture then
 			local offset, edgeSize = bg.borderOffset, bg.borderWidth; if (edgeSize < 0.1) then edgeSize = 0.1 end
 			bg.borderTable.edgeFile = bg.borderTexture; bg.borderTable.edgeSize = edgeSize
@@ -1411,7 +1411,7 @@ local function BarGroup_UpdateBackground(bg, config)
 				end
 			end
 			while i <= back.labelCount do back.labels[i].hidden = true; i = i + 1 end
-		end		
+		end
 	end
 end
 
@@ -1455,7 +1455,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 	if ValidFont(bg.labelFont) then bl:SetFont(bg.labelFont, bg.labelFSize, bg.labelFlags) end
 	if ValidFont(bg.timeFont) then bt:SetFont(bg.timeFont, bg.timeFSize, bg.timeFlags) end
 	if ValidFont(bg.iconFont) then bi:SetFont(bg.iconFont, bg.iconFSize, bg.iconFlags) end
-	
+
 	bt:SetText("0:00:00") -- set to widest time string, note this is overwritten later with correct string!
 	local timeMaxWidth = bt:GetStringWidth() -- get maximum text width using current font
 	local iconWidth = (config.iconOnly and rectIcons) and bg.barWidth or bg.iconSize
@@ -1468,7 +1468,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 		PSetPoint(bar.icon, "TOPLEFT", bar.frame, "TOPLEFT", 0, 0)
 		if (bg.barHeight > 0) and (bg.barWidth > 0) and config.bars ~= "timeline" then
 			local offset = (w - bg.barWidth) / 2 -- how far bars start from edge of frame
-			if config.bars == "r2l" or isStripe then 
+			if config.bars == "r2l" or isStripe then
 				PSetPoint(bf, "TOPLEFT", bar.icon, "BOTTOMLEFT", bg.iconOffsetX + offset + bar.includeOffset, -bg.iconOffsetY)
 				PSetPoint(bb, "TOPRIGHT", bar.icon, "BOTTOMRIGHT", bg.iconOffsetX - offset + bar.includeOffset, -bg.iconOffsetY)
 			elseif config.bars == "l2r" then
@@ -1483,11 +1483,11 @@ local function Bar_UpdateLayout(bg, bar, config)
 			local dw = timeMaxWidth - iconWidth
 			if bta == "LEFT" then fr = dw elseif bta == "RIGHT" then fl = dw else fr = dw / 2; fl = dw / 2 end
 		end
-			
+
 		PSetPoint(bt, "TOPRIGHT", bar.icon, "BOTTOMRIGHT", bg.timeInset + fr, bg.timeOffset) -- align top of time text with bottom of icon
 		PSetPoint(bt, "BOTTOMLEFT", bar.icon, "BOTTOMLEFT", bg.timeInset - fl, bg.timeOffset - bg.timeFSize) -- set bottom so text doesn't jitter
 		if bta == "normal" then bt:SetJustifyH("CENTER") else bt:SetJustifyH(bta) end
-		
+
 		if not isStripe then
 			PSetPoint(bl, "LEFT", bar.icon, "LEFT", bg.labelInset, bg.labelOffset)
 			bl:SetJustifyH("CENTER")
@@ -1499,7 +1499,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 		local ti, offsetLeft, offsetRight, fudgeTime, fudgeLabel = bg.timeIcon and bg.showIcon, 0, 0, 0, 0
 		if bta == "normal" then fudgeTime = 4 end
 		if not bg.labelCenter then fudgeLabel = 4 end
-		
+
 		if bg.showIcon then
 			if config.icon == "left" then
 				PSetPoint(bar.icon, "TOPLEFT", bar.frame, "TOPLEFT", bg.iconOffsetX, bg.iconOffsetY)
@@ -1519,12 +1519,12 @@ local function Bar_UpdateLayout(bg, bar, config)
 			end
 			if labelWidth < 30 then labelWidth = 30 end -- enforce minimum width for the label
 		end
-		
+
 		if ti then
 			PSetPoint(bt, "TOPLEFT", bar.icon, "TOPLEFT", bg.timeInset - 10, bg.timeOffset)
 			PSetPoint(bt, "BOTTOMRIGHT", bar.icon, "BOTTOMRIGHT", bg.timeInset + 12, bg.timeOffset) -- pad right to center time text better
 		end
-		
+
 		if config.label == "right" then
 			if not ti then
 				PSetPoint(bt, "TOPLEFT", bar.frame, "TOPLEFT", bg.timeInset + offsetLeft + fudgeTime, bg.timeOffset)
@@ -1590,7 +1590,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 				if (extraPixels < 0) and (i <= -extraPixels) then fudge = PS(-1) elseif (extraPixels > 0) and (i <= extraPixels) then fudge = PS(1) end
 				local sw = segmentWidth + fudge
 				f:ClearAllPoints(); f:Hide(); sf:ClearAllPoints(); sb:ClearAllPoints()
-				f.segmentHeight = bh -- save so available for shrink partial options				
+				f.segmentHeight = bh -- save so available for shrink partial options
 				if i <= count then
 					if texture and textures[texture] then
 						f.segmentWidth = bh
@@ -1639,13 +1639,13 @@ local function Bar_UpdateLayout(bg, bar, config)
 			for _, f in pairs(bar.segments) do f:ClearAllPoints(); f:Hide() end
 		end
 
-		if config.bars == "r2l" then 
+		if config.bars == "r2l" then
 			PSetPoint(bf, "TOPLEFT", bar.frame, "TOPLEFT", offsetLeft, 0)
 			PSetPoint(bb, "TOPRIGHT", bar.frame, "TOPRIGHT", -offsetRight, 0)
 		elseif config.bars == "l2r" then
 			PSetPoint(bf, "TOPRIGHT", bar.frame, "TOPRIGHT", -offsetRight, 0)
 			PSetPoint(bb, "TOPLEFT", bar.frame, "TOPLEFT", offsetLeft, 0)
-		end	
+		end
 		PSetHeight(bf, h); PSetHeight(bb, h)
 	end
 
@@ -1656,7 +1656,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 		PSetPoint(bar.spark, "TOP", bf, "TOPLEFT", 0, 4)
 		PSetPoint(bar.spark, "BOTTOM", bf, "BOTTOMLEFT", 0, -4)
 	end
-	
+
 	bar.tick:SetSize(pixelScale, bf:GetHeight() - (4 * pixelScale))
 	bar.tooltipAnchor = bag.anchorTips
 
@@ -1667,7 +1667,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 		bl:SetTextColor(bar.label_r or t.r, bar.label_g or t.g, bar.label_b or t.b, bg.labelAlpha)
 	end
 	bl:SetShadowColor(0, 0, 0, bg.labelShadow and 1 or 0)
-	
+
 	if bg.timeSpecial then
 		bt:SetTextColor(bar.ibr, bar.ibg, bar.ibb, bg.timeAlpha)
 	else
@@ -1894,7 +1894,7 @@ local function timeFunc(t)
 	local mplus = math.floor((t - (h * 3600) + 59.99) / 60) -- minutes to use without seconds, compatible with tooltips
 	local s = math.floor(t - (h * 3600) - (m * 60)) -- seconds to use if only showing whole number of seconds
 	local ts = math.floor(t * 10) / 10 -- seconds to use if including tenths
-	
+
 	if t >= 7200 then -- more than 2 hours
 		return string.format("%.0fh", hplus)
 	elseif t >= 3600 then -- more than 1 hour
@@ -1943,7 +1943,7 @@ local function Bar_UpdateSettings(bg, bar, config)
 		offsetX = bg.iconSize
 		if bar.iconPath and not bar.hideIcon then bar.icon:Show(); bar.iconTexture:SetTexture(bar.iconPath) else bar.icon:Hide() end
 		bar.iconTexture:SetDesaturated(bat.desaturate) -- optionally desaturate the bar's icon
-		
+
 		if bar.shine then ShineEffect(bar, bat.shineColor) end -- trigger shine animation
 		if bar.sparkle then SparkleEffect(bar, bat.sparkleColor) end -- trigger sparkle animation
 		if bar.pulse then PulseEffect(bar) end -- trigger pulse animation
@@ -1976,7 +1976,7 @@ local function Bar_UpdateSettings(bg, bar, config)
 	else
 		bar.icon:Hide()
 	end
-	
+
 	if showBorder and bar.iconPath then bx:Show() else bx:Hide() end
 	if bg.showIcon and not bg.iconHide and not isHeader and bar.iconCount then bi:SetText(tostring(bar.iconCount)); bi:Show() else bi:Hide() end
 	if bg.showIcon and not isHeader and bg.showCooldown and config.bars ~= "timeline" and bar.timeLeft and (bar.timeLeft >= 0) then
@@ -1988,7 +1988,7 @@ local function Bar_UpdateSettings(bg, bar, config)
 
 	if bg.showTimeText then bt:SetText(timeText); bt:Show() else bt:Hide() end
 	if (bg.showLabelText or isHeader) and bar.label then bl:SetText(labelText); bl:Show() else bl:Hide() end
-	
+
 	if bg.showBar and bar.includeBar and (config.bars ~= "timeline") then
 		local w, h = bg.width - offsetX, bg.height; if config.iconOnly then w = bg.barWidth; h = bg.barHeight end
 		local bf_r, bf_g, bf_b = MOD.Nest_AdjustColor(bar.cr, bar.cg, bar.cb, bg.fgSaturation or 0, bg.fgBrightness or 0)
@@ -2020,7 +2020,7 @@ local function Bar_UpdateSettings(bg, bar, config)
 				else -- empty segment
 					sf:Hide()
 					if bg.segmentHideEmpty then sb:Hide(); f:Hide() else sb:Show(); f:Show() end
-				end			
+				end
 			end
 		elseif (w > 0) and (h > 0) then -- non-zero dimensions to fix the zombie bar bug
 			bb:SetVertexColor(bb_r, bb_g, bb_b, 1); bb:SetTexture(bg.bgTexture); bb:SetAlpha(bg.bgAlpha)
@@ -2036,7 +2036,7 @@ local function Bar_UpdateSettings(bg, bar, config)
 				if fillw > 0 then bf:SetWidth(fillw) end -- doesn't get pixel perfect treatment
 				if bg.showSpark and fill < 1 and fillw > 1 then sparky = true end
 				if config.bars == "r2l" or config.bars == "stripe" then bf:SetTexCoord(0, 0, 0, 1, fill, 0, fill, 1) else bf:SetTexCoord(fill, 0, fill, 1, 0, 0, 0, 1) end
-				bf:Show()		
+				bf:Show()
 				if bar.tickEnable and bar.tickOffset and bar.tickOffset > 0 and bar.duration and bar.duration > 0 and bar.maxTime then -- show tick mark if enabled
 					local tickFill = bar.tickOffset / bar.maxTime -- fraction of visible bar that represents the expire time
 					if bg.fillBars then tickFill = 1 - tickFill end -- growDirection if filling instead of emptying bars
@@ -2061,11 +2061,11 @@ local function Bar_UpdateSettings(bg, bar, config)
 	if sparky then bar.spark:Show() else bar.spark:Hide() end
 	if ticky then bar.tick:Show() else bar.tick:Hide() end
 	if bar.glow then GlowEffect(bar, bat.glowColor) else ReleaseGlowEffect(bar) end -- enable or disable glow effect
-	
+
 	local alpha = bar.alpha or 1 -- adjust by bar alpha
 	local fade = true
 	if bat.header and bag.headerGaps then alpha = 0; fade = false end -- header bars can be made to disappear to create gaps
-	
+
 	if bar.flash then -- apply alpha adjustments, including flash and fade effects
 		local minAlpha
 		local pct = bat.flashPercent
@@ -2075,7 +2075,7 @@ local function Bar_UpdateSettings(bg, bar, config)
 		ReleaseFlashEffect(bar)
 		FaderEffect(bar, alpha, fade)
 	end
-	
+
 	if not isHeader and (bag.noMouse or (bag.iconMouse and not bg.showIcon)) then -- non-interactive or "only icon" but icon disabled
 		bar.icon:EnableMouse(false); bar.frame:EnableMouse(false); if callbacks.deactivate then callbacks.deactivate(bar.overlay) end
 	elseif not isHeader and bag.iconMouse then -- only icon is interactive
@@ -2122,7 +2122,7 @@ local function Bar_RefreshAnimations(bg, bar, config)
 		if bg.showTimeText then bar.timeText:SetText(timeText) end
 		if bg.showIcon then offsetX = bg.iconSize end
 	end
-	
+
 	local showfg = bg.fgNotTimer
 	if bat.fullReverse then showfg = not showfg end
 
@@ -2152,7 +2152,7 @@ local function Bar_RefreshAnimations(bg, bar, config)
 				else -- empty segment
 					sf:Hide()
 					if bg.segmentHideEmpty then sb:Hide(); f:Hide() else sb:Show(); f:Show() end
-				end			
+				end
 			end
 		elseif (fill > 0) and (showfg or bar.timeLeft) then
 			local bf, w, h = bar.fgTexture, bg.width - offsetX, bg.height; if config.iconOnly then w = bg.barWidth; h = bg.barHeight end
@@ -2231,7 +2231,7 @@ local function BarGroup_RefreshStripe(bg)
 		local bat = bar.attributes
 		local bl = bar.labelText
 		local isCenter = false
-		
+
 		if bar.icon:IsShown() then iw = bar.icon:GetWidth() else iw = 0 end
 		tw = bl:GetStringWidth() -- actual string width currently being displayed as text, will be 0 if not showing text
 		if bat.minimumWidth and bat.maximumWidth then
@@ -2283,7 +2283,7 @@ local function BarGroup_RefreshStripe(bg)
 		x = x + bar.adjustedWidth + sx
 		bar.adjustedWidth = nil -- remove temporary width variable from the bar
 	end
-	
+
 	x = -centerWidth / 2 -- position them from left to right
 	for _, bar in pairs(alignCenter) do -- arrange all the center alignment icons
 		bar.frame:ClearAllPoints()
@@ -2292,7 +2292,7 @@ local function BarGroup_RefreshStripe(bg)
 		x = x + bar.adjustedWidth + sx
 		bar.adjustedWidth = nil -- remove temporary width variable from the bar
 	end
-	
+
 	table.wipe(alignLeft); table.wipe(alignRight); table.wipe(alignCenter) -- clear the temporary tables
 end
 
@@ -2347,11 +2347,11 @@ local function BarGroup_SortBars(bg, config)
 			wy = dy; dy = 0; bw = count; if count > 0 then bh = math.ceil(ac / count) else bh = 1 end
 			if not bg.locked then x0 = dx; bw = bw + 1 end
 			if bg.growDirection then anchorPoint = "BOTTOMRIGHT"; wy = -wy; cdir = -1 end
-			if not bg.wrapDirection then yoffset = -(bh - 1) * (bg.height + bg.spacingY) end			
+			if not bg.wrapDirection then yoffset = -(bh - 1) * (bg.height + bg.spacingY) end
 			if dir < 0 then
 				xoffset = dir * (bw - 1) * (bg.width + bg.spacingX); ydir = -ydir
 			else
-				xoffset = (bw - 1) * (bg.width + bg.spacingX); xdir = -1			
+				xoffset = (bw - 1) * (bg.width + bg.spacingX); xdir = -1
 			end
 			if bg.snapCenter and bg.locked then local z = (dx * (((count + dir) / 2) + cdir)); x0 = x0 - z; xoffset = xoffset - z end
 			if bg.wrapDirection then wy = -wy end
@@ -2380,7 +2380,7 @@ local function BarGroup_SortBars(bg, config)
 		BarGroup_RefreshTimeline(bg, config)
 	elseif isStripe then
 		BarGroup_RefreshStripe(bg)
-	else	
+	else
 		for i = 1, count do
 			local bar = bg.bars[bg.sorter[i].name]
 			bar.frame:ClearAllPoints()
@@ -2518,7 +2518,7 @@ function MOD.Nest_TriggerUpdate() update = true end
 -- Validate a resolution string with format "w x h" as used by the system menu for selecting display settings
 local function ValidResolution(res)
 	if type(res) == "string" then
-		local w, h = DecodeResolution(res)
+		local w, h = GetCurrentResolution(res)
 		if w and h and type(w) == "number" and type(h) == "number" then
 			if w > 0 and h > 0 then return true end
 		end
@@ -2579,10 +2579,10 @@ function MOD.Nest_Update()
 	else
 		if inPetBattle then inPetBattle = false; update = true end
 	end
-	
+
 	pixelScale = GetScreenHeight() / pixelHeight -- quicker to just update than to track uiScale changes
 	iconBackdrop.edgeSize = 1 / pixelScale -- used for single pixel backdrops
-	
+
 	for _, bg in pairs(barGroups) do
 		if bg.configuration then -- make sure configuration is valid
 			local config = MOD.Nest_SupportedConfigurations[bg.configuration]
