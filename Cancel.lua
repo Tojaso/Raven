@@ -192,7 +192,7 @@ function MOD:SetInCombatBar(enable, lock, list, opt)
 	g.enable = enable; g.lock = lock
 	if not enable then return end
 	if not g.initialized then -- first time, create base frame for holding secure buttons and mask frame for overlays
-		g.frame = CreateFrame("Frame", nil, UIParent) -- this is the reference frame for moving the grid overlays
+		g.frame = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate") -- this is the reference frame for moving the grid overlays
 		g.frame:SetBackdrop(overlayDefaults)
 		g.frame:SetBackdropColor(0.3, 0.3, 0.3, 0.25)
 		g.frame:SetBackdropBorderColor(0, 0, 0, 0.9)
@@ -215,7 +215,7 @@ function MOD:SetInCombatBar(enable, lock, list, opt)
 		v.container:SetScript("OnMouseUp", InCombatBar_OnMouseUp)
 		v.highlight = v.container:CreateTexture(nil, "ARTWORK")
 		v.backdrop = v.container:CreateTexture(nil, "OVERLAY")
-		v.backdrop:SetTexture("Interface\\AddOns\\Raven\\Borders\\IconDefault")			
+		v.backdrop:SetTexture("Interface\\AddOns\\Raven\\Borders\\IconDefault")
 		v.anim = v.container:CreateAnimationGroup()
 		v.anim:SetLooping("NONE")
 		local grow = v.anim:CreateAnimation("Scale")
@@ -300,8 +300,8 @@ function MOD:UpdateInCombatBarOverlays()
 					v.backdrop:Hide(); v.highlight:SetTexCoord(0, 1, 0, 1)
 				else
 					v.backdrop:Show(); v.highlight:SetTexCoord(0.06, 0.94, 0.06, 0.94); w = w * 0.88
-				end		
-				v.highlight:SetSize(w, w)				
+				end
+				v.highlight:SetSize(w, w)
 				if g.opt.pulseStart and not v.startTime then v.anim:Play(); v.startTime = GetTime() end
 				local alpha = 1
 				if duration and duration > 0 then
