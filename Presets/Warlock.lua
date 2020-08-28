@@ -4,7 +4,7 @@ Raven.classConditions.WARLOCK = {
 	["No Pet!"] = {
 		tests = {
 			["Player Status"] = { enable = true, inCombat = true, hasPet = false },
-		},	
+		},
 	},
 }
 
@@ -13,6 +13,7 @@ Raven.warlockCreatures = { -- table of spells used to summon warlock creatures a
 	[196273] = 22,       -- wild imps
 	[196274] = 22,       -- wild imps
 	[205180] = 12,       -- darkglare
+	[1122] = 30,         -- infernal
 	[193331] = 12,       -- dreadstalkers
 	[193332] = 12,       -- dreadstalkers
 	[196271] = 22,       -- impending doom (wild imp)
