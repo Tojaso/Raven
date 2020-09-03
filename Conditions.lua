@@ -63,7 +63,7 @@ MOD.testOrder = { "Player Status", "Pet Status", "Target Status", "Target's Targ
 	"Buff Count", "Buff Type", "All Debuffs", "Any Debuffs", "Debuff Time Left", "Debuff Count", "Debuff Type",
 	"All Cooldowns", "Spell Ready", "Spell Casting", "Item Ready"
 }
-	
+
 local testNames = {
 	["Player Status"]= L["Player Status"],
 	["Pet Status"]= L["Pet Status"],
@@ -226,7 +226,7 @@ local function CheckSpellReady(spell, unit, rangeCheck, usable, checkCharges, ch
 	return true
 end
 
--- Check if a specified spell is currently being cast or channeled by the unit 
+-- Check if a specified spell is currently being cast or channeled by the unit
 local function CheckSpellCast(spell, unit)
 	if IsOff(unit) or not spell or (spell == "") then return true end
 	local sp = UnitCastingInfo(unit)
@@ -246,7 +246,7 @@ local function CheckItemReady(item, ready, checkCount, count, checkCharges, char
 		if id then -- in 4.0.2 GetItemCooldown was changed to only work with item IDs
 			local start, duration = GetItemCooldown(id); if (start > 0) and (duration > 0) then isReady = false end
 		else -- so have to fallback to looking in internal cooldown tables
-			local cd = MOD:CheckCooldown(item); if cd and (cd[1] ~= nil) then isReady = false end			
+			local cd = MOD:CheckCooldown(item); if cd and (cd[1] ~= nil) then isReady = false end
 		end
 		if isReady ~= ready then return false end
 	end
@@ -361,18 +361,6 @@ local function CheckMounted()
 	return IsMounted() or flying
 end
 
--- Check balance druid lunar power
-local function CheckLunarPower(minPower)
-	if (MOD.myClass == "DRUID") and IsSpellKnown(78674) and minPower then -- only Balance if know Starsurge spell
-		local power = UnitPower("player", Enum.PowerType.LunarPower)
-		local maxPower = UnitPowerMax("player", Enum.PowerType.LunarPower)
-		if (maxPower <= 0) or (power > maxPower) then return false end -- avoid errors from the lunar power API
-		local e = 100 * power / maxPower
-		return e >= minPower
-	end
-	return false
-end
-
 -- Check all totem slots for a specific active totem
 local function CheckTotem(totem)
 	if MOD.myClass == "SHAMAN" then
@@ -422,7 +410,7 @@ function MOD.CheckSpec(spec, specList)
 	end
 	if not spec then spec = "none" end
 	local id = tonumber(spec)
-	if id then return currentSpec == id end 
+	if id then return currentSpec == id end
 	return spec == currentName
 end
 
@@ -473,7 +461,7 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.checkMaelstrom) and IsOn(t.minMaelstrom) and (t.checkMaelstrom ~= (stat.maelstrom >= t.minMaelstrom)) then return false end
 		if IsOn(t.checkChi) and IsOn(t.minChi) and (t.checkChi ~= (stat.chi >= t.minChi)) then return false end
 		if IsOn(t.checkShards) and IsOn(t.minShards) and (t.checkShards ~= (stat.shards >= t.minShards)) then return false end
-		if IsOn(t.checkLunarPower) and (t.checkLunarPower ~= CheckLunarPower(t.minLunarPower)) then return false end
+		if IsOn(t.checkLunarPower) and IsOn(t.minLunarPower) and (t.checkLunarPower ~= (stat.lunarPower >= t.minLunarPower)) then return false end
 		if IsOn(t.checkArcane) and IsOn(t.minArcane) and (t.checkArcane ~= (stat.arcane >= t.minArcane)) then return false end
 		if IsOn(t.checkComboPoints) and IsOn(t.minComboPoints) and (t.checkComboPoints ~= (stat.combo >= t.minComboPoints)) then return false end
 		if IsOn(t.hasPet) and (t.hasPet ~= HasPetUI()) then return false end
@@ -602,7 +590,7 @@ local function CheckTestOR(ttype, t)
 		if IsOn(t.checkChi) and IsOn(t.minChi) and (t.checkChi == (stat.chi >= t.minChi)) then return true end
 		if IsOn(t.checkShards) and IsOn(t.minShards) and (t.checkShards == (stat.shards >= t.minShards)) then return true end
 		if IsOn(t.checkArcane) and IsOn(t.minArcane) and (t.checkArcane == (stat.arcane >= t.minArcane)) then return true end
-		if IsOn(t.checkLunarPower) and (t.checkLunarPower == CheckLunarPower(t.minLunarPower)) then return true end
+		if IsOn(t.checkLunarPower) and IsOn(t.minLunarPower) and (t.checkLunarPower == (stat.lunarPower >= t.minLunarPower)) then return true end
 		if IsOn(t.checkComboPoints) and IsOn(t.minComboPoints) and (t.checkComboPoints == (stat.combo >= t.minComboPoints)) then return true end
 		if IsOn(t.hasPet) and (t.hasPet == HasPetUI()) then return true end
 		if IsOn(t.checkStance) and IsOn(t.stance) and (t.stance == stat.stance) then return true end
@@ -751,6 +739,10 @@ function MOD:UpdateConditions()
 	if MOD.myClass == "MONK" then stat.chi = UnitPower("player", Enum.PowerType.Chi) else stat.chi = 0 end
 	if MOD.myClass == "SHAMAN" then stat.maelstrom = UnitPower("player", Enum.PowerType.Maelstrom) else stat.maelstrom = 0 end
 	if MOD.myClass == "MAGE" then stat.arcane = UnitPower("player", Enum.PowerType.ArcaneCharges) else stat.arcane = 0 end
+	if (MOD.myClass == "DRUID") and IsSpellKnown(78674) then -- Balance Druid special case for mana as power plus separate lunar Power
+		m = UnitPowerMax("player", Enum.PowerType.Mana); if m > 0 then stat.power = (100 * UnitPower("player", Enum.PowerType.Mana) / m) else stat.power = 0 end
+		m = UnitPowerMax("player", Enum.PowerType.LunarPower); if m > 0 then stat.lunarPower = (100 * UnitPower("player", Enum.PowerType.LunarPower) / m) else stat.lunarPower = 0 end
+	else stat.lunarPower = 0 end
 	stat.combo = UnitPower("player", Enum.PowerType.ComboPoints) or 0 -- replaces GetComboPoints call
 	stat.stance = GetStance()
 	stat.specialization = GetSpecialization()
@@ -814,7 +806,7 @@ function MOD:UpdateConditions()
 		m = UnitPowerMax("focustarget"); if m > 0 then stat.focusTargetPower = (100 * UnitPower("focustarget") / m) else stat.focusTargetPower = 0 end
 		stat.focusTargetInRange = UnitRangeCheck("focustarget")
 	end
-	
+
 	-- only check conditions for the player's class
 	local ct = MOD.db.profile.Conditions[MOD.myClass]
 	if ct then
@@ -823,7 +815,7 @@ function MOD:UpdateConditions()
 		-- don't check conditions if dead or in vehicle or on a taxi
 		if UnitIsDeadOrGhost("player") then return end
 		if UnitHasVehicleUI("player") then return end
-		if UnitOnTaxi("player") then return end		
+		if UnitOnTaxi("player") then return end
 		-- run the tests in each condition to get intermediate testResult
 		for _, c in pairs(ct) do
 			if IsOn(c) and c.name then
@@ -853,7 +845,7 @@ function MOD:UpdateConditions()
 			end
 		end
 		-- then check dependencies and overrides to get final result
-		for _, c in pairs(ct) do 
+		for _, c in pairs(ct) do
 			if IsOn(c) and c.name then
 				c.result = c.testResult -- start with intermediate result
 				if c.result and c.dependencies then -- if starting true then check dependencies
@@ -874,7 +866,7 @@ function MOD:UpdateConditions()
 		end
 	end
 end
-	
+
 -- Initialize conditions for the player's class from the preset files
 function MOD:SetConditionDefaults()
 	local nt = MOD.classConditions[MOD.myClass]
@@ -889,7 +881,7 @@ local function GetLocalizedSpellName(field)
 	if id then name = GetSpellInfo(id); if name == "" then name = nil end end
 	return name
 end
-	
+
 -- Add or overwrite a condition from another module. If class is not nil then restrict to designated class.
 -- Must be called during OnInitialize to add to default conditions
 -- Changes made using the configuration panel will be tracked in Raven's profile.
@@ -1103,7 +1095,7 @@ function MOD:GetConditionText(name)
 					end
 				elseif tt == "Spell Casting" then
 					if t.spell and t.spell ~= "" and IsOn(t.unit) then
-						a = a .. string.format(" \"%s\"", t.spell) .. ", " .. L["Cast By"] .. " " .. unitList[t.unit]							
+						a = a .. string.format(" \"%s\"", t.spell) .. ", " .. L["Cast By"] .. " " .. unitList[t.unit]
 					end
 				elseif tt == "Item Ready" then
 					if t.item and t.item ~= "" then
