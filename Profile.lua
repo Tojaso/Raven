@@ -27,7 +27,7 @@ local LSPELL = MOD.LocalSpellNames
 
 local dispelTypes = {} -- table of debuff types that the character can dispel
 local spellColors = {} -- table of default spell colors
-local maxSpellID = 300000 -- set to maximum actual spell id during initialization
+local maxSpellID = 400000 -- set to maximum actual spell id during initialization
 local iconCache = {} -- table of icons intialized from spell table, with entries added when icon cache is accessed
 local professions = {} -- temporary table for profession indices
 
@@ -101,7 +101,7 @@ local function OnProfileShutDown()
 	MOD:FinalizeSettings() -- strip default values from layouts
 	MOD:FinalizeInCombatBar() -- save linked settings
 end
-	
+
 -- Initialize profile used to customize the addon
 function MOD:InitializeProfile()
 	MOD:SetSpellDefaults()
@@ -115,7 +115,7 @@ function MOD:InitializeProfile()
 	MOD:SetFontTextureDefaults(MOD.DefaultProfile.global.Defaults)
 	MOD:SetTimeFormatDefaults(MOD.DefaultProfile.global.Defaults)
 	MOD:SetInCombatBarDefaults()
-	
+
 	-- Get profile from database, providing default profile for initialization
 	MOD.db = LibStub("AceDB-3.0"):New("RavenDB", MOD.DefaultProfile)
 	MOD.db.RegisterCallback(MOD, "OnDatabaseShutdown", OnProfileShutDown)
@@ -145,18 +145,18 @@ function MOD:SetSpellDefaults()
 		local ln = L[name] -- get localized name
 		if ln and c then MOD.DefaultProfile.global.SpellColors[ln] = c end -- add to the shared color table
 	end
-	
+
 	MOD.defaultColors = nil -- not used again after initialization so okay to delete
 	MOD.generalSpells = nil
-	
+
 	spellColors = MOD.CopyTable(MOD.DefaultProfile.global.SpellColors) -- save for restoring defaults later
-	
+
 	if MOD.myClass == "DEATHKNIGHT" then -- localize rune spell names
 		local t = {}
 		for k, p in pairs(MOD.runeSpells) do if p.id then local name = GetSpellInfo(p.id); if name and name ~= "" then t[name] = p end end end
 		MOD.runeSpells = t
 	end
-	
+
 	MOD.mountSpells = {}
 	local mountIDs = C_MountJournal.GetMountIDs()
 	for i, id in ipairs(mountIDs) do
@@ -174,11 +174,11 @@ function MOD:SetCooldownDefaults()
 	local book = "spell" -- scanning player's spell book
 	local cls = MOD.lockoutSpells -- table of spells used to detect spell school lockouts
 	local bst = MOD.bookSpells -- table of spells in spell book (player and profession), entries are name->spellID
-	
+
 	table.wipe(cpet) -- pet cooldown spells should be reset each time the tables are rebuilt
 	table.wipe(cls) -- lockout spells should be completely reset each time the tables are rebuilt
 	table.wipe(bst) -- table of all spell names and ids in spell book (player and profession only)
-	
+
 	-- Only remove special spells which show up dynamically in player's cooldown spells
 	if MOD.myClass == "HUNTER" then
 		cds[272678] = nil; cds[272679] = nil; cds[272682] = nil -- Command Pet spells
@@ -190,7 +190,7 @@ function MOD:SetCooldownDefaults()
 		local name = GetSpellInfo(p.id)
 		if name and name ~= "" then cls[name] = { school = p.school, id = p.id } end
 	end
-	
+
 	for tab = 1, 2 do -- scan first two tabs of player spell book (general and current spec) for player spells on cooldown
 		local spellLine, spellIcon, offset, numSpells = GetSpellTabInfo(tab)
 		for i = 1, numSpells do
@@ -207,7 +207,7 @@ function MOD:SetCooldownDefaults()
 						local _, charges = GetSpellCharges(index, book)
 						if charges and charges > 0 then
 							chs[spellID] = charges
-						else 
+						else
 							local duration = GetSpellBaseCooldown(spellID) -- duration is in milliseconds
 							if duration and duration > 1500 then cds[spellID] = duration / 1000 end -- don't include spells with global cooldowns
 						end
@@ -276,7 +276,7 @@ function MOD:SetCooldownDefaults()
 			end
 		end
 	end
-	
+
 	local p = professions -- scan professions for spells on cooldown
 	p[1], p[2], p[3], p[4], p[5], p[6] = GetProfessions()
 	for index = 1, 6 do
@@ -298,7 +298,7 @@ function MOD:SetCooldownDefaults()
 	end
 
 	local numSpells, token = HasPetSpells() -- get number of pet spells
-	
+
 	if numSpells and UnitExists("pet") then -- this works because SPELLS_CHANGED fires when pets are called and dismissed
 		book = "pet" -- switch to scanning the spellbook for pet spells with cooldowns, no need to look for charges
 		for i = 1, numSpells do
@@ -317,13 +317,13 @@ function MOD:SetCooldownDefaults()
 	-- Add special spells which either share spellbook entries or show up dynamically
 	if MOD.myClass == "HUNTER" then
 		local name = GetSpellInfo(136) -- get localized name for mend pet
-		cds[136] = 10; bst[name] = 136 -- shares spellbook entry with Revive Pet		
+		cds[136] = 10; bst[name] = 136 -- shares spellbook entry with Revive Pet
 	end
 	if MOD.myClass == "PRIEST" then
 		local name = GetSpellInfo(17) -- get localized name for power word: shield
-		cds[17] = 10; bst[name] = 17 -- has a cooldown in shadow spec		
+		cds[17] = 10; bst[name] = 17 -- has a cooldown in shadow spec
 	end
-	
+
 	iconCache[L["GCD"]] = GetSpellTexture(61304) -- cache special spell with GCD cooldown, must be valid
 
 	-- local function getn(t) local count = 0; if t then for _ in pairs(t) do count = count + 1 end end return count end
@@ -342,7 +342,7 @@ function MOD:SetInternalCooldownDefaults()
 	local ict = MOD.DefaultProfile.global.InternalCooldowns
 	for _, cd in pairs(MOD.internalCooldowns) do
 		local name, _, icon = GetSpellInfo(cd.id)
-		if name and (name ~= "") and icon and (not ict[name] or not cd.item or IsUsableItem(cd.item)) then 
+		if name and (name ~= "") and icon and (not ict[name] or not cd.item or IsUsableItem(cd.item)) then
 			local t = { id = cd.id, duration = cd.duration, icon = icon, item = cd.item, class = cd.class }
 			if cd.cancel then
 				t.cancel = {}
@@ -409,7 +409,7 @@ function MOD:ResetColorDefault(name)
 			else
 				sct[name] = MOD.CopyColor(c)
 			end
-		end	
+		end
 	end
 end
 
@@ -424,7 +424,7 @@ function MOD:ResetColorDefaults()
 		else
 			sct[n] = MOD.CopyColor(c)
 		end
-	end 
+	end
 	for n in pairs(sct) do if not dct[n] then sct[n] = nil end end -- remove any extras
 end
 
@@ -447,12 +447,12 @@ end
 function MOD:CopyDimensions(s, d)
 	local iconOnly = d.configuration and MOD.Nest_SupportedConfigurations[d.configuration].iconOnly or false
 	if iconOnly then
-		d.barWidth = s.i_barWidth; d.barHeight = s.i_barHeight; d.iconSize = s.i_iconSize; d.scale = s.i_scale				
+		d.barWidth = s.i_barWidth; d.barHeight = s.i_barHeight; d.iconSize = s.i_iconSize; d.scale = s.i_scale
 		d.spacingX = s.i_spacingX; d.spacingY = s.i_spacingY; d.iconOffsetX = s.i_iconOffsetX; d.iconOffsetY = s.i_iconOffsetY
 		d.hideIcon = s.i_hideIcon; d.hideClock = s.i_hideClock; d.hideBar = s.i_hideBar; d.hideSpark = s.i_hideSpark
 		d.hideLabel = s.i_hideLabel; d.hideCount = s.i_hideCount; d.hideValue = s.i_hideValue; d.showTooltips = s.i_showTooltips
 	else
-		d.barWidth = s.barWidth; d.barHeight = s.barHeight; d.iconSize = s.iconSize; d.scale = s.scale				
+		d.barWidth = s.barWidth; d.barHeight = s.barHeight; d.iconSize = s.iconSize; d.scale = s.scale
 		d.spacingX = s.spacingX; d.spacingY = s.spacingY; d.iconOffsetX = s.iconOffsetX; d.iconOffsetY = s.iconOffsetY
 		d.hideIcon = s.hideIcon; d.hideClock = s.hideClock; d.hideBar = s.hideBar; d.hideSpark = s.hideSpark
 		d.hideLabel = s.hideLabel; d.hideCount = s.hideCount; d.hideValue = s.hideValue; d.showTooltips = s.showTooltips
@@ -519,7 +519,7 @@ end
 function MOD:GetSpellID(name)
 	if not name then return nil end -- prevent parameter error
 	if string.find(name, "^#%d+") then return tonumber(string.sub(name, 2)) end -- check if name is in special format for specific spell id (i.e., #12345)
-	
+
 	local id = MOD.db.global.SpellIDs[name]
 	if id == 0 then return nil end -- only scan invalid ones once in a session
 	if id and (name ~= GetSpellInfo(id)) then id = nil end -- verify it is still valid
@@ -548,14 +548,14 @@ end
 -- If not found then look up spell identifier and use it to locate a texture.
 function MOD:GetIcon(name, spellID)
 	if not name or (name == "none") or (name == "") then return nil end -- make sure valid name string
-	
+
 	local override = MOD.db.global.SpellIcons[name] -- check the spell icon override cache for an overriding spell name or numeric id
 	if override and (override ~= "none") and (override ~= "") then name = override end -- make sure it is valid too
-	
+
 	local id = nil -- next check if the name is a numeric spell id (with or without preceding # sign)
 	if string.find(name, "^#%d+") then id = tonumber(string.sub(name, 2)) else id = tonumber(name) end
 	if id then return GetSpellTexture(id) end -- found what is supposed to be a spell id number
-	
+
 	local tex = iconCache[name] -- check the in-memory icon cache which is initialized from player's spell book
 	if not tex then -- if not found then try to look it up through spell API
 		tex = GetSpellTexture(name)
@@ -818,7 +818,7 @@ function Raven:ResetBarGroupFilter(bgName, list)
 	if list == "Buff" then listName = "filterBuffList"
 	elseif list == "Debuff" then listName = "filterDebuffList"
 	elseif list == "Cooldown" then listName = "filterCooldownList" end
-	
+
 	if bgName and listName then
 		local bg = MOD.db.profile.BarGroups[bgName]
 		if bg then bg[listName] = nil end
@@ -833,10 +833,10 @@ function MOD:RegisterBarGroupFilter(bgName, list, spell)
 	if list == "Buff" then listName = "filterBuffList"
 	elseif list == "Debuff" then listName = "filterDebuffList"
 	elseif list == "Cooldown" then listName = "filterCooldownList" end
-	
+
 	local id = tonumber(spell) -- convert to spell name if provided a number
 	if id then spell = GetSpellInfo(id); if spell == "" then spell = nil end end
-	
+
 	if bgName and listName and spell then
 		local bg = MOD.db.profile.BarGroups[bgName]
 		if bg then
@@ -901,37 +901,37 @@ function MOD:InitializeMedia(media)
 	media:Register(mt, "Raven Zoing", [[Interface\Addons\Raven\Sounds\zoing.ogg]])
 
 	mt = media.MediaType.STATUSBAR
-	media:Register(mt, "Raven Black", [[Interface\Addons\Raven\Statusbars\Black.tga]]) 
-	media:Register(mt, "Raven CrossHatch", [[Interface\Addons\Raven\Statusbars\CrossHatch.tga]]) 
-	media:Register(mt, "Raven DarkAbove", [[Interface\Addons\Raven\Statusbars\DarkAbove.tga]]) 
-	media:Register(mt, "Raven DarkBelow", [[Interface\Addons\Raven\Statusbars\DarkBelow.tga]]) 
-	media:Register(mt, "Raven Deco", [[Interface\Addons\Raven\Statusbars\Deco.tga]]) 
-	media:Register(mt, "Raven Foggy", [[Interface\Addons\Raven\Statusbars\Foggy.tga]]) 
-	media:Register(mt, "Raven Glassy", [[Interface\Addons\Raven\Statusbars\Glassy.tga]]) 
-	media:Register(mt, "Raven Glossy", [[Interface\Addons\Raven\Statusbars\Glossy.tga]]) 
-	media:Register(mt, "Raven Gray", [[Interface\Addons\Raven\Statusbars\Gray.tga]]) 
-	media:Register(mt, "Raven Linear", [[Interface\Addons\Raven\Statusbars\Linear.tga]]) 
-	media:Register(mt, "Raven Mesh", [[Interface\Addons\Raven\Statusbars\Mesh.tga]]) 
-	media:Register(mt, "Raven Minimal", [[Interface\Addons\Raven\Statusbars\Minimal.tga]]) 
-	media:Register(mt, "Raven Paper", [[Interface\Addons\Raven\Statusbars\Paper.tga]]) 
-	media:Register(mt, "Raven Reticulate", [[Interface\Addons\Raven\Statusbars\Reticulate.tga]]) 
-	media:Register(mt, "Raven Reverso", [[Interface\Addons\Raven\Statusbars\Reverso.tga]]) 
-	media:Register(mt, "Raven Sleet", [[Interface\Addons\Raven\Statusbars\Sleet.tga]]) 
-	media:Register(mt, "Raven Smoke", [[Interface\Addons\Raven\Statusbars\Smoke.tga]]) 
-	media:Register(mt, "Raven Smudge", [[Interface\Addons\Raven\Statusbars\Smudge.tga]]) 
-	media:Register(mt, "Raven StepIn", [[Interface\Addons\Raven\Statusbars\StepIn.tga]]) 
-	media:Register(mt, "Raven StepOut", [[Interface\Addons\Raven\Statusbars\StepOut.tga]]) 
-	media:Register(mt, "Raven Strip", [[Interface\Addons\Raven\Statusbars\Strip.tga]]) 
-	media:Register(mt, "Raven Stripes", [[Interface\Addons\Raven\Statusbars\Stripes.tga]]) 
-	media:Register(mt, "Raven Sunrise", [[Interface\Addons\Raven\Statusbars\Sunrise.tga]]) 
-	media:Register(mt, "Raven White", [[Interface\Addons\Raven\Statusbars\White.tga]]) 
+	media:Register(mt, "Raven Black", [[Interface\Addons\Raven\Statusbars\Black.tga]])
+	media:Register(mt, "Raven CrossHatch", [[Interface\Addons\Raven\Statusbars\CrossHatch.tga]])
+	media:Register(mt, "Raven DarkAbove", [[Interface\Addons\Raven\Statusbars\DarkAbove.tga]])
+	media:Register(mt, "Raven DarkBelow", [[Interface\Addons\Raven\Statusbars\DarkBelow.tga]])
+	media:Register(mt, "Raven Deco", [[Interface\Addons\Raven\Statusbars\Deco.tga]])
+	media:Register(mt, "Raven Foggy", [[Interface\Addons\Raven\Statusbars\Foggy.tga]])
+	media:Register(mt, "Raven Glassy", [[Interface\Addons\Raven\Statusbars\Glassy.tga]])
+	media:Register(mt, "Raven Glossy", [[Interface\Addons\Raven\Statusbars\Glossy.tga]])
+	media:Register(mt, "Raven Gray", [[Interface\Addons\Raven\Statusbars\Gray.tga]])
+	media:Register(mt, "Raven Linear", [[Interface\Addons\Raven\Statusbars\Linear.tga]])
+	media:Register(mt, "Raven Mesh", [[Interface\Addons\Raven\Statusbars\Mesh.tga]])
+	media:Register(mt, "Raven Minimal", [[Interface\Addons\Raven\Statusbars\Minimal.tga]])
+	media:Register(mt, "Raven Paper", [[Interface\Addons\Raven\Statusbars\Paper.tga]])
+	media:Register(mt, "Raven Reticulate", [[Interface\Addons\Raven\Statusbars\Reticulate.tga]])
+	media:Register(mt, "Raven Reverso", [[Interface\Addons\Raven\Statusbars\Reverso.tga]])
+	media:Register(mt, "Raven Sleet", [[Interface\Addons\Raven\Statusbars\Sleet.tga]])
+	media:Register(mt, "Raven Smoke", [[Interface\Addons\Raven\Statusbars\Smoke.tga]])
+	media:Register(mt, "Raven Smudge", [[Interface\Addons\Raven\Statusbars\Smudge.tga]])
+	media:Register(mt, "Raven StepIn", [[Interface\Addons\Raven\Statusbars\StepIn.tga]])
+	media:Register(mt, "Raven StepOut", [[Interface\Addons\Raven\Statusbars\StepOut.tga]])
+	media:Register(mt, "Raven Strip", [[Interface\Addons\Raven\Statusbars\Strip.tga]])
+	media:Register(mt, "Raven Stripes", [[Interface\Addons\Raven\Statusbars\Stripes.tga]])
+	media:Register(mt, "Raven Sunrise", [[Interface\Addons\Raven\Statusbars\Sunrise.tga]])
+	media:Register(mt, "Raven White", [[Interface\Addons\Raven\Statusbars\White.tga]])
 
 	mt = media.MediaType.BORDER
-	media:Register(mt, "Raven SingleWhite", [[Interface\Addons\Raven\Borders\SingleWhite.tga]]) 
-	media:Register(mt, "Raven SingleGray", [[Interface\Addons\Raven\Borders\SingleGray.tga]]) 
-	media:Register(mt, "Raven DoubleWhite", [[Interface\Addons\Raven\Borders\DoubleWhite.tga]]) 
-	media:Register(mt, "Raven DoubleGray", [[Interface\Addons\Raven\Borders\DoubleGray.tga]]) 
-	media:Register(mt, "Raven Rounded", [[Interface\Addons\Raven\Borders\Rounded.tga]]) 
+	media:Register(mt, "Raven SingleWhite", [[Interface\Addons\Raven\Borders\SingleWhite.tga]])
+	media:Register(mt, "Raven SingleGray", [[Interface\Addons\Raven\Borders\SingleGray.tga]])
+	media:Register(mt, "Raven DoubleWhite", [[Interface\Addons\Raven\Borders\DoubleWhite.tga]])
+	media:Register(mt, "Raven DoubleGray", [[Interface\Addons\Raven\Borders\DoubleGray.tga]])
+	media:Register(mt, "Raven Rounded", [[Interface\Addons\Raven\Borders\Rounded.tga]])
 end
 
 -- Default profile description used to initialize the SavedVariables persistent database
@@ -959,8 +959,8 @@ MOD.DefaultProfile = {
 		SpellAlerts = {},				-- general settings for spell alerts
 		EnemySpellCastAlerts = {},		-- settings for enemy spell cast alerts
 		FriendSpellCastAlerts = {},		-- settings for friend spell cast alerts
-		EnemyBuffAlerts = {},			-- settings for enemy buff alerts		
-		FriendDebuffAlerts = {},		-- settings for friend debuff alerts			
+		EnemyBuffAlerts = {},			-- settings for enemy buff alerts
+		FriendDebuffAlerts = {},		-- settings for friend debuff alerts
 		DetectSpellEffects = true,		-- enable detecting spell effects
 		SpellEffects = {},				-- descriptors for spell effects
 		SpellLists = {},				-- spell lists
