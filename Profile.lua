@@ -24,9 +24,11 @@
 local MOD = Raven
 local L = LibStub("AceLocale-3.0"):GetLocale("Raven")
 local LSPELL = MOD.LocalSpellNames
+local getSpellInfo = GetSpellInfo
 
 local dispelTypes = {} -- table of debuff types that the character can dispel
 local spellColors = {} -- table of default spell colors
+local spellIDs = {} -- table of cached spell name and id pairs (id = 0 indicates invalid spell name)
 local maxSpellID = 400000 -- set to maximum actual spell id during initialization
 local iconCache = {} -- table of icons intialized from spell table, with entries added when icon cache is accessed
 local professions = {} -- temporary table for profession indices
@@ -95,7 +97,7 @@ MOD.ClassColors = {
 
 -- Remove unneeded variables from the profile before logout
 local function OnProfileShutDown()
-	for n, k in pairs(MOD.db.global.SpellIDs) do if k == 0 then MOD.db.global.SpellIDs[n] = nil end end
+	MOD:FinalizeSpellIDs() -- save cached spell ids
 	MOD:FinalizeBars() -- strip out all default values to significantly reduce profile file size
 	MOD:FinalizeConditions() -- strip out temporary values from conditions
 	MOD:FinalizeSettings() -- strip default values from layouts
@@ -120,7 +122,23 @@ function MOD:InitializeProfile()
 	MOD.db = LibStub("AceDB-3.0"):New("RavenDB", MOD.DefaultProfile)
 	MOD.db.RegisterCallback(MOD, "OnDatabaseShutdown", OnProfileShutDown)
 
-	MOD:InitializeSettings() -- Initialize bar group settings with default values
+	MOD:InitializeSpellIDs() -- restore cached spell ids
+	MOD:InitializeSettings() -- initialize bar group settings with default values
+end
+
+-- Initialize spell id info and restore saved cache from the profile
+function MOD:InitializeSpellIDs()
+	local sids = MOD.db.global.SpellIDs
+	if sids then
+		for n, k in pairs(sids) do spellIDs[n] = k end -- restore spell id cache from profile
+	end
+end
+
+-- Finalize spell id info by saving the cache into the profile
+function MOD:FinalizeSpellIDs()
+	local sids = MOD.db.global.SpellIDs
+	if not sids then sids = {}; MOD.db.global.SpellIDs = sids end
+	for n, k in pairs(spellIDs) do if k == 0 then sids[n] = nil else sids[n] = k end end -- save updated spell id cache to profile
 end
 
 -- Initialize spells for class auras and cooldowns, also scan other classes for group buffs and cooldowns
@@ -129,14 +147,14 @@ function MOD:SetSpellDefaults()
 	local id = maxSpellID
 	while id > 1 do -- find the highest actual spell id by scanning down from a really big number
 		id = id - 1
-		local n = GetSpellInfo(id)
+		local n = getSpellInfo(id)
 		if n then break end
 	end
 	maxSpellID = id + 1
 
 	for id, hex in pairs(MOD.defaultColors) do -- add spell colors with localized names to the profile
 		local c = MOD.HexColor(hex) -- convert from hex coded string
-		local name = GetSpellInfo(id) -- get localized name from the spell id
+		local name = getSpellInfo(id) -- get localized name from the spell id
 		if name and c then MOD.DefaultProfile.global.SpellColors[name] = c end-- sets default color in the shared color table
 	end
 
@@ -153,7 +171,7 @@ function MOD:SetSpellDefaults()
 
 	if MOD.myClass == "DEATHKNIGHT" then -- localize rune spell names
 		local t = {}
-		for k, p in pairs(MOD.runeSpells) do if p.id then local name = GetSpellInfo(p.id); if name and name ~= "" then t[name] = p end end end
+		for k, p in pairs(MOD.runeSpells) do if p.id then local name = getSpellInfo(p.id); if name and name ~= "" then t[name] = p end end end
 		MOD.runeSpells = t
 	end
 
@@ -187,7 +205,7 @@ function MOD:SetCooldownDefaults()
 	end
 
 	for _, p in pairs(MOD.lockSpells) do -- add in all known spells from the table of spells used to test for lockouts
-		local name = GetSpellInfo(p.id)
+		local name = getSpellInfo(p.id)
 		if name and name ~= "" then cls[name] = { school = p.school, id = p.id } end
 	end
 
@@ -200,7 +218,7 @@ function MOD:SetCooldownDefaults()
 			local stype, id = GetSpellBookItemInfo(index, book)
 			if id then -- make sure valid spell book item
 				if stype == "SPELL" then -- in this case, id is not the spell id despite what online docs say
-					local name, _, icon, _, _, _, spellID = GetSpellInfo(index, book)
+					local name, _, icon, _, _, _, spellID = getSpellInfo(index, book)
 					if name and name ~= "" and icon and spellID then
 						bst[name] = spellID
 						iconCache[name] = icon
@@ -230,7 +248,7 @@ function MOD:SetCooldownDefaults()
 						for slot = 1, numSlots do
 							local spellID, _, _, name = GetFlyoutSlotInfo(id, slot)
 							if spellID then
-								local name, _, icon = GetSpellInfo(spellID)
+								local name, _, icon = getSpellInfo(spellID)
 								if name and name ~= "" and icon then -- make sure we have a valid spell
 									bst[name] = spellID
 									iconCache[name] = icon
@@ -258,7 +276,7 @@ function MOD:SetCooldownDefaults()
 				local stype, id = GetSpellBookItemInfo(index, book)
 				if id then -- make sure valid spell book item
 					if stype == "SPELL" then -- in this case, id is not the spell id despite what online docs say
-						local name, _, icon = GetSpellInfo(index, book)
+						local name, _, icon = getSpellInfo(index, book)
 						if name and name ~= "" and icon then iconCache[name] = icon end
 					elseif stype == "FLYOUT" then -- in this case, id is flyout id
 						local _, _, numSlots, known = GetFlyoutInfo(id)
@@ -266,7 +284,7 @@ function MOD:SetCooldownDefaults()
 							for slot = 1, numSlots do
 								local spellID, _, _, name = GetFlyoutSlotInfo(id, slot)
 								if spellID then
-									local name, _, icon = GetSpellInfo(spellID)
+									local name, _, icon = getSpellInfo(spellID)
 									if name and name ~= "" and icon then iconCache[name] = icon end
 								end
 							end
@@ -285,7 +303,7 @@ function MOD:SetCooldownDefaults()
 			for i = 1, numSpells do
 				local stype = GetSpellBookItemInfo(i + offset, book)
 				if stype == "SPELL" then
-					local name, _, icon, _, _, _, spellID = GetSpellInfo(i + offset, book)
+					local name, _, icon, _, _, _, spellID = getSpellInfo(i + offset, book)
 					if name and name ~= "" and icon and spellID then -- make sure valid spell
 						bst[name] = spellID
 						iconCache[name] = icon
@@ -304,7 +322,7 @@ function MOD:SetCooldownDefaults()
 		for i = 1, numSpells do
 			local stype, id = GetSpellBookItemInfo(i, book) -- verify this is a pet action
 			if stype == "PETACTION" then
-				local name, _, icon, _, _, _, spellID = GetSpellInfo(i, book)
+				local name, _, icon, _, _, _, spellID = getSpellInfo(i, book)
 				if name and name ~= "" and icon and spellID then
 					iconCache[name] = icon
 					local duration = GetSpellBaseCooldown(spellID) -- duration is in milliseconds
@@ -316,11 +334,11 @@ function MOD:SetCooldownDefaults()
 
 	-- Add special spells which either share spellbook entries or show up dynamically
 	if MOD.myClass == "HUNTER" then
-		local name = GetSpellInfo(136) -- get localized name for mend pet
+		local name = getSpellInfo(136) -- get localized name for mend pet
 		cds[136] = 10; bst[name] = 136 -- shares spellbook entry with Revive Pet
 	end
 	if MOD.myClass == "PRIEST" then
-		local name = GetSpellInfo(17) -- get localized name for power word: shield
+		local name = getSpellInfo(17) -- get localized name for power word: shield
 		cds[17] = 10; bst[name] = 17 -- has a cooldown in shadow spec
 	end
 
@@ -329,9 +347,9 @@ function MOD:SetCooldownDefaults()
 	-- local function getn(t) local count = 0; if t then for _ in pairs(t) do count = count + 1 end end return count end
 	-- local function getl(t) local count = 0; if t then for k, v in pairs(t) do if v.index then count = count + 1 end end end return count end
 	-- MOD.Debug("spell and icon caches, cooldowns: ", getn(cds), " charges: ", getn(chs), " pet: ", getn(cpet), " locks: ", getl(cls), " icons: ", getn(iconCache))
-	-- for k, v in pairs(cds) do local name = GetSpellInfo(k); MOD.Debug("cooldown", name, k, v) end
-	-- for k, v in pairs(chs) do local name = GetSpellInfo(k); MOD.Debug("charge", name, k, v) end
-	-- for k, v in pairs(cpet) do local name = GetSpellInfo(k); MOD.Debug("pet", name, k, v) end
+	-- for k, v in pairs(cds) do local name = getSpellInfo(k); MOD.Debug("cooldown", name, k, v) end
+	-- for k, v in pairs(chs) do local name = getSpellInfo(k); MOD.Debug("charge", name, k, v) end
+	-- for k, v in pairs(cpet) do local name = getSpellInfo(k); MOD.Debug("pet", name, k, v) end
 	-- for k, v in pairs(cls) do if v.index then MOD.Debug("lock", k, v.index, v.label) end end
 	-- for k, v in pairs(iconCache) do MOD.Debug("icons", k, v) end
 end
@@ -341,12 +359,12 @@ end
 function MOD:SetInternalCooldownDefaults()
 	local ict = MOD.DefaultProfile.global.InternalCooldowns
 	for _, cd in pairs(MOD.internalCooldowns) do
-		local name, _, icon = GetSpellInfo(cd.id)
+		local name, _, icon = getSpellInfo(cd.id)
 		if name and (name ~= "") and icon and (not ict[name] or not cd.item or IsUsableItem(cd.item)) then
 			local t = { id = cd.id, duration = cd.duration, icon = icon, item = cd.item, class = cd.class }
 			if cd.cancel then
 				t.cancel = {}
-				for k, c in pairs(cd.cancel) do local n = GetSpellInfo(c); if n and n ~= "" then t.cancel[k] = n end end
+				for k, c in pairs(cd.cancel) do local n = getSpellInfo(c); if n and n ~= "" then t.cancel[k] = n end end
 			end
 			ict[name] = t
 		end
@@ -359,11 +377,11 @@ end
 function MOD:SetSpellEffectDefaults()
 	local ect = MOD.DefaultProfile.global.SpellEffects
 	for _, ec in pairs(MOD.spellEffects) do
-		local name, _, icon = GetSpellInfo(ec.id)
+		local name, _, icon = getSpellInfo(ec.id)
 		if name and name ~= "" then
 			local id, spell, talent = ec.id, nil, nil
-			if ec.spell then spell = GetSpellInfo(ec.spell); id = ec.spell end -- must be valid
-			if ec.talent then talent = GetSpellInfo(ec.talent) end -- must be valid
+			if ec.spell then spell = getSpellInfo(ec.spell); id = ec.spell end -- must be valid
+			if ec.talent then talent = getSpellInfo(ec.talent) end -- must be valid
 			local t = { duration = ec.duration, icon = icon, spell = spell, id = id, renew = ec.renew, talent = talent, kind = ec.kind }
 			ect[name] = t
 		end
@@ -520,21 +538,21 @@ function MOD:GetSpellID(name)
 	if not name then return nil end -- prevent parameter error
 	if string.find(name, "^#%d+") then return tonumber(string.sub(name, 2)) end -- check if name is in special format for specific spell id (i.e., #12345)
 
-	local id = MOD.db.global.SpellIDs[name]
-	if id == 0 then return nil end -- only scan invalid ones once in a session
-	if id and (name ~= GetSpellInfo(id)) then id = nil end -- verify it is still valid
-	if not id and not InCombatLockdown() then -- disallow the search when in combat due to script time limit (MoP)
-		id = 0
-		while id < maxSpellID do -- determined during initialization
-			id = id + 1
-			local n = GetSpellInfo(id)
-			if n == name then
-				MOD.db.global.SpellIDs[n] = id
-				return id
+	local id = spellIDs[name]
+	if id then
+		if (id == 0) then return nil end -- only scan invalid ones once in a session
+		if (name ~= getSpellInfo(id)) then id = nil end -- verify it is still valid
+	end
+	if not id and not InCombatLockdown() then -- disallow the search when in combat due to script time limit
+		local sid = 1 -- scan all possible spell ids (time consuming so cache the result)
+		spellIDs[name] = 0 -- initialize cache to 0 to indicate invalid spell name to avoid searching again
+		while sid < maxSpellID do -- determined during initialization
+			sid = sid + 1
+			if (name == getSpellInfo(sid)) then -- found the name!
+				spellIDs[name] = sid -- remember valid spell name and id pairs
+				return sid
 			end
 		end
-		MOD.db.global.SpellIDs[name] = 0 -- this marks an invalid spell name
-		id = nil
 	end
 	return id
 end
@@ -637,7 +655,7 @@ function MOD:GetLabel(name, spellID)
 	if not label and name and string.find(name, "^#%d+") then
 		local id = tonumber(string.sub(name, 2))
 		if id then
-			local t = GetSpellInfo(id)
+			local t = getSpellInfo(id)
 			if t then label = t .. " (" .. name .. ")" end -- special case format: spellname (#spellid)
 		end
 	end
@@ -711,37 +729,37 @@ end
 
 -- Get localized names for all spells used internally or in built-in conditions, spell ids must be valid
 function MOD:SetSpellNameDefaults()
-	LSPELL["Freezing Trap"] = GetSpellInfo(1499)
-	LSPELL["Ice Trap"] = GetSpellInfo(13809)
-	LSPELL["Immolation Trap"] = GetSpellInfo(13795)
-	LSPELL["Explosive Trap"] = GetSpellInfo(13813)
-	LSPELL["Black Arrow"] = GetSpellInfo(3674)
-	LSPELL["Frost Shock"] = GetSpellInfo(8056)
-	LSPELL["Flame Shock"] = GetSpellInfo(8050)
-	LSPELL["Earth Shock"] = GetSpellInfo(8042)
-	LSPELL["Defensive Stance"] = GetSpellInfo(71)
-	LSPELL["Berserker Stance"] = GetSpellInfo(2458)
-	LSPELL["Battle Stance"] = GetSpellInfo(2457)
-	LSPELL["Battle Shout"] = GetSpellInfo(6673)
-	LSPELL["Commanding Shout"] = GetSpellInfo(469)
-	LSPELL["Flight Form"] = GetSpellInfo(33943)
-	LSPELL["Swift Flight Form"] = GetSpellInfo(40120)
-	LSPELL["Earthliving Weapon"] = GetSpellInfo(51730)
-	LSPELL["Flametongue Weapon"] = GetSpellInfo(8024)
-	LSPELL["Frostbrand Weapon"] = GetSpellInfo(8033)
-	LSPELL["Rockbiter Weapon"] = GetSpellInfo(8017)
-	LSPELL["Windfury Weapon"] = GetSpellInfo(8232)
-	LSPELL["Crusader Strike"] = GetSpellInfo(35395)
-	LSPELL["Hammer of the Righteous"] = GetSpellInfo(53595)
-	LSPELL["Combustion"] = GetSpellInfo(83853)
-	LSPELL["Pyroblast"] = GetSpellInfo(11366)
-	LSPELL["Living Bomb"] = GetSpellInfo(44457)
-	LSPELL["Ignite"] = GetSpellInfo(12654)
+	LSPELL["Freezing Trap"] = getSpellInfo(1499)
+	LSPELL["Ice Trap"] = getSpellInfo(13809)
+	LSPELL["Immolation Trap"] = getSpellInfo(13795)
+	LSPELL["Explosive Trap"] = getSpellInfo(13813)
+	LSPELL["Black Arrow"] = getSpellInfo(3674)
+	LSPELL["Frost Shock"] = getSpellInfo(8056)
+	LSPELL["Flame Shock"] = getSpellInfo(8050)
+	LSPELL["Earth Shock"] = getSpellInfo(8042)
+	LSPELL["Defensive Stance"] = getSpellInfo(71)
+	LSPELL["Berserker Stance"] = getSpellInfo(2458)
+	LSPELL["Battle Stance"] = getSpellInfo(2457)
+	LSPELL["Battle Shout"] = getSpellInfo(6673)
+	LSPELL["Commanding Shout"] = getSpellInfo(469)
+	LSPELL["Flight Form"] = getSpellInfo(33943)
+	LSPELL["Swift Flight Form"] = getSpellInfo(40120)
+	LSPELL["Earthliving Weapon"] = getSpellInfo(51730)
+	LSPELL["Flametongue Weapon"] = getSpellInfo(8024)
+	LSPELL["Frostbrand Weapon"] = getSpellInfo(8033)
+	LSPELL["Rockbiter Weapon"] = getSpellInfo(8017)
+	LSPELL["Windfury Weapon"] = getSpellInfo(8232)
+	LSPELL["Crusader Strike"] = getSpellInfo(35395)
+	LSPELL["Hammer of the Righteous"] = getSpellInfo(53595)
+	LSPELL["Combustion"] = getSpellInfo(83853)
+	LSPELL["Pyroblast"] = getSpellInfo(11366)
+	LSPELL["Living Bomb"] = getSpellInfo(44457)
+	LSPELL["Ignite"] = getSpellInfo(12654)
 end
 
 -- Check if a spell id is available to the player (i.e., in the active spell book)
 local function RavenCheckSpellKnown(spellID)
-	local name = GetSpellInfo(spellID)
+	local name = getSpellInfo(spellID)
 	if not name or name == "" then return false end
 	return MOD.bookSpells[name]
 end
@@ -835,7 +853,7 @@ function MOD:RegisterBarGroupFilter(bgName, list, spell)
 	elseif list == "Cooldown" then listName = "filterCooldownList" end
 
 	local id = tonumber(spell) -- convert to spell name if provided a number
-	if id then spell = GetSpellInfo(id); if spell == "" then spell = nil end end
+	if id then spell = getSpellInfo(id); if spell == "" then spell = nil end end
 
 	if bgName and listName and spell then
 		local bg = MOD.db.profile.BarGroups[bgName]
@@ -857,10 +875,10 @@ function MOD:RegisterSpellList(name, spellList, reset)
 	for _, spell in pairs(spellList) do
 		local n, id = spell, tonumber(spell) -- convert to spell name if provided a number
 		if string.find(n, "^#%d+") then
-			id = tonumber(string.sub(n, 2)); if id and GetSpellInfo(id) == "" then id = nil end -- support #12345 format for spell ids
+			id = tonumber(string.sub(n, 2)); if id and getSpellInfo(id) == "" then id = nil end -- support #12345 format for spell ids
 		else
 			if id then -- otherwise look up the id
-				n = GetSpellInfo(id)
+				n = getSpellInfo(id)
 				if n == "" then n = nil end -- make sure valid return
 			else
 				id = MOD:GetSpellID(n)
