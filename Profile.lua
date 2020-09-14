@@ -32,6 +32,7 @@ local spellIDs = {} -- table of cached spell name and id pairs (id = 0 indicates
 local maxSpellID = 400000 -- set to maximum actual spell id during initialization
 local iconCache = {} -- table of icons intialized from spell table, with entries added when icon cache is accessed
 local professions = {} -- temporary table for profession indices
+local badSpellIDs = { [230747] = true, [238630] = true, [238631] = true, [238632] = true } -- "doug tests"
 
 -- Saved variables don't handle being set to nil properly so need to use alternate value to indicate an option has been turned off
 local Off = 0 -- value used to designate an option is turned off
@@ -548,9 +549,11 @@ function MOD:GetSpellID(name)
 		spellIDs[name] = 0 -- initialize cache to 0 to indicate invalid spell name to avoid searching again
 		while sid < maxSpellID do -- determined during initialization
 			sid = sid + 1
-			if (name == getSpellInfo(sid)) then -- found the name!
-				spellIDs[name] = sid -- remember valid spell name and id pairs
-				return sid
+			if not badSpellIDs[sid] then -- bogus spell ids that trigger a (recoverable) crash report in Shadowlands beta
+				if (name == getSpellInfo(sid)) then -- found the name!
+					spellIDs[name] = sid -- remember valid spell name and id pairs
+					return sid
+				end
 			end
 		end
 	end
