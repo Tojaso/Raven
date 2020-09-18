@@ -136,13 +136,12 @@ local alertColors = { -- default colors for spell alerts
 }
 
 local UnitAura = UnitAura
-local LCD = nil
+MOD.LCD = nil
 if MOD.isClassic then
-	LCD = LibStub("LibClassicDurations", true)
-	if LCD then
-		LCD:Register(Raven) -- tell library it's being used and should start working
-		UnitAura = LCD.UnitAuraWrapper
-		-- print("Raven: using classic durations library")
+	MOD.LCD = LibStub("LibClassicDurations", true)
+	if MOD.LCD then
+		MOD.LCD:Register(Raven) -- tell library it's being used and should start working
+		UnitAura = MOD.LCD.UnitAuraWrapper
 	end
 end
 
@@ -826,7 +825,14 @@ function MOD:OnEnable()
 	self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START", CheckCastBar)
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", CombatLogTracker)
 
-	if not MOD.isClassic then -- register events that are not implemented in classic
+	if MOD.isClassic then -- register events specific to classic
+		if MOD.LCD then -- in classic, add library callback so target auras are handled correctly
+			MOD.LCD.RegisterCallback(Raven, "UNIT_BUFF", function(e, unit)
+		    if unit ~= "target" then return end
+		    MOD:UNIT_AURA(e, unit)
+			end)
+		end
+	else -- register events that are not implemented in classic
 		self:RegisterEvent("PLAYER_FOCUS_CHANGED")
 		self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckTalentSpecialization)
 		self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED", CheckTalentSpecialization)
