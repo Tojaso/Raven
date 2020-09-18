@@ -17,6 +17,7 @@ externals:
  Libs/LibSharedMedia-3.0: https://repos.wowace.com/wow/libsharedmedia-3-0/trunk/LibSharedMedia-3.0
  Libs/LibDBIcon-1.0: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
  Libs/LibBossIDs-1.0: https://repos.wowace.com/wow/libbossids-1-0/trunk
+ Libs/LibClassicDurations: https://repos.curseforge.com/wow/libclassicdurations
  Raven_Options/Libs/Ace3/AceGUI-3.0: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
  Raven_Options/Libs/Ace3/AceConfig-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
  Raven_Options/Libs/Ace3/AceDBOptions-3.0: https://repos.wowace.com/wow/ace3/trunk/AceDBOptions-3.0
