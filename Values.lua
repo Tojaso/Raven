@@ -40,7 +40,7 @@ local function ColorPower(power, token, altR, altG, altB)
 		if c then return c.r, c.g, c.b end
 	elseif altR and alrG and altB then
 		return altR, altG, altB
-	elseif power then 
+	elseif power then
 		local c = PowerBarColor[power]
 		if c then return c.r, c.g, c.b end
 	end
@@ -57,7 +57,7 @@ local function GetTimeText(zone, military, ampm)
 		local s = GetTime() - startTime; h = math.floor(s / 3600); m = math.floor((s - (h * 3600)) / 60)
 		if h > 0 then t = string.format("%d:%02d:%02d", h, m, math.floor(s - (h * 3600) - (m * 60)))
 		else t = string.format("%d:%02d", m, math.floor(s - (m * 60))) end
-	else	
+	else
 		if military then
 			t = string.format ("%02d:%02d", h, m)
 		else
@@ -95,7 +95,7 @@ local function GetFormattedNumber(x, precision)
 		return string.format("%.2f", x)
 	end
 	x = math.floor((x * 1000) + 0.5) / 1000 -- default, rounded to nearest 1/1000
-	return string.format("%.3f", x)	
+	return string.format("%.3f", x)
 end
 
 -- Return a formatted string for the value, using the specified format: "i" = integer, "f1" = one decimal place,
@@ -293,7 +293,7 @@ local function ValueUnitPVP(unit, fmt)
 			local s = "|cFFFF0000PvP " .. GetTimerText(timer / 1000) .. "|r"
 			return true, 0, 0, s, nil, icon
 		end
-	end	
+	end
 	return true, 0, 0, "|cFFFF0000PvP|r", nil, icon
 end
 
@@ -309,15 +309,15 @@ end
 local function ValueUnitIncomingHeals(unit, fmt)
 	if not unit or not UnitGUID(unit) then return false end
 	local h = UnitGetIncomingHeals(unit) or 0
-	local hmax = UnitHealthMax(unit) 
+	local hmax = UnitHealthMax(unit)
 	local s = GetFormattedText(fmt, h, hmax)
 	return true, h, hmax, s, L["Incoming Heals"], iconHeals, _, _, 0.5, 1, 0.5
 end
 
 local function ValueUnitHealthIncomingHeals(unit, fmt)
 	if not unit or not UnitGUID(unit) then return false end
-	local h = UnitHealth(unit) 
-	local hmax = UnitHealthMax(unit) 
+	local h = UnitHealth(unit)
+	local hmax = UnitHealthMax(unit)
 	if not h or not hmax then return false end
 	local total = h + (UnitGetIncomingHeals(unit) or 0)
 	if total > hmax then total = hmax end
@@ -339,7 +339,7 @@ local function ValuePlayerXP(unit, fmt)
 	local xp = UnitXP("player")
 	local xpmax = UnitXPMax("player")
 	if not xp or not xpmax then return false end
-	if xpmax == 0 then xpmax = 1 end -- avoid divide by zero	
+	if xpmax == 0 then xpmax = 1 end -- avoid divide by zero
 	local s = GetFormattedText(fmt, xp, xpmax)
 	local rested = GetXPExhaustion() or 0
 	xpTable[1] = "|cffffcc00Player XP|r"
@@ -354,7 +354,7 @@ local function ValueRestedXP(unit, fmt)
 	local xp = GetXPExhaustion()
 	local xpmax = UnitXPMax("player")
 	if not xp or not xpmax then return false end
-	if xpmax == 0 then xpmax = 1 end -- avoid divide by zero	
+	if xpmax == 0 then xpmax = 1 end -- avoid divide by zero
 	local s = GetFormattedText(fmt, xp, xpmax)
 	return true, xp, xpmax, s, nil, iconRested
 end
@@ -368,7 +368,7 @@ local function ValueHonor(unit, fmt)
 	local xp = UnitHonor("player")
 	local xpmax = UnitHonorMax("player")
 	if not xp or not xpmax then return false end
-	if xpmax == 0 then xpmax = 1 end -- avoid divide by zero	
+	if xpmax == 0 then xpmax = 1 end -- avoid divide by zero
 	local s = GetFormattedText(fmt, xp, xpmax)
 	local icon = iconHonor
 	local myFaction = UnitFactionGroup("player")
@@ -385,7 +385,7 @@ local function ValueReputation(unit, fmt)
 		local xp = barValue - barMin
 		local xpmax = barMax - barMin
 		if xp < 0 then xp = 0 end
-		if xpmax == 0 then xpmax = 1 end -- avoid divide by zero	
+		if xpmax == 0 then xpmax = 1 end -- avoid divide by zero
 		local s = GetFormattedText(fmt, xp, xpmax)
 		local c = FACTION_BAR_COLORS[standing] or rc
 		local label = _G['FACTION_STANDING_LABEL' .. standing]
@@ -506,7 +506,7 @@ end
 
 local function ValueCastBar(unit, fmt, spell, options)
 	local checkUnit = unit
-	if UnitHasVehicleUI("player") then
+	if not MOD.isClassic and UnitHasVehicleUI("player") then
 		if unit == "player" then checkUnit = "pet" elseif unit == "pet" then checkUnit = "player" end
 	end
 	if not unit or not UnitGUID(unit) then return false end
@@ -782,7 +782,7 @@ end
 function MOD:GetValuesList()
 	local i, t = 0, {}
 	for name, value in pairs(valueFunctions) do
-		if not value.hidden then 
+		if not value.hidden then
 			i = i + 1
 			t[i] = name
 		end

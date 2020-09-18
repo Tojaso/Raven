@@ -177,10 +177,12 @@ function MOD:SetSpellDefaults()
 	end
 
 	MOD.mountSpells = {}
-	local mountIDs = C_MountJournal.GetMountIDs()
-	for i, id in ipairs(mountIDs) do
-		local creatureName, spellID = C_MountJournal.GetMountInfoByID(id)
-		MOD.mountSpells[spellID] = true -- used to check if a buff is for a mount (this includes all mounts in journal, not the player's own mounts)
+	if not MOD.isClassic then
+		local mountIDs = C_MountJournal.GetMountIDs()
+		for i, id in ipairs(mountIDs) do
+			local creatureName, spellID = C_MountJournal.GetMountInfoByID(id)
+			MOD.mountSpells[spellID] = true -- used to check if a buff is for a mount (this includes all mounts in journal, not the player's own mounts)
+		end
 	end
 end
 
@@ -296,20 +298,22 @@ function MOD:SetCooldownDefaults()
 		end
 	end
 
-	local p = professions -- scan professions for spells on cooldown
-	p[1], p[2], p[3], p[4], p[5], p[6] = GetProfessions()
-	for index = 1, 6 do
-		if p[index] then
-			local prof, _, _, _, numSpells, offset = GetProfessionInfo(p[index])
-			for i = 1, numSpells do
-				local stype = GetSpellBookItemInfo(i + offset, book)
-				if stype == "SPELL" then
-					local name, _, icon, _, _, _, spellID = getSpellInfo(i + offset, book)
-					if name and name ~= "" and icon and spellID then -- make sure valid spell
-						bst[name] = spellID
-						iconCache[name] = icon
-						local duration = GetSpellBaseCooldown(spellID) -- duration is in milliseconds
-						if duration and duration > 1500 then cds[spellID] = duration / 1000 end -- don't include spells with global cooldowns
+	if not MOD.isClassic then
+		local p = professions -- scan professions for spells on cooldown
+		p[1], p[2], p[3], p[4], p[5], p[6] = GetProfessions()
+		for index = 1, 6 do
+			if p[index] then
+				local prof, _, _, _, numSpells, offset = GetProfessionInfo(p[index])
+				for i = 1, numSpells do
+					local stype = GetSpellBookItemInfo(i + offset, book)
+					if stype == "SPELL" then
+						local name, _, icon, _, _, _, spellID = getSpellInfo(i + offset, book)
+						if name and name ~= "" and icon and spellID then -- make sure valid spell
+							bst[name] = spellID
+							iconCache[name] = icon
+							local duration = GetSpellBaseCooldown(spellID) -- duration is in milliseconds
+							if duration and duration > 1500 then cds[spellID] = duration / 1000 end -- don't include spells with global cooldowns
+						end
 					end
 				end
 			end

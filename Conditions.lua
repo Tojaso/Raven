@@ -396,7 +396,7 @@ end
 function MOD.CheckSpec(spec, specList)
 	local stat = MOD.status
 	local currentSpec = stat.specialization
-	local currentName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "none"
+	local currentName = currentSpec and (not MOD.isClassic and select(2, GetSpecializationInfo(currentSpec))) or "none"
 	if specList then
 		for _, name in pairs(specList) do
 			local id = tonumber(name)
@@ -727,7 +727,10 @@ function MOD:UpdateConditions()
 		stat.inInstance = false; stat.inArena = false; stat.inBattleground = false end
 	stat.isResting = IsResting()
 	stat.isMounted = CheckMounted()
-	stat.inVehicle = UnitHasVehicleUI("player")
+	if not MOD.isClassic then
+		stat.inVehicle = UnitHasVehicleUI("player")
+		stat.specialization = GetSpecialization()
+	end
 	stat.isPvP = UnitIsPVP("player")
 	stat.isStealthed = IsStealthed()
 	stat.level = UnitLevel("player")
@@ -745,7 +748,6 @@ function MOD:UpdateConditions()
 	else stat.lunarPower = 0 end
 	stat.combo = UnitPower("player", Enum.PowerType.ComboPoints) or 0 -- replaces GetComboPoints call
 	stat.stance = GetStance()
-	stat.specialization = GetSpecialization()
 	stat.noPet = not UnitExists("pet")
 	if not stat.noPet then
 		stat.petCombat = UnitAffectingCombat("pet")
@@ -814,7 +816,7 @@ function MOD:UpdateConditions()
 		for _, c in pairs(ct) do if IsOn(c) then c.testResult = false; c.result = false end end
 		-- don't check conditions if dead or in vehicle or on a taxi
 		if UnitIsDeadOrGhost("player") then return end
-		if UnitHasVehicleUI("player") then return end
+		if not MOD.isClassic and UnitHasVehicleUI("player") then return end
 		if UnitOnTaxi("player") then return end
 		-- run the tests in each condition to get intermediate testResult
 		for _, c in pairs(ct) do

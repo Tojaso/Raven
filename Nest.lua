@@ -2574,10 +2574,12 @@ end
 
 -- Update routine does all the actual work of setting up and displaying bar groups.
 function MOD.Nest_Update()
-	if C_PetBattles.IsInBattle() then -- force update when entering or leaving pet battles to hide anchors and timeline
-		if not inPetBattle then inPetBattle = true; update = true end
-	else
-		if inPetBattle then inPetBattle = false; update = true end
+	if not MOD.isClassic then
+		if C_PetBattles.IsInBattle() then -- force update when entering or leaving pet battles to hide anchors and timeline
+			if not inPetBattle then inPetBattle = true; update = true end
+		else
+			if inPetBattle then inPetBattle = false; update = true end
+		end
 	end
 
 	pixelScale = GetScreenHeight() / pixelHeight -- quicker to just update than to track uiScale changes

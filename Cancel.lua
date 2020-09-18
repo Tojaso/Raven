@@ -64,7 +64,7 @@ end
 
 -- Update the overlay grid for in-combat buffs when it is reconfigured
 function MOD:UpdateInCombatBar()
-	if C_PetBattles.IsInBattle() then MOD:HideInCombatBar() return end -- hide when entering pet battles
+	if not MOD.isClassic and C_PetBattles.IsInBattle() then MOD:HideInCombatBar() return end -- hide when entering pet battles
 	if not InCombatLockdown() then -- only update settings when not in combat
 		local g = MOD.db.profile.InCombatBar -- update the overlay grid in case it has been reconfigured
 		local list = MOD.db.profile.InCombatBuffs -- list of combat buffs for this character
