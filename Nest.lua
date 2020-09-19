@@ -1335,7 +1335,7 @@ local function BarGroup_UpdateBackground(bg, config)
 			back = CreateFrame("Frame", nil, bg.frame)
 			back:SetFrameLevel(bg.frame:GetFrameLevel() + 2) -- higher than bar group's backdrop
 			back.bar = back:CreateTexture(nil, "BACKGROUND")
-			back.backdrop = CreateFrame("Frame", nil, backBackdropTemplateMixin and "BackdropTemplate")
+			back.backdrop = CreateFrame("Frame", nil, back, BackdropTemplateMixin and "BackdropTemplate")
 			bg.stBorderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 			bg.background = back
 		end
@@ -2515,10 +2515,25 @@ end
 -- Force a global update.
 function MOD.Nest_TriggerUpdate() update = true end
 
+-- From wow's source code: helper function to deal with decoding the resolution string
+local function DecodeResolution(valueString)
+	if(valueString == nil) then
+		return 0,0;
+	end
+	local xIndex = strfind(valueString, "x");
+	local width = strsub(valueString, 1, xIndex-1);
+	local height = strsub(valueString, xIndex+1, strlen(valueString));
+	local widthIndex = strfind(height, " ");
+	if (widthIndex ~= nil) then
+		height = strsub(height, 0, widthIndex-1);
+	end
+	return tonumber(width), tonumber(height);
+end
+
 -- Validate a resolution string with format "w x h" as used by the system menu for selecting display settings
 local function ValidResolution(res)
 	if type(res) == "string" then
-		local w, h = GetCurrentResolution(res)
+		local w, h = DecodeResolution(res)
 		if w and h and type(w) == "number" and type(h) == "number" then
 			if w > 0 and h > 0 then return true end
 		end
