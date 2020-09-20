@@ -49,10 +49,10 @@ local weaponBuffs = { [L["Mainhand Weapon"]] = true, [L["Offhand Weapon"]] = tru
 
 local anchorTips = { BOTTOMLEFT = "BOTTOMLEFT", CURSOR = "CURSOR", DEFAULT = "DEFAULT", LEFT = "LEFT", RIGHT = "RIGHT",
 	TOPLEFT = "TOPLEFT", TOPRIGHT = "TOPRIGHT" }
-	
+
 local anchorPoints = { BOTTOM = "BOTTOM", BOTTOMLEFT = "BOTTOMLEFT", BOTTOMRIGHT = "BOTTOMRIGHT", CENTER = "CENTER", LEFT = "LEFT",
 	RIGHT = "RIGHT", TOP = "TOP", TOPLEFT = "TOPLEFT", TOPRIGHT = "TOPRIGHT" }
-	
+
 local stratas = { BACKGROUND = "BACKGROUND", LOW = "LOW", MEDIUM = "MEDIUM", HIGH = "HIGH" }
 
 -- Saved variables don't handle being set to nil properly so need to use alternate value to indicate an option has been turned off
@@ -65,7 +65,7 @@ local function InMode(t) -- return true if locked into entry mode of specified t
 	if t == "BG" then return bars.mode or bars.enter end
 	if t == "Not" then return conditions.enter end
 	return bars.mode or bars.enter or conditions.enter
-end 
+end
 
 -- Check if spell name is valid and display a warning if it is not, convert ids and spell hyperlinks, return validated spell name or nil
 -- If warnings is true then override the global spell warning setting on the Spells tab
@@ -107,11 +107,11 @@ end
 -- Initialize options for the configuration GUI
 -- Register the options table and link to the Blizz addons interface
 local function InitializeOptions()
-	initialized = true -- only do this once	
-	local options = MOD.OptionsTable	
+	initialized = true -- only do this once
+	local options = MOD.OptionsTable
 	options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(MOD.db) -- fill in the profile section
 	options.args.profile.disabled = function(info) return InMode() end,
-	
+
 	acereg:RegisterOptionsTable("Raven", options)
 	acereg:RegisterOptionsTable("Raven: "..options.args.FrontPage.name, options.args.FrontPage)
 	acereg:RegisterOptionsTable("Raven: "..options.args.BarGroups.name, options.args.BarGroups)
@@ -122,7 +122,7 @@ local function InitializeOptions()
 
 	local w, h = 890, 680 -- somewhat arbitrary numbers that seem to work for the configuration dialog layout
 	acedia:SetDefaultSize("Raven", w, h)
-	
+
 	MOD.db.RegisterCallback(MOD, "OnProfileChanged", OnProfileChanged)
 	MOD.db.RegisterCallback(MOD, "OnProfileCopied", OnProfileChanged)
 	MOD.db.RegisterCallback(MOD, "OnProfileReset", OnProfileChanged)
@@ -154,7 +154,7 @@ function MOD:OptionsOpen() return acedia.OpenFrames["Raven"] ~= nil end
 -- Assumes table entries are arrays with the names indexed by "name"
 local function GetNameList(id, t)
 	local i, list = 0, {} -- build the name list from the profile table
-	
+
 	if IsOff(t) then
 		conditions.profiles[id] = nil -- no selection for empty list
 		return list -- empty list if t is not defined
@@ -170,7 +170,7 @@ local function GetNameList(id, t)
 		end
 	end
 	table.sort(list)
-	
+
 	if not found and (i > 0) then -- check that current selection, if any, was found in the table
 		conditions.profiles[id] = list[1] -- default is first entry in the list
 	end
@@ -190,7 +190,7 @@ local function DeleteNameEntry(id, t)
 	local list = GetNameList(id, t)
 	local selection = conditions.profiles[id]
 	if not selection then return end -- empty table
-	
+
 	-- Look in the profile table to find the matching entry
 	for k, n in pairs(t) do
 		if IsOn(n) and (n.name == selection) then
@@ -207,7 +207,7 @@ local function GetNameSelection(id, t)
 	local list = GetNameList(id, t)
 	local selection = conditions.profiles[id]
 	if not selection then return nil end -- empty table
-	
+
 	-- Look in the cached list to find the index of the selection
 	for pos, n in pairs(list) do
 		if n == selection then return pos end
@@ -231,7 +231,7 @@ local function GetNameEntry(id, t)
 	local list = GetNameList(id, t)
 	local selection = conditions.profiles[id]
 	if not selection then return nil end -- empty table
-	
+
 	-- Look in the profile table to find the matching entry
 	for _, n in pairs(t) do
 		if IsOn(n) then
@@ -462,7 +462,7 @@ local function UpdateBarList()
 		if string.find(j, "XXX") then barlist[j] = nil end
 	end
 	if bg.auto then return end -- no bars if auto bar group
-	
+
 	local i, bp = 0, {} -- build a list of bar names from the profile table
 	for _, n in pairs(bg.bars) do
 		i = i + 1
@@ -470,7 +470,7 @@ local function UpdateBarList()
 	end
 
 	if bg.sor ~= "X" then table.sort(bp, SortAlphaUp) else table.sort(bp, SortCustomOrder) end -- sort names by appropriate sorting algorithm
-	
+
 	for k, bname in pairs(bp) do -- now populate the groups in the tree with bar options
 		barlist["XXX"..k] = {
 			type = "group", order = k + 10, name = bname,
@@ -480,7 +480,7 @@ local function UpdateBarList()
 		local bar = GetBarEntryWithLabel(bname)
 		bar.sorder = k -- normalizes the sorder values to ascending integers
 	end
-	
+
 	local key = "EnterNewBar"
 	if bars.mode then -- support entering new bar into the current bar group
 		barlist[key] = { type = "group", order = 10, name = "-- New Bar --", args = MOD.barOptions }
@@ -509,7 +509,7 @@ end
 local function DeleteBar()
 	local bg = GetBarGroupEntry()
 	if not bg then return end
-	
+
 	local statustable = acedia:GetStatusTable("Raven", { "BarGroups", "BarTab" })
 	local selected = statustable.groups.selected
 
@@ -543,12 +543,12 @@ local function AddBarToGroup(bg, bar)
 			if n.castBy == "anyone" then return false end -- if already have everything then duplicate
 			if bar.castBy == "anyone" then bg.bars[k] = nil; ok = false end -- more inclusive that the original so need to delete the original
 		end
-		if ok and (bar.barLabel == n.barLabel) then -- found duplicate label, add a suffix 
+		if ok and (bar.barLabel == n.barLabel) then -- found duplicate label, add a suffix
 			bar.barLabel = bar.barLabel .. "*"
 			bar.labelLink = true -- make sure not linked (true means not linked)
 		end
 	end
-	
+
 	bar.sorder = 0
 	local d = date("%m%d%y-%H%M%S-")
 	if d == lastdatecheck then
@@ -557,7 +557,7 @@ local function AddBarToGroup(bg, bar)
 		lastdatecheck = d
 		lastdatecount = 0
 	end
-	
+
 	bar.uniqueID = d .. lastdatecount
 	bar.disableBarSFX = true -- on by default for new bars
 	table.insert(bg.bars, bar)
@@ -629,7 +629,7 @@ local function EnterNewBar(state)
 					local bar = {
 						action = value, enableBar = true, barLabel = label, barType = btype,
 						valueSelect = value, monitor = unit, frequent = freq, adjustSegments = segment,
-						includeBar = true, includeOffset = 0, 
+						includeBar = true, includeOffset = 0,
 					}
 					if AddBarToGroup(bg, bar) then if not sel then sel = bar.barLabel end end
 				else
@@ -645,7 +645,7 @@ local function EnterNewBar(state)
 						local bar = {
 							action = vb, enableBar = true, barLabel = label, barType = btype,
 							valueSelect = vb, monitor = unit, frequent = freq, adjustSegments = segment,
-							includeBar = true, includeOffset = 0, 
+							includeBar = true, includeOffset = 0,
 						}
 						if AddBarToGroup(bg, bar) then if not sel then sel = bar.barLabel end end
 					end
@@ -657,7 +657,7 @@ local function EnterNewBar(state)
 				local label = MOD:GetLabel(bname)
 				local bar = {
 					action = bname, enableBar = true, barLabel = label, barType = btype,
-					monitor = bars.template.monitor, castBy = bars.template.castBy, 
+					monitor = bars.template.monitor, castBy = bars.template.castBy,
 				}
 				if bar.barType == "Cooldown" then bar.monitor = nil; bar.castBy = nil end
 				if AddBarToGroup(bg, bar) then if not sel then sel = bar.barLabel end end
@@ -775,13 +775,13 @@ end
 local function SetBarLabel(info, newLabel, isLinked)
 	local bg = GetBarGroupEntry()
 	if not bg then return false end
-	
+
 	local bar = GetBarEntry(info)
 	if not bar then return false end
-	
+
 	if bar.barLabel == newLabel then return true end  -- make sure new label is actually a change
 	if newLabel == "" then return false end -- make sure not an empty string
-	
+
 	if IsDuplicateLabel(bg, newLabel) then -- make sure not a duplicate within this bar group
 		print('"' .. newLabel .. '" ' .. L["is a duplicate of an existing bar label"])
 		return false
@@ -1056,7 +1056,7 @@ local function SetMergeBarGroup(value)
 		local mergeInto = bglist[value]
 		local mbg = MOD.db.profile.BarGroups[mergeInto]
 		if IsOn(mbg) and mbg.enabled and not mbg.merged then
-			bg.mergeInto = mergeInto		
+			bg.mergeInto = mergeInto
 			MOD:UpdateAllBarGroups() -- any changes need to be reflected in the actual bars on the display
 		end
 	end
@@ -1109,7 +1109,7 @@ local function GetBarGroupFilter(actionType)
 	if n then
 		local listName, selectName = "filter" .. actionType .. "List", "filter" .. actionType .. "Selection"
 		local filterList = n[listName]
-		if filterList then 
+		if filterList then
 			table.sort(filterList)
 			if not n[selectName] then n[selectName] = next(filterList, nil) end
 			return filterList
@@ -1126,7 +1126,7 @@ local function GetBarGroupFilterSelection(actionType)
 		local listName, selectName = "filter" .. actionType .. "List", "filter" .. actionType .. "Selection"
 		local filterList = n[listName]
 		local filterSelect = n[selectName]
-		if filterList then 
+		if filterList then
 			table.sort(filterList)
 			if not filterSelect or not filterList[filterSelect] then n[selectName] = next(filterList, nil) end
 			return n[selectName]
@@ -1208,7 +1208,7 @@ end
 
 -- Return a sorted list of shared conditions
 local function GetSharedConditionList() return GetSortedList(MOD.db.global.SharedConditions) end
-							
+
 -- Get current setting for a test field in the currently selected condition
 local function GetTestField(ttype, fname)
 	local c = GetCondition()
@@ -1256,7 +1256,7 @@ end
 -- Set a field associated with a test, strip off white space at start and end of the string
 local function SetTestFieldString(ttype, fname, s)
 	local whiteStart, whiteEnd = string.find(s, "%s*", 1) -- skip white space
-	if whiteStart == 1 then s = string.sub(s, whiteEnd + 1) end	
+	if whiteStart == 1 then s = string.sub(s, whiteEnd + 1) end
 	s = string.reverse(s) -- reverse so can check for end white space
 	whiteStart, whiteEnd = string.find(s, "%s*", 1) -- skip white space
 	if whiteStart == 1 then s = string.sub(s, whiteEnd + 1) end
@@ -1660,7 +1660,7 @@ local gridCount = 0 -- number of used textures
 local gridTextures = {} -- table of allocated textures
 local gridScale = 1 -- scale of each pixel
 local function GPP(x) return gridScale * math.floor((x / gridScale) + 0.5) end -- compute pixel perfect position
-			
+
 local function DrawHorizontalLine(pos, c, alpha, w, h) -- draw a horizontal line
 	gridCount = gridCount + 1
 	while gridCount > gridAllocated do gridAllocated = gridAllocated + 1; gridTextures[gridAllocated] = gridFrame:CreateTexture(nil, 'BACKGROUND') end
@@ -1690,7 +1690,7 @@ local function ShowCursorCoordinates()
 		local scale = GetScreenHeight() / ch -- transform to coordinates for UIParent
 		local x, y = math.floor(cx * scale + 0.5), math.floor(cy  * scale + 0.5) -- round to nearest whole number
 		cx = math.floor(1000 * cx / cw + 0.5) / 10; cy = math.floor(1000 * cy / ch + 0.5) / 10
-		gridFrame._coordinates:SetText("Cursor: "..x..", "..y.." |cff00ffff("..cx.."%, "..cy.."%)|r")		
+		gridFrame._coordinates:SetText("Cursor: "..x..", "..y.." |cff00ffff("..cx.."%, "..cy.."%)|r")
 		gridFrame._coordinates:Show() -- turn on the coordinates display
 		-- MOD.Debug("ShowCursorCoordinates", cx, cy)
 	end
@@ -1698,14 +1698,14 @@ end
 
 local function DisplayGridPattern(toggle)
 	if not gridFrame then -- if first time then create the frame and figure out the scale for pixels
-		gridFrame = CreateFrame('Frame', nil, UIParent) 
+		gridFrame = CreateFrame('Frame', nil, UIParent)
 		gridFrame:SetAllPoints(UIParent); gridFrame:Hide()
 		local fs = gridFrame:CreateFontString(nil, "OVERLAY") -- create font string for coordinates
 		fs:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 10, -10) -- will show in upper corner
 		fs:SetFontObject(ChatFontNormal); fs:SetTextColor(1, 1, 0, 1); fs:Hide()
 		gridFrame._coordinates = fs
 	end
-	
+
 	local w, h = GetScreenWidth(), GetScreenHeight()
 	gridScale = MOD.Nest_PixelScale() -- factor that relates size of virtual pixels to screen pixels
 	local spacing = GPP(h / MOD.db.global.GridLines) -- distance between lines
@@ -1717,10 +1717,10 @@ local function DisplayGridPattern(toggle)
 		gridFrame:SetScript("OnUpdate", nil) -- stop tracking the cursor
 		gridFrame._coordinates:Hide() -- turn on the coordinates display
 		gridFrame:Hide() -- if toggling it off then just hide the frame to remove all the lines
-	elseif gridFrame:IsShown() or toggle then	
-		DrawHorizontalLine(0, c, alpha, w, h); DrawVerticalLine(0, c, alpha, w, h) -- draw center horizontal and vertical lines	
+	elseif gridFrame:IsShown() or toggle then
+		DrawHorizontalLine(0, c, alpha, w, h); DrawVerticalLine(0, c, alpha, w, h) -- draw center horizontal and vertical lines
 		c = MOD.db.global.GridLineColor -- switch to line color
-		
+
 		for k = 1, h / (2 * spacing) do -- figure out how many pairs of horizontal lines to draw
 			local offset = k * spacing
 			DrawHorizontalLine(-offset, c, alpha, w, h) -- draw horizontal line above center
@@ -1845,7 +1845,7 @@ MOD.OptionsTable = {
 							set = function(info, value) standard.LongBuffs = value end,
 						},
 						spacer1 = { type = "description", order = 21, width = "double",
-							name = function() return L["Buffs on the player lasting at least 2 minutes."] .. BarGroupString(L["Long Buffs"]) end, 
+							name = function() return L["Buffs on the player lasting at least 2 minutes."] .. BarGroupString(L["Long Buffs"]) end,
 						},
 						spacer1A = { type = "description", name = "", order = 22 },
 						Debuffs = {
@@ -1863,7 +1863,7 @@ MOD.OptionsTable = {
 							set = function(info, value) standard.Cooldowns = value end,
 						},
 						spacer3 = { type = "description", order = 31, width = "double",
-							name = function() return L["Cooldowns for the player lasting at least 2 seconds."] .. BarGroupString(L["Cooldowns"]) end, 
+							name = function() return L["Cooldowns for the player lasting at least 2 seconds."] .. BarGroupString(L["Cooldowns"]) end,
 						},
 						spacer3A = { type = "description", name = "", order = 32 },
 						Target = {
@@ -1872,7 +1872,7 @@ MOD.OptionsTable = {
 							set = function(info, value) standard.Target = value end,
 						},
 						spacer4 = { type = "description", order = 36, width = "double",
-							name = function() return L["Buffs and debuffs cast by the player on the target."] .. BarGroupString(L["Target"]) end, 
+							name = function() return L["Buffs and debuffs cast by the player on the target."] .. BarGroupString(L["Target"]) end,
 						},
 						spacer4A = { type = "description", name = "", order = 37 },
 						Focus = {
@@ -1881,7 +1881,7 @@ MOD.OptionsTable = {
 							set = function(info, value) standard.Focus = value end,
 						},
 						spacer5 = { type = "description", order = 41, width = "double",
-							name = function() return L["Buffs and debuffs cast by the player on the focus."] .. BarGroupString(L["Focus"]) end, 
+							name = function() return L["Buffs and debuffs cast by the player on the focus."] .. BarGroupString(L["Focus"]) end,
 						},
 						spacer5A = { type = "description", name = "", order = 42,
 							hidden = function(info) return (MOD.myClass ~= "DEATHKNIGHT") and (MOD.myClass ~= "SHAMAN") end,
@@ -1899,11 +1899,11 @@ MOD.OptionsTable = {
 							set = function(info, value) standard.Runes = value end,
 						},
 						spacer6_DK = { type = "description", order = 46, width = "double",
-							name = function() return L["Rune cooldown bars for Death Knight players."] .. BarGroupString(L["Runes"]) end, 
+							name = function() return L["Rune cooldown bars for Death Knight players."] .. BarGroupString(L["Runes"]) end,
 							hidden = function(info) return MOD.myClass ~= "DEATHKNIGHT" end,
 						},
 						spacer6_SHAMAN = { type = "description", order = 46, width = "double",
-							name = function() return L["Totem tracker bars for Shaman players."] .. BarGroupString(L["Totems"]) end, 
+							name = function() return L["Totem tracker bars for Shaman players."] .. BarGroupString(L["Totems"]) end,
 							hidden = function(info) return MOD.myClass ~= "SHAMAN" end,
 						},
 						spacer6A = { type = "description", name = "", order = 47 },
@@ -1913,7 +1913,7 @@ MOD.OptionsTable = {
 							set = function(info, value) standard.Notifications = value end,
 						},
 						spacer7 = { type = "description", order = 51, width = "double",
-							name = function() return L["Common class-specific notifications."] .. BarGroupString(L["Notifications"]) end, 
+							name = function() return L["Common class-specific notifications."] .. BarGroupString(L["Notifications"]) end,
 						},
 						spacer7A = { type = "description", name = "", order = 52 },
 						Hots = {
@@ -1987,7 +1987,7 @@ MOD.OptionsTable = {
 							name = L["Bar group anchor string"],
 						},
 						LockBars = {
-							type = "execute", order = 11, name = L["Lock All Anchors"], 
+							type = "execute", order = 11, name = L["Lock All Anchors"],
 							desc = L["Lock and hide the anchors for all bar groups."],
 							func = function(info) MOD:LockBarGroups(true) end,
 						},
@@ -2025,7 +2025,7 @@ MOD.OptionsTable = {
 							type = "group", order = 10, name = L["Player"], inline = true,
 							args = {
 								HideUnitFrame = {
-									type = "toggle", order = 10, name = L["Unit Frame"], 
+									type = "toggle", order = 10, name = L["Unit Frame"],
 									desc = L["Hide/show default player unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPlayer end,
 									set = function(info, value) MOD.db.profile.hideBlizzPlayer = value; MOD:UpdateAllBarGroups() end,
@@ -2115,7 +2115,7 @@ MOD.OptionsTable = {
 							type = "group", order = 30, name = L["Target"], inline = true,
 							args = {
 								HideUnitFrame = {
-									type = "toggle", order = 10, name = L["Unit Frame"], 
+									type = "toggle", order = 10, name = L["Unit Frame"],
 									desc = L["Hide/show default target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPlayer end,
 									set = function(info, value) MOD.db.profile.hideBlizzPlayer = value; MOD:UpdateAllBarGroups() end,
@@ -2144,7 +2144,7 @@ MOD.OptionsTable = {
 									set = function(info, value) MOD.db.profile.hideBlizzBuffs = value; MOD:UpdateAllBarGroups() end,
 								},
 								HidePlayer = {
-									type = "toggle", order = 10, name = L["Player Unit Frame"], 
+									type = "toggle", order = 10, name = L["Player Unit Frame"],
 									desc = L["Hide/show default player unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPlayer end,
 									set = function(info, value) MOD.db.profile.hideBlizzPlayer = value; MOD:UpdateAllBarGroups() end,
@@ -2167,32 +2167,32 @@ MOD.OptionsTable = {
 							type = "group", order = 50, name = L["Unit Frames"], inline = true,
 							args = {
 								Pet = {
-									type = "toggle", order = 15, name = L["Pet"], 
+									type = "toggle", order = 15, name = L["Pet"],
 									desc = L["Hide/show default pet unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPet end,
 									set = function(info, value) MOD.db.profile.hideBlizzPet = value; MOD:UpdateAllBarGroups() end,
 								},
 								Target = {
-									type = "toggle", order = 20, name = L["Target"], 
+									type = "toggle", order = 20, name = L["Target"],
 									desc = L["Hide/show default target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzTarget end,
 									set = function(info, value) MOD.db.profile.hideBlizzTarget = value; MOD:UpdateAllBarGroups() end,
 								},
 								Focus = {
-									type = "toggle", order = 25, name = L["Focus"], 
+									type = "toggle", order = 25, name = L["Focus"],
 									desc = L["Hide/show default focus unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzFocus end,
 									set = function(info, value) MOD.db.profile.hideBlizzFocus = value; MOD:UpdateAllBarGroups() end,
 								},
 								Space1 = { type = "description", name = "", order = 30 },
 								TargetTarget = {
-									type = "toggle", order = 35, name = L["Target's Target"], 
+									type = "toggle", order = 35, name = L["Target's Target"],
 									desc = L["Hide/show default target's target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzTargetTarget end,
 									set = function(info, value) MOD.db.profile.hideBlizzTargetTarget = value; MOD:UpdateAllBarGroups() end,
 								},
 								FocusTarget = {
-									type = "toggle", order = 40, name = L["Focus's Target"], 
+									type = "toggle", order = 40, name = L["Focus's Target"],
 									desc = L["Hide/show default focus's target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzFocusTarget end,
 									set = function(info, value) MOD.db.profile.hideBlizzFocusTarget = value; MOD:UpdateAllBarGroups() end,
@@ -2438,7 +2438,7 @@ MOD.OptionsTable = {
 							type = "group", order = 21, name = L["Label Text"], inline = true,
 							args = {
 								LabelFont = {
-									type = "select", order = 10, name = L["Font"], 
+									type = "select", order = 10, name = L["Font"],
 									desc = L["Select font."],
 									dialogControl = 'LSM30_Font',
 									values = AceGUIWidgetLSMlists.font,
@@ -2507,7 +2507,7 @@ MOD.OptionsTable = {
 							type = "group", order = 31, name = L["Time Text"], inline = true,
 							args = {
 								TimeFont = {
-									type = "select", order = 10, name = L["Font"], 
+									type = "select", order = 10, name = L["Font"],
 									desc = L["Select font."],
 									dialogControl = 'LSM30_Font',
 									values = AceGUIWidgetLSMlists.font,
@@ -2576,7 +2576,7 @@ MOD.OptionsTable = {
 							type = "group", order = 41, name = L["Icon Text"], inline = true,
 							args = {
 								IconFont = {
-									type = "select", order = 10, name = L["Font"], 
+									type = "select", order = 10, name = L["Font"],
 									desc = L["Select font."],
 									dialogControl = 'LSM30_Font',
 									values = AceGUIWidgetLSMlists.font,
@@ -2651,7 +2651,7 @@ MOD.OptionsTable = {
 									set = function(info, value) MOD.db.global.Defaults.backdropEnable = value; MOD:UpdateAllBarGroups() end,
 								},
 								PanelTexture = {
-									type = "select", order = 15, name = L["Panel Texture"], 
+									type = "select", order = 15, name = L["Panel Texture"],
 									desc = L["Select texture to display in panel behind bar group."],
 									dialogControl = 'LSM30_Background',
 									values = AceGUIWidgetLSMlists.background,
@@ -2705,7 +2705,7 @@ MOD.OptionsTable = {
 								},
 								Space2 = { type = "description", name = "", order = 40 },
 								BackdropTexture = {
-									type = "select", order = 42, name = L["Background Border"], 
+									type = "select", order = 42, name = L["Background Border"],
 									desc = L["Select border to display behind bar group (select None to disable border)."],
 									dialogControl = 'LSM30_Border',
 									values = AceGUIWidgetLSMlists.border,
@@ -2740,7 +2740,7 @@ MOD.OptionsTable = {
 								},
 								Space3 = { type = "description", name = "", order = 55 },
 								BorderTexture = {
-									type = "select", order = 60, name = L["Bar Border"], 
+									type = "select", order = 60, name = L["Bar Border"],
 									desc = L["Select border for bars in the bar group (select None to disable border)."],
 									dialogControl = 'LSM30_Border',
 									values = AceGUIWidgetLSMlists.border,
@@ -2779,7 +2779,7 @@ MOD.OptionsTable = {
 							type = "group", order = 61, name = L["Bars and Icons"], inline = true,
 							args = {
 								ForegroundTexture = {
-									type = "select", order = 10, name = L["Bar Foreground Texture"], 
+									type = "select", order = 10, name = L["Bar Foreground Texture"],
 									desc = L["Select foreground texture for bars."],
 									dialogControl = 'LSM30_Statusbar',
 									values = AceGUIWidgetLSMlists.statusbar,
@@ -2806,7 +2806,7 @@ MOD.OptionsTable = {
 								},
 								Space1 = { type = "description", name = "", order = 30 },
 								BackgroundTexture = {
-									type = "select", order = 35, name = L["Bar Background Texture"], 
+									type = "select", order = 35, name = L["Bar Background Texture"],
 									desc = L["Select background texture for bars."],
 									dialogControl = 'LSM30_Statusbar',
 									values = AceGUIWidgetLSMlists.statusbar,
@@ -2989,7 +2989,7 @@ MOD.OptionsTable = {
 								MOD.db.global.DefaultBuffColor = MOD.HexColor("8ae234") -- Green1
 								MOD.db.global.DefaultDebuffColor = MOD.HexColor("fcaf3e") -- Orange1
 								MOD.db.global.DefaultCooldownColor = MOD.HexColor("fce94f") -- Yellow1
-								MOD.db.global.DefaultNotificationColor = MOD.HexColor("729fcf") -- Blue1								
+								MOD.db.global.DefaultNotificationColor = MOD.HexColor("729fcf") -- Blue1
 								MOD.db.global.DefaultBrokerColor = MOD.HexColor("888a85") -- Gray
 							end,
 						},
@@ -3001,8 +3001,8 @@ MOD.OptionsTable = {
 								MOD.db.global.DefaultPoisonColor = MOD.CopyColor(DebuffTypeColor["Poison"])
 								MOD.db.global.DefaultCurseColor = MOD.CopyColor(DebuffTypeColor["Curse"])
 								MOD.db.global.DefaultMagicColor = MOD.CopyColor(DebuffTypeColor["Magic"])
-								MOD.db.global.DefaultDiseaseColor = MOD.CopyColor(DebuffTypeColor["Disease"])						
-								MOD.db.global.DefaultStealColor = MOD.HexColor("ef2929") -- Red1						
+								MOD.db.global.DefaultDiseaseColor = MOD.CopyColor(DebuffTypeColor["Disease"])
+								MOD.db.global.DefaultStealColor = MOD.HexColor("ef2929") -- Red1
 							end,
 						},
 					},
@@ -3393,7 +3393,7 @@ MOD.OptionsTable = {
 							style = "dropdown",
 						},
 						SpellIcon = {
-							type = "description", order = 20, name = "", width = "half", 
+							type = "description", order = 20, name = "", width = "half",
 							disabled = function(info) return not conditions.name or (conditions.name == "") end,
 							image = function(info) local t = MOD:GetIcon(conditions.name); return t end,
 							imageWidth = 24, imageHeight = 24,
@@ -3451,7 +3451,7 @@ MOD.OptionsTable = {
 						},
 						Space2 = { type = "description", name = "", order = 40 },
 						SpellSound = {
-							type = "select", order = 50, name = L["Spell Sound"], 
+							type = "select", order = 50, name = L["Spell Sound"],
 							desc = L["Select sound to associate with the spell."],
 							dialogControl = 'LSM30_Sound',
 							values = AceGUIWidgetLSMlists.sound,
@@ -3651,13 +3651,13 @@ MOD.OptionsTable = {
 									func = function(info) if lists.list then table.wipe(lists.list); lists.spell = nil end end,
 								},
 								SpellIcon = {
-									type = "description", order = 50, name = "", width = "half", 
+									type = "description", order = 50, name = "", width = "half",
 									hidden = function(info) return lists.enter or not lists.select or not lists.list or not lists.spell end,
 									image = function(info) local t = MOD:GetIcon(lists.spell); return t end,
 									imageWidth = 24, imageHeight = 24,
 								},
 								SpellLabel = {
-									type = "description", order = 60, width = "half", 
+									type = "description", order = 60, width = "half",
 									hidden = function(info) return lists.enter or not lists.select or not lists.list end,
 									name = function(info)
 										local t = lists.spell
@@ -4655,7 +4655,7 @@ MOD.OptionsTable = {
 									set = function(info, value) cooldowns.duration = tonumber(value); SetInternalCooldownSettings() end,
 								},
 								SpellIcon = {
-									type = "description", order = 20, name = "", width = "half", 
+									type = "description", order = 20, name = "", width = "half",
 									image = function(info) local t = MOD:GetIcon(cooldowns.select); return t end,
 									imageWidth = 24, imageHeight = 24,
 								},
@@ -4755,7 +4755,7 @@ MOD.OptionsTable = {
 									set = function(info, value) effects.renew = value; SetSpellEffectSettings() end,
 								},
 								LabelEffect = {
-									type = "toggle", order = 11, name = L["Label"], width = "half", 
+									type = "toggle", order = 11, name = L["Label"], width = "half",
 									desc = L["If checked, include name of caster in the label if spell effect is a buff or debuff."],
 									get = function(info) return effects.label end,
 									set = function(info, value) effects.label = value; SetSpellEffectSettings() end,
@@ -4768,7 +4768,7 @@ MOD.OptionsTable = {
 									set = function(info, n) n = ValidateSpellName(n); effects.spell = n; SetSpellEffectSettings() end,
 								},
 								SpellIcon = {
-									type = "description", order = 25, name = "", width = "half", 
+									type = "description", order = 25, name = "", width = "half",
 									image = function(info) local t = MOD:GetIcon(effects.spell or effects.select); return t end,
 									imageWidth = 24, imageHeight = 24,
 								},
@@ -5088,25 +5088,25 @@ MOD.OptionsTable = {
 							hidden = function(info) return GetBarGroupField("merged") end,
 							args = {
 								AtoZOrder = {
-									type = "toggle", order = 10, name = L["A to Z"], width = "half", 
+									type = "toggle", order = 10, name = L["A to Z"], width = "half",
 									desc = L["If checked, sort in ascending alphabetical order starting at bar closest to the anchor."],
 									get = function(info) return GetBarGroupField("sor") == "A" end,
 									set = function(info, value) SetBarGroupField("sor", "A") end,
 								},
 								TimeLeftOrder = {
-									type = "toggle", order = 20, name = L["Time Left"], width = "half", 
+									type = "toggle", order = 20, name = L["Time Left"], width = "half",
 									desc = L["If checked, sort by time left in ascending order starting at bar closest to the anchor."],
 									get = function(info) return GetBarGroupField("sor") == "T" end,
 									set = function(info, value) SetBarGroupField("sor", "T") end,
 								},
 								DurationOrder = {
-									type = "toggle", order = 30, name = L["Duration"], width = "half", 
+									type = "toggle", order = 30, name = L["Duration"], width = "half",
 									desc = L["If checked, sort by overall duration in ascending order starting at bar closest to the anchor."],
 									get = function(info) return GetBarGroupField("sor") == "D" end,
 									set = function(info, value) SetBarGroupField("sor", "D") end,
 								},
 								StartOrder = {
-									type = "toggle", order = 35, name = L["Creation"], width = "half", 
+									type = "toggle", order = 35, name = L["Creation"], width = "half",
 									desc = L["If checked, show bars in order created with oldest bar closest to the anchor."],
 									get = function(info) return GetBarGroupField("sor") == "S" end,
 									set = function(info, value) SetBarGroupField("sor", "S") end,
@@ -5119,20 +5119,20 @@ MOD.OptionsTable = {
 									set = function(info, value) SetBarGroupField("sor", "X") end,
 								},
 								ReverseSortOrder = {
-									type = "toggle", order = 60, name = L["Reverse Order"], 
+									type = "toggle", order = 60, name = L["Reverse Order"],
 									desc = L['If checked, reverse the sort order (e.g., "A to Z" becomes "Z to A").'],
 									get = function(info) return GetBarGroupField("reverseSort") end,
 									set = function(info, value) SetBarGroupField("reverseSort", value) end,
 								},
 								spacer = { type = "description", name = "", order = 70, },
 								TimeSortOrder = {
-									type = "toggle", order = 75, name = L["Also Time Left"], 
+									type = "toggle", order = 75, name = L["Also Time Left"],
 									desc = L['If checked, before applying selected sort order, first sort by time left.'],
 									get = function(info) return GetBarGroupField("timeSort") end,
 									set = function(info, value) SetBarGroupField("timeSort", value) end,
 								},
 								PlayerSortOrder = {
-									type = "toggle", order = 80, name = L["Also Player First"], 
+									type = "toggle", order = 80, name = L["Also Player First"],
 									desc = L['If checked, after applying selected sort order, sort bars with actions by player first.'],
 									get = function(info) return GetBarGroupField("playerSort") end,
 									set = function(info, value) SetBarGroupField("playerSort", value) end,
@@ -5512,7 +5512,7 @@ MOD.OptionsTable = {
 											set = function(info, value) SetBarGroupField("soundSpellStart", value) end,
 										},
 										AltStartSound = {
-											type = "select", order = 36, name = L["Alternative Start Sound"], 
+											type = "select", order = 36, name = L["Alternative Start Sound"],
 											desc = L["Select sound to play when there is no associated spell sound (or spell sound is not enabled)."],
 											dialogControl = 'LSM30_Sound',
 											values = AceGUIWidgetLSMlists.sound,
@@ -5804,7 +5804,7 @@ MOD.OptionsTable = {
 											set = function(info, value) SetBarGroupField("soundSpellExpire", value) end,
 										},
 										AltExpireSound = {
-											type = "select", order = 62, name = L["Alternative Expire Sound"], 
+											type = "select", order = 62, name = L["Alternative Expire Sound"],
 											desc = L["Select sound to play when there is no associated spell sound (or spell sound is not enabled)."],
 											dialogControl = 'LSM30_Sound',
 											values = AceGUIWidgetLSMlists.sound,
@@ -5890,7 +5890,7 @@ MOD.OptionsTable = {
 											set = function(info, value) SetBarGroupField("soundSpellEnd", value) end,
 										},
 										AltEndSound = {
-											type = "select", order = 36, name = L["Alternative Finish Sound"], 
+											type = "select", order = 36, name = L["Alternative Finish Sound"],
 											desc = L["Select sound to play when there is no associated spell sound (or spell sound is not enabled)."],
 											dialogControl = 'LSM30_Sound',
 											values = AceGUIWidgetLSMlists.sound,
@@ -7864,7 +7864,7 @@ MOD.OptionsTable = {
 										Space1 = {
 											type = "description", name = "", order = 25,
 											hidden = function() return not GetBarGroupField("segmentAdvanced") end,
-										},										
+										},
 										SegmentCurvature = {
 											type = "range", order = 40, name = L["Curvature"], min = -180, max = 180, step = 1,
 											desc = L["Adjust curvature of segment arrangement."],
@@ -7879,7 +7879,7 @@ MOD.OptionsTable = {
 											get = function(info) return GetBarGroupField("segmentRotate") or 0 end,
 											set = function(info, value) SetBarGroupField("segmentRotate", value) end,
 										},
-										Space11 = { type = "description", name = "", order = 49 },										
+										Space11 = { type = "description", name = "", order = 49 },
 										Circles = {
 											type = "toggle", order = 50, name = L["Circles"], width = "half",
 											desc = L["If checked, circles are shown instead of rectangular segments."],
@@ -7908,7 +7908,7 @@ MOD.OptionsTable = {
 											get = function(info) return GetBarGroupField("segmentTexture") == "trapezoid" end,
 											set = function(info, value) if value then SetBarGroupField("segmentTexture", "trapezoid") else SetBarGroupField("segmentTexture", nil) end end,
 										},
-										Space12 = { type = "description", name = "", order = 120 },										
+										Space12 = { type = "description", name = "", order = 120 },
 										HideEmptySegments = {
 											type = "toggle", order = 125, name = L["Hide Empty Segments"],
 											desc = L["If checked, empty segments are hidden."],
@@ -7933,7 +7933,7 @@ MOD.OptionsTable = {
 											get = function(info) return GetBarGroupField("segmentShrinkHeight") end,
 											set = function(info, value) SetBarGroupField("segmentShrinkHeight", value) end,
 										},
-										Space13 = { type = "description", name = "", order = 140 },										
+										Space13 = { type = "description", name = "", order = 140 },
 										GradientColors = {
 											type = "toggle", order = 145, name = L["Color Gradient"],
 											desc = L["If checked and there are at least two segments, segments are customized with a color gradient, otherwise they use the bar's foreground color."],
@@ -8044,7 +8044,7 @@ MOD.OptionsTable = {
 											set = function(info, value) SetBarGroupField("timelineExp", value) end,
 										},
 										Texture = {
-											type = "select", order = 20, name = L["Texture"], 
+											type = "select", order = 20, name = L["Texture"],
 											desc = L["Select texture for the timeline."],
 											dialogControl = 'LSM30_Statusbar',
 											values = AceGUIWidgetLSMlists.statusbar,
@@ -8187,7 +8187,7 @@ MOD.OptionsTable = {
 										},
 										Space2 = { type = "description", name = "", order = 40 },
 										Texture = {
-											type = "select", order = 45, name = L["Texture"], 
+											type = "select", order = 45, name = L["Texture"],
 											desc = L["Select texture for the stripe."],
 											dialogControl = 'LSM30_Statusbar',
 											values = AceGUIWidgetLSMlists.statusbar,
@@ -8235,7 +8235,7 @@ MOD.OptionsTable = {
 										},
 										Space3 = { type = "description", name = "", order = 66 },
 										BorderTexture = {
-											type = "select", order = 70, name = L["Stripe Border"], 
+											type = "select", order = 70, name = L["Stripe Border"],
 											desc = L["Select border for the stripe (select None to disable border)."],
 											dialogControl = 'LSM30_Border',
 											values = AceGUIWidgetLSMlists.border,
@@ -8675,13 +8675,13 @@ MOD.OptionsTable = {
 									type = "range", order = 10, name = L["Horizontal"], min = 0, max = 100, step = 0.01,
 									desc = L["Set horizontal position as percentage of overall width (cannot move beyond edge of display)."],
 									get = function(info) return GetBarGroupField("pointX") * 100 end,
-									set = function(info, value) SetBarGroupField("pointX", value / 100); SetBarGroupField("pointXR", nil) end,
+									set = function(info, value) SetBarGroupField("pointXR", nil); SetBarGroupField("pointX", value / 100) end, -- order important!
 								},
 								Vertical = {
 									type = "range", order = 20, name = L["Vertical"], min = 0, max = 100, step = 0.01,
 									desc = L["Set vertical position as percentage of overall height (cannot move beyond edge of display)."],
 									get = function(info) return GetBarGroupField("pointY") * 100 end,
-									set = function(info, value) SetBarGroupField("pointY", value / 100); SetBarGroupField("pointYT", nil) end,
+									set = function(info, value) SetBarGroupField("pointYT", nil); SetBarGroupField("pointY", value / 100) end, -- order important!
 								},
 							},
 						},
@@ -8720,7 +8720,7 @@ MOD.OptionsTable = {
 									type = "group", order = 21, name = L["Label Text"], inline = true,
 									args = {
 										LabelFont = {
-											type = "select", order = 10, name = L["Font"], 
+											type = "select", order = 10, name = L["Font"],
 											desc = L["Select font."],
 											dialogControl = 'LSM30_Font',
 											values = AceGUIWidgetLSMlists.font,
@@ -8798,7 +8798,7 @@ MOD.OptionsTable = {
 									type = "group", order = 31, name = L["Time Text"], inline = true,
 									args = {
 										TimeFont = {
-											type = "select", order = 10, name = L["Font"], 
+											type = "select", order = 10, name = L["Font"],
 											desc = L["Select font."],
 											dialogControl = 'LSM30_Font',
 											values = AceGUIWidgetLSMlists.font,
@@ -8876,7 +8876,7 @@ MOD.OptionsTable = {
 									type = "group", order = 41, name = L["Icon Text"], inline = true,
 									args = {
 										IconFont = {
-											type = "select", order = 10, name = L["Font"], 
+											type = "select", order = 10, name = L["Font"],
 											desc = L["Select font."],
 											dialogControl = 'LSM30_Font',
 											values = AceGUIWidgetLSMlists.font,
@@ -8961,7 +8961,7 @@ MOD.OptionsTable = {
 											set = function(info, value) SetBarGroupField("backdropEnable", value) end,
 										},
 										PanelTexture = {
-											type = "select", order = 15, name = L["Panel Texture"], 
+											type = "select", order = 15, name = L["Panel Texture"],
 											desc = L["Select texture to display in panel behind bar group."],
 											dialogControl = 'LSM30_Background',
 											values = AceGUIWidgetLSMlists.background,
@@ -9018,7 +9018,7 @@ MOD.OptionsTable = {
 										},
 										Space2 = { type = "description", name = "", order = 40 },
 										BackdropTexture = {
-											type = "select", order = 41, name = L["Background Border"], 
+											type = "select", order = 41, name = L["Background Border"],
 											disabled = function(info) return GetBarGroupField("useDefaultFontsAndTextures") end,
 											desc = L["Select border to display behind bar group (select None to disable border)."],
 											dialogControl = 'LSM30_Border',
@@ -9057,7 +9057,7 @@ MOD.OptionsTable = {
 										},
 										Space2 = { type = "description", name = "", order = 55 },
 										BorderTexture = {
-											type = "select", order = 60, name = L["Bar Border"], 
+											type = "select", order = 60, name = L["Bar Border"],
 											disabled = function(info) return GetBarGroupField("useDefaultFontsAndTextures") end,
 											desc = L["Select border for bars in the bar group (select None to disable border)."],
 											dialogControl = 'LSM30_Border',
@@ -9100,7 +9100,7 @@ MOD.OptionsTable = {
 									type = "group", order = 61, name = L["Bars and Icons"], inline = true,
 									args = {
 										ForegroundTexture = {
-											type = "select", order = 10, name = L["Bar Foreground Texture"], 
+											type = "select", order = 10, name = L["Bar Foreground Texture"],
 											desc = L["Select foreground texture for bars."],
 											dialogControl = 'LSM30_Statusbar',
 											values = AceGUIWidgetLSMlists.statusbar,
@@ -9131,7 +9131,7 @@ MOD.OptionsTable = {
 										},
 										Space1 = { type = "description", name = "", order = 30 },
 										BackgroundTexture = {
-											type = "select", order = 35, name = L["Bar Background Texture"], 
+											type = "select", order = 35, name = L["Bar Background Texture"],
 											desc = L["Select background texture for bars."],
 											dialogControl = 'LSM30_Statusbar',
 											values = AceGUIWidgetLSMlists.statusbar,
@@ -10196,7 +10196,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckHealthGroup = {
-									type = "group", order = 50, name = L["Health"], inline = true, 
+									type = "group", order = 50, name = L["Health"], inline = true,
 									args = {
 										CheckHealthEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10220,7 +10220,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckPowerGroup = {
-									type = "group", order = 70, name = L["Power"], inline = true, 
+									type = "group", order = 70, name = L["Power"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10244,7 +10244,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckHolyPowerGroup = {
-									type = "group", order = 71, name = L["Holy Power"], inline = true, 
+									type = "group", order = 71, name = L["Holy Power"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10268,7 +10268,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckInsanityGroup = {
-									type = "group", order = 72, name = L["Insanity"], inline = true, 
+									type = "group", order = 72, name = L["Insanity"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10292,7 +10292,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckMaelstromGroup = {
-									type = "group", order = 74, name = L["Maelstrom"], inline = true, 
+									type = "group", order = 74, name = L["Maelstrom"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10316,7 +10316,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckShardsGroup = {
-									type = "group", order = 75, name = L["Soul Shards"], inline = true, 
+									type = "group", order = 75, name = L["Soul Shards"], inline = true,
 									args = {
 										CheckShardsEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10340,7 +10340,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckArcaneGroup = {
-									type = "group", order = 76, name = L["Arcane Charges"], inline = true, 
+									type = "group", order = 76, name = L["Arcane Charges"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10364,7 +10364,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckLunarPower = {
-									type = "group", order = 77, name = L["Lunar Power"], inline = true, 
+									type = "group", order = 77, name = L["Lunar Power"], inline = true,
 									args = {
 										CheckLunarEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10430,7 +10430,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckChiGroup = {
-									type = "group", order = 82, name = L["Chi"], inline = true, 
+									type = "group", order = 82, name = L["Chi"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10454,7 +10454,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckComboPointsGroup = {
-									type = "group", order = 83, name = L["Combo Points"], inline = true, 
+									type = "group", order = 83, name = L["Combo Points"], inline = true,
 									args = {
 										CheckComboPointsEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10478,7 +10478,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckWeaponGroup = {
-									type = "group", order = 85, name = L["Weapons"], inline = true, 
+									type = "group", order = 85, name = L["Weapons"], inline = true,
 									args = {
 										CheckMainHandEnable = {
 											type = "toggle", order = 1, name = L["Mainhand"], width = "half",
@@ -10515,7 +10515,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckStanceGroup = {
-									type = "group", order = 90, name = L["Stance"], inline = true, 
+									type = "group", order = 90, name = L["Stance"], inline = true,
 									args = {
 										CheckStanceEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -10532,7 +10532,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckTalentGroup = {
-									type = "group", order = 95, name = L["Talent"], inline = true, 
+									type = "group", order = 95, name = L["Talent"], inline = true,
 									args = {
 										CheckTalentsEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -10550,7 +10550,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckSpecGroup = {
-									type = "group", order = 100, name = L["Specialization"], inline = true, 
+									type = "group", order = 100, name = L["Specialization"], inline = true,
 									args = {
 										CheckSpecEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -10568,7 +10568,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckSpellGroup = {
-									type = "group", order = 105, name = L["Spellbook"], inline = true, 
+									type = "group", order = 105, name = L["Spellbook"], inline = true,
 									args = {
 										CheckSpellEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -10684,7 +10684,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckHealthGroup = {
-									type = "group", order = 50, name = L["Health"], inline = true, 
+									type = "group", order = 50, name = L["Health"], inline = true,
 									args = {
 										CheckHealthEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10708,7 +10708,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckPowerGroup = {
-									type = "group", order = 70, name = L["Power"], inline = true, 
+									type = "group", order = 70, name = L["Power"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -10732,7 +10732,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckFamily = {
-									type = "group", order = 80, name = L["Family"], inline = true, 
+									type = "group", order = 80, name = L["Family"], inline = true,
 									args = {
 										CheckSpecEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -10749,7 +10749,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckSpecGroup = {
-									type = "group", order = 100, name = L["Talent Tree"], inline = true, 
+									type = "group", order = 100, name = L["Talent Tree"], inline = true,
 									args = {
 										CheckSpecEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -11004,7 +11004,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckMaxHealth = {
-									type = "group", order = 40, name = L["Maximum Health"], inline = true, 
+									type = "group", order = 40, name = L["Maximum Health"], inline = true,
 									args = {
 										CheckEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -11021,7 +11021,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckHealthGroup = {
-									type = "group", order = 50, name = L["Health"], inline = true, 
+									type = "group", order = 50, name = L["Health"], inline = true,
 									args = {
 										CheckHealthEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -11045,7 +11045,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckPowerGroup = {
-									type = "group", order = 70, name = L["Power"], inline = true, 
+									type = "group", order = 70, name = L["Power"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -11307,7 +11307,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckMaxHealth = {
-									type = "group", order = 40, name = L["Maximum Health"], inline = true, 
+									type = "group", order = 40, name = L["Maximum Health"], inline = true,
 									args = {
 										CheckEnable = {
 											type = "toggle", order = 10, name = L["Enable"], width = "half",
@@ -11324,7 +11324,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckHealthGroup = {
-									type = "group", order = 50, name = L["Health"], inline = true, 
+									type = "group", order = 50, name = L["Health"], inline = true,
 									args = {
 										CheckHealthEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -11348,7 +11348,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckPowerGroup = {
-									type = "group", order = 70, name = L["Power"], inline = true, 
+									type = "group", order = 70, name = L["Power"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -11610,7 +11610,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckHealthGroup = {
-									type = "group", order = 50, name = L["Health"], inline = true, 
+									type = "group", order = 50, name = L["Health"], inline = true,
 									args = {
 										CheckHealthEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -11634,7 +11634,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckPowerGroup = {
-									type = "group", order = 70, name = L["Power"], inline = true, 
+									type = "group", order = 70, name = L["Power"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -11896,7 +11896,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckHealthGroup = {
-									type = "group", order = 50, name = L["Health"], inline = true, 
+									type = "group", order = 50, name = L["Health"], inline = true,
 									args = {
 										CheckHealthEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -11920,7 +11920,7 @@ MOD.OptionsTable = {
 									},
 								},
 								CheckPowerGroup = {
-									type = "group", order = 70, name = L["Power"], inline = true, 
+									type = "group", order = 70, name = L["Power"], inline = true,
 									args = {
 										CheckPowerEnable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
@@ -12849,13 +12849,13 @@ MOD.OptionsTable = {
 									type = "group", order = 30, name = L["Result"], inline = true,
 									args = {
 										CheckPresent = {
-											type = "toggle", order = 2, name = L["Present"], 
+											type = "toggle", order = 2, name = L["Present"],
 											desc = L["If checked, true if player has a debuff of the specified type."],
 											get = function(info) return GetTestField("Debuff Type", "toggle") ~= true end,
 											set = function(info, value) SetTestField("Debuff Type", "toggle", false) end,
 										},
 										CheckMissing = {
-											type = "toggle", order = 3, name = L["Missing"], 
+											type = "toggle", order = 3, name = L["Missing"],
 											desc = L["If checked, true if player does not have a debuff of the specified type."],
 											get = function(info) return GetTestField("Debuff Type", "toggle") == true end,
 											set = function(info, value) SetTestField("Debuff Type", "toggle", true) end,
@@ -13290,7 +13290,7 @@ MOD.OptionsTable = {
 			},
 		},
 		InCombat = {
-			type = "group", order = 40, name = L["In-Combat Bar"], 
+			type = "group", order = 40, name = L["In-Combat Bar"],
 			disabled = function(info) return InMode() end,
 			args = {
 				intro = {
@@ -13301,7 +13301,7 @@ MOD.OptionsTable = {
 					type = "group", order = 10, name = L["Enable"], inline = true,
 					args = {
 						EnableOverlay = {
-							type = "toggle", order = 10, name = L["Enable In-Combat Bar"], 
+							type = "toggle", order = 10, name = L["Enable In-Combat Bar"],
 							desc = L["Enable in-combat buffs string"],
 							get = function(info) return MOD.db.profile.InCombatBar.enable end,
 							set = function(info, value) MOD.db.profile.InCombatBar.enable = value; MOD:ForceUpdate() end,
@@ -13597,7 +13597,7 @@ MOD.barOptions = {
 				set = function(info, value) SetBarField(info, "enableBar", value); MOD:UpdateAllBarGroups() end,
 			},
 			BarIcon = {
-				type = "description", order = 5, name = "", width = "half", 
+				type = "description", order = 5, name = "", width = "half",
 				hidden = function(info) return not GetBarIcon(info) end,
 				image = function(info) local t = GetBarIcon(info); return t end,
 				imageWidth = 24, imageHeight = 24,
@@ -13718,7 +13718,7 @@ MOD.barOptions = {
 			},
 			spacer2 = { type = "description", name = "", order = 20, },
 			UseColor = {
-				type = "toggle", order = 25, name = L["Use Spell Color"], 
+				type = "toggle", order = 25, name = L["Use Spell Color"],
 				desc = L["If checked, use color from associated spell."],
 				disabled = function(info)
 					local bar = GetBarEntry(info)
@@ -13731,7 +13731,7 @@ MOD.barOptions = {
 				end,
 			},
 			UseIcon = {
-				type = "toggle", order = 30, name = L["Use Spell Icon"], 
+				type = "toggle", order = 30, name = L["Use Spell Icon"],
 				desc = L["If checked, use icon from associated spell."],
 				disabled = function(info)
 					local bar = GetBarEntry(info)
@@ -14338,7 +14338,7 @@ MOD.barOptions = {
 						set = function(info, value) SetBarField(info, "soundSpellStart", value) end,
 					},
 					AltStartSound = {
-						type = "select", order = 36, name = L["Alternative Start Sound"], 
+						type = "select", order = 36, name = L["Alternative Start Sound"],
 						desc = L["Select sound to play when there is no associated spell sound (or spell sound is not enabled)."],
 						dialogControl = 'LSM30_Sound',
 						values = AceGUIWidgetLSMlists.sound,
@@ -14550,7 +14550,7 @@ MOD.barOptions = {
 						set = function(info, value) SetBarField(info, "soundSpellExpire", value) end,
 					},
 					AltExpireSound = {
-						type = "select", order = 62, name = L["Alternative Expire Sound"], 
+						type = "select", order = 62, name = L["Alternative Expire Sound"],
 						desc = L["Select sound to play when there is no associated spell sound (or spell sound is not enabled)."],
 						dialogControl = 'LSM30_Sound',
 						values = AceGUIWidgetLSMlists.sound,
@@ -14636,7 +14636,7 @@ MOD.barOptions = {
 						set = function(info, value) SetBarField(info, "soundSpellEnd", value) end,
 					},
 					AltEndSound = {
-						type = "select", order = 36, name = L["Alternative Finish Sound"], 
+						type = "select", order = 36, name = L["Alternative Finish Sound"],
 						desc = L["Select sound to play when there is no associated spell sound (or spell sound is not enabled)."],
 						dialogControl = 'LSM30_Sound',
 						values = AceGUIWidgetLSMlists.sound,
@@ -14720,7 +14720,7 @@ MOD.barOptions = {
 						set = function(info, value) SetBarField(info, "soundSpellReady", value) end,
 					},
 					AltReadySound = {
-						type = "select", order = 36, name = L["Alternative Ready Sound"], 
+						type = "select", order = 36, name = L["Alternative Ready Sound"],
 						desc = L["Select sound to play when there is no associated spell sound (or spell sound is not enabled)."],
 						dialogControl = 'LSM30_Sound',
 						values = AceGUIWidgetLSMlists.sound,
@@ -15129,7 +15129,7 @@ MOD.barOptions = {
 						set = function(info, value) bars.template.warnings = not value end,
 					},
 					SpellIcon = {
-						type = "description", order = 30, name = "", width = "half", 
+						type = "description", order = 30, name = "", width = "half",
 						hidden = function(info) return not MOD:GetIcon(conditions.name) end,
 						image = function(info) local t = MOD:GetIcon(conditions.name); return t end,
 						imageWidth = 24, imageHeight = 24,
