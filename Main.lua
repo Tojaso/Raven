@@ -243,10 +243,10 @@ local function CheckBlizzFrames()
 
 	if MOD.myClass == "MONK" then
 		HideShow("chi", _G.MonkHarmonyBarFrame, MOD.db.profile.hideBlizzChi)
-		if GetSpecializationInfoByID(268) then HideShow("stagger", _G.MonkStaggerBar, MOD.db.profile.hideBlizzStagger) end
+		if not MOD.isClassic and GetSpecializationInfoByID(268) then HideShow("stagger", _G.MonkStaggerBar, MOD.db.profile.hideBlizzStagger) end
 	end
 
-	if (MOD.myClass == "PRIEST") and GetSpecializationInfoByID(258) then HideShow("insanity", _G.InsanityBarFrame, MOD.db.profile.hideBlizzInsanity) end
+	if (MOD.myClass == "PRIEST") and (not MOD.isClassic and GetSpecializationInfoByID(258)) then HideShow("insanity", _G.InsanityBarFrame, MOD.db.profile.hideBlizzInsanity) end
 
 	if MOD.myClass == "WARLOCK" then HideShow("shards", _G.WarlockPowerFrame, MOD.db.profile.hideBlizzShards) end
 
