@@ -1316,8 +1316,11 @@ end
 local function BarGroup_UpdateAnchor(bg, config)
 	local pFrame = bg.attributes.parentFrame
 	if pFrame and GetClickFrame(pFrame) then bg.frame:SetParent(pFrame) else bg.frame:SetParent(UIParent) end
+
 	bg.anchor:SetText(bg.name)
-	if config.bars == "timeline" then PSetSize(bg.anchor, 60, bg.tlHeight) else PSetSize(bg.anchor, bg.width, bg.height) end
+	local lw, lh = bg.anchor:GetFontString():GetStringWidth() + 10, bg.height
+	if config.bars == "timeline" then lh = bg.tlHeight else if bg.width > lw then lw = bg.width end end
+	PSetSize(bg.anchor, lw, lh)
 
 	local align = "BOTTOMLEFT" -- select corner to attach based on configuration
 	if config.iconOnly then -- icons can grow in any direction
