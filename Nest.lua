@@ -2598,7 +2598,7 @@ function MOD.Nest_Update()
 	end
 
 	pixelScale = GetScreenHeight() / pixelHeight -- quicker to just update than to track uiScale changes
-	iconBackdrop.edgeSize = 1 / pixelScale -- used for single pixel backdrops
+	iconBackdrop.edgeSize = PS(1) -- used for single pixel backdrops
 
 	for _, bg in pairs(barGroups) do
 		if bg.configuration then -- make sure configuration is valid
