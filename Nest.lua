@@ -65,8 +65,8 @@ local textures = {
 }
 
 local anchorDefaults = { -- backdrop initialization for bar group anchors
-	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-	tile = true, tileSize = 8, edgeSize = 8, insets = { left = 2, right = 2, top = 2, bottom = 2 }
+	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = [[Interface\Addons\Raven\Borders\Rounded.tga]], --"Interface\\Tooltips\\UI-Tooltip-Border",
+	tile = true, tileSize = 8, edgeSize = 6, insets = { left = 0, right = 0, top = 0, bottom = 0 }
 }
 
 local iconBackdrop = { -- backdrop initialization for icons when using optional border customization
@@ -702,7 +702,12 @@ function MOD.Nest_CreateBarGroup(name)
 		bg.backdropTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 		bg.borderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 		bg.anchor = CreateFrame("Button", nil, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
-		bg.anchor:SetBackdrop(anchorDefaults)
+
+		local a = anchorDefaults
+		bg.anchor.backdropTable = { bgFile = a.bgFile, edgeFile = a.edgeFile, tile = a.tile, tileSize = PS(a.tileSize), edgeSize = PS(a.edgeSize),
+			insets = { left = PS(a.left), right = PS(a.right), top = PS(a.top), bottom = PS(a.bottom) }}
+
+		bg.anchor:SetBackdrop(bg.anchor.backdropTable)
 		bg.anchor:SetBackdropColor(0.3, 0.3, 0.3, 0.9)
 		bg.anchor:SetBackdropBorderColor(0, 0, 0, 0.9)
 		bg.anchor:SetNormalFontObject(ChatFontSmall)
@@ -1311,8 +1316,9 @@ end
 local function BarGroup_UpdateAnchor(bg, config)
 	local pFrame = bg.attributes.parentFrame
 	if pFrame and GetClickFrame(pFrame) then bg.frame:SetParent(pFrame) else bg.frame:SetParent(UIParent) end
-	PSetSize(bg.anchor, bg.width, bg.height)
 	bg.anchor:SetText(bg.name)
+	if config.bars == "timeline" then PSetSize(bg.anchor, 60, bg.tlHeight) else PSetSize(bg.anchor, bg.width, bg.height) end
+
 	local align = "BOTTOMLEFT" -- select corner to attach based on configuration
 	if config.iconOnly then -- icons can grow in any direction
 		if config.orientation == "horizontal" then
