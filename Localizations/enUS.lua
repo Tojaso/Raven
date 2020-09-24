@@ -161,7 +161,7 @@ L["Ignore Spell Usable"] = true
 L["Test Spell Usable"] = true
 L["Target In Range"] = true
 L["Target Out Of Range"] = true
-L["Cast By"] = true							
+L["Cast By"] = true
 L["Item Is Not Ready"] = true
 L["Item Is Ready"] = true
 L["Dependencies String"] = "\n|cFF7adbf2Dependencies:|r"
@@ -240,6 +240,8 @@ L["Mute Raven Sound"] = true
 L["If checked, Raven will not play sound effects."] = true
 L["Minimap Icon"] = true
 L["If checked, Raven will add an icon to the minimap."] = true
+L["Adjust UI Scale"] = true
+L["If checked, Raven will adjust the UI Scale to optimize for pixel perfect alignment."] = true
 L["Standard Bar Groups"] = true
 L["Anchor description"] = "Raven lets you display bars and icons for buffs, debuffs and cooldowns. " ..
 	'You can use the many options under the "Bar Groups" tab to set up a personalized user interface. ' ..

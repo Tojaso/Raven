@@ -64,9 +64,10 @@ local textures = {
 	["trapezoid"] = [[Interface\Addons\Raven\Icons\Trapezoid.tga]],
 }
 
+local ANCHOR_TILESIZE, ANCHOR_EDGESIZE = 8, 6
 local anchorDefaults = { -- backdrop initialization for bar group anchors
-	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = [[Interface\Addons\Raven\Borders\Rounded.tga]], --"Interface\\Tooltips\\UI-Tooltip-Border",
-	tile = true, tileSize = 8, edgeSize = 6, insets = { left = 0, right = 0, top = 0, bottom = 0 }
+	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = [[Interface\Addons\Raven\Borders\Rounded.tga]],
+	tile = true, tileSize = ANCHOR_TILESIZE, edgeSize = ANCHOR_EDGESIZE, insets = { left = 0, right = 0, top = 0, bottom = 0 }
 }
 
 local iconBackdrop = { -- backdrop initialization for icons when using optional border customization
@@ -703,11 +704,7 @@ function MOD.Nest_CreateBarGroup(name)
 		bg.borderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 		bg.anchor = CreateFrame("Button", nil, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 
-		local a = anchorDefaults
-		bg.anchor.backdropTable = { bgFile = a.bgFile, edgeFile = a.edgeFile, tile = a.tile, tileSize = PS(a.tileSize), edgeSize = PS(a.edgeSize),
-			insets = { left = PS(a.left), right = PS(a.right), top = PS(a.top), bottom = PS(a.bottom) }}
-
-		bg.anchor:SetBackdrop(bg.anchor.backdropTable)
+		bg.anchor:SetBackdrop(anchorDefaults)
 		bg.anchor:SetBackdropColor(0.3, 0.3, 0.3, 0.9)
 		bg.anchor:SetBackdropBorderColor(0, 0, 0, 0.9)
 		bg.anchor:SetNormalFontObject(ChatFontSmall)
@@ -2574,6 +2571,9 @@ function MOD.Nest_Initialize()
 		pixelWidth = GetScreenWidth(); pixelHeight = GetScreenHeight() -- ultimate fallback safe values for width and height
 		pixelScale = 1 -- and safe value for pixel perfect calculations
 	end
+
+	if Raven.db.global.AdjustUIScale then SetCVar("uiScale", 768 / pixelHeight) end -- option to set UI scale for optimized pixel perfect alignment
+
 	-- MOD.Debug("Raven result resolution", resolution, pixelScale, pixelWidth, pixelHeight, GetCVar("uiScale"), GetScreenWidth(), GetScreenHeight())
 	pixelPerfect = (not Raven.db.global.TukuiSkin and Raven.db.global.PixelPerfect) or (Raven.db.global.TukuiSkin and Raven.db.global.TukuiScale)
 	rectIcons = (Raven.db.global.RectIcons == true)
@@ -2583,6 +2583,14 @@ end
 
 -- Return the pixel perfect scaling factor
 function MOD.Nest_PixelScale() return pixelScale end
+
+-- Update the pixel perfect scaling factor is necessary
+local function UpdatePixelScale()
+	pixelScale = GetScreenHeight() / pixelHeight -- quicker to just update these than to track uiScale changes
+	iconBackdrop.edgeSize = PS(1) -- used for single pixel backdrops
+	anchorDefaults.tileSize = PS(ANCHOR_TILESIZE)
+	anchorDefaults.edgeSize = PS(ANCHOR_EDGESIZE)
+end
 
 -- Return the actual screen resolution expressed in pixels
 function MOD.Nest_ScreenResolution() return pixelWidth, pixelHeight end
@@ -2606,8 +2614,7 @@ function MOD.Nest_Update()
 		end
 	end
 
-	pixelScale = GetScreenHeight() / pixelHeight -- quicker to just update than to track uiScale changes
-	iconBackdrop.edgeSize = PS(1) -- used for single pixel backdrops
+	UpdatePixelScale()
 
 	for _, bg in pairs(barGroups) do
 		if bg.configuration then -- make sure configuration is valid
