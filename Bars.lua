@@ -22,6 +22,7 @@ local activeSpells = {} -- temporary table used for finding ghost bars
 local defaultNotificationIcon = "Interface\\Icons\\Spell_Nature_WispSplode"
 local defaultBrokerIcon = "Interface\\Icons\\Inv_Misc_Book_03"
 local defaultValueIcon = "Interface\\Icons\\Inv_Jewelry_Ring_03"
+local defaultTestIcon = "Interface\\Icons\\Spell_Nature_RavenForm"
 local frequentBars = {} -- bars tagged for frequent updates
 local prefixRaidTargetIcon = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_"
 local testColors = { "Blue1", "Cyan", "Green1", "Yellow1", "Orange1", "Red1", "Pink", "Purple1", "Brown1", "Gray" }
@@ -889,7 +890,7 @@ function MOD:TestBarGroup(bp)
 	local bg = MOD.Nest_GetBarGroup(bp.name)
 	if bg then
 		local found = false
-		local icon = "Interface\\Icons\\INV_Drink_20"
+		local icon = defaultTestIcon
 		local timers = bp.testTimers or 0; if timers == 0 then timers = 10 end
 		local static = bp.testStatic or 0
 		for i = 1, timers do
