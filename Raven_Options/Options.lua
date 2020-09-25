@@ -1812,10 +1812,10 @@ MOD.OptionsTable = {
 								if value then MOD.ldbi:Show("Raven") else MOD.ldbi:Hide("Raven") end
 							end,
 						},
-						spacer0 = { type = "description", name = "", order = 12 },
+						spacer0 = { type = "description", name = "", order = 40 },
 						EnableUIScale = {
-							type = "toggle", order = 30, name = L["Adjust UI Scale"],
-							desc = L["If checked, Raven will adjust the UI Scale to optimize for pixel perfect alignment."],
+							type = "toggle", order = 45, name = L["Adjust UI Scale"],
+							desc = L["UIScale description"],
 							get = function(info) return MOD.db.global.AdjustUIScale end,
 							set = function(info, value) MOD.db.global.AdjustUIScale = value end,
 						},
