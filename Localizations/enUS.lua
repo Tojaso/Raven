@@ -489,17 +489,20 @@ L["If checked, icon border color is applied to the normal texture."] = true
 L["Color Border Texture"] = true
 L["If checked, icon border color is applied to the border texture."] = true
 L["UI Scale Options"] = true
-L["UI Scale warning"] = "The UI Scale is a setting on the System menu's Advanced tab that adjusts the size of user interface elements. " ..
-	"It must be set to correctly to display pixel perfect elements like thin borders around bars and icons. " ..
+L["UI Scale warning"] = "UI Scale is a setting on the System menu's Advanced tab that adjusts the size of user interface elements. " ..
+	"It must be set correctly to display pixel perfect elements like thin borders around bars and icons. " ..
 	"This affects the entire UI and is commonly adjusted by addons like ElvUI. " ..
-	"Raven provides these options to adjust UI Scale in case it is not already set correctly."
+	"Raven provides options to adjust UI Scale in case it is not already set correctly."
 L["Adjust UI Scale"] = true
-L["UIScale description"] = "If checked, Raven will adjust the UI Scale to optimize for pixel perfect alignment (requires /reload)."
+L["UIScale description"] = "If checked then, during initialization, Raven will adjust the UI Scale to optimize for pixel perfect alignment (requires /reload)."
 L["Report UI Scale"] = true
 L["UIScale message"] = "If checked, Raven will report display resolution and UI Scale in the chat window during initialization. " ..
 	"Please verify that display resolution was detected correctly and change system settings if necessary " ..
 	"(e.g., sometimes switching between windowed and full screen modes and adjusting display resolution can resolve issues)."
-L["Display Scale"] = true
+L["Override"] = true
+L["UIScale override"] = "If checked then, during initialization, Raven will set the UI Scale to a specified value between 0.1 and 1 (requires /reload)."
+L["UI Scale"] = true
+L["Enter value between 0.1 and 1 to set during initialization."] = true
 L["Sound Channel"] = true
 L["Master"] = MASTER
 L["If checked, sound is played in Master channel."] = true
