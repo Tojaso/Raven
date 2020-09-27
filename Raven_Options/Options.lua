@@ -1812,13 +1812,6 @@ MOD.OptionsTable = {
 								if value then MOD.ldbi:Show("Raven") else MOD.ldbi:Hide("Raven") end
 							end,
 						},
-						spacer0 = { type = "description", name = "", order = 40 },
-						EnableUIScale = {
-							type = "toggle", order = 45, name = L["Adjust UI Scale"],
-							desc = L["UIScale description"],
-							get = function(info) return MOD.db.global.AdjustUIScale end,
-							set = function(info, value) MOD.db.global.AdjustUIScale = value end,
-						},
 					},
 				},
 				StandardGroups = {
@@ -3282,6 +3275,28 @@ MOD.OptionsTable = {
 							type = "execute", order = 50, name = L["Toggle Overlay"],
 							desc = L["Toggle overlay grid for aligning UI elements."],
 							func = function(info) DisplayGridPattern(true) end,
+						},
+					},
+				},
+				UIScaleGroup = {
+					type = "group", order = 77, name = L["UI Scale Options"], inline = true,
+					args = {
+						Defaults = {
+							type = "description", order = 1,
+							name = L["UI Scale warning"],
+						},
+						EnableUIScale = {
+							type = "toggle", order = 10, name = L["Adjust UI Scale"],
+							desc = L["UIScale description"],
+							get = function(info) return MOD.db.global.AdjustUIScale end,
+							set = function(info, value) MOD.db.global.AdjustUIScale = value end,
+						},
+						ReportUIScale = {
+							type = "toggle", order = 10, name = L["Report UI Scale"],
+							disabled = function(info) return not MOD.db.global.AdjustUIScale end,
+							desc = L["UIScale message"],
+							get = function(info) return not MOD.db.global.SilentUIScale end,
+							set = function(info, value) MOD.db.global.SilentUIScale = not value end,
 						},
 					},
 				},

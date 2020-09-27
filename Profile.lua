@@ -1013,6 +1013,7 @@ MOD.DefaultProfile = {
 		TukuiScale = true,				-- skin Tukui with pixel perfect size and position
 		PixelPerfect = false,			-- enable pixel perfect size and position
 		AdustUIScale = false,			-- enable adjustment of the UI scale during initialization
+		SilentUIScale = false,			-- enable reporting the UI scale during initialization
 		PixelIconBorder = false,		-- enable a single pixel color border for icons
 		RectIcons = false,				-- enable rectangular icons
 		ZoomIcons = false,				-- enable zoomed rectangular icons

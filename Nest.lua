@@ -2573,9 +2573,13 @@ function MOD.Nest_Initialize()
 	end
 
 	if Raven.db.global.AdjustUIScale then -- option to adjust UI scale for optimized pixel perfect alignment
+		local oscale = GetCVar("uiScale")
 		local pscale = 768 / pixelHeight
 		SetCVar("uiScale", pscale)
-		print("Raven: detected display resolution " .. tostring(pixelWidth) .. "x" .. tostring(pixelHeight) .. ", adjusted UI scale to " .. tostring(pscale))
+		if not Raven.db.global.SilentUIScale then
+			print("Raven: detected display resolution " .. tostring(pixelWidth) .. "x" .. tostring(pixelHeight) ..
+				", adjusted UI scale from " .. tostring(oscale) .. " to " .. tostring(pscale))
+		end
 	end
 
 	-- MOD.Debug("Raven result resolution", resolution, pixelScale, pixelWidth, pixelHeight, GetCVar("uiScale"), GetScreenWidth(), GetScreenHeight())
