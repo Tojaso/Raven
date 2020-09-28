@@ -2521,19 +2521,24 @@ end
 -- Force a global update.
 function MOD.Nest_TriggerUpdate() update = true end
 
--- From wow's source code: helper function to deal with decoding the resolution string
+-- Adapted from wow's source code: helper function to deal with decoding the resolution string
 local function DecodeResolution(valueString)
-	if(valueString == nil) then
-		return 0,0;
+	if(valueString) then
+		local xIndex = strfind(valueString, "x")
+		local len = strlen(valueString)
+		if xIndex and (xIndex > 2) and len and (len > (xIndex + 2)) then
+			local width = strsub(valueString, 1, xIndex - 1)
+			local height = strsub(valueString, xIndex + 1, len)
+			local widthIndex = strfind(height, " ")
+			if (widthIndex) then
+				height = strsub(height, 0, widthIndex - 1)
+			end
+			MOD.Debug("DecodeResolution", valueString, width, height)
+			return tonumber(width), tonumber(height)
+		end
 	end
-	local xIndex = strfind(valueString, "x");
-	local width = strsub(valueString, 1, xIndex-1);
-	local height = strsub(valueString, xIndex+1, strlen(valueString));
-	local widthIndex = strfind(height, " ");
-	if (widthIndex ~= nil) then
-		height = strsub(height, 0, widthIndex-1);
-	end
-	return tonumber(width), tonumber(height);
+	MOD.Debug("DecodeResolution unknown", valueString)
+	return 0, 0
 end
 
 -- Validate a resolution string with format "w x h" as used by the system menu for selecting display settings
@@ -2555,21 +2560,27 @@ function MOD.Nest_Initialize()
 			Disabled = false, Flash = false, Highlight = false, HotKey = false, Icon = false, Name = false, Normal = false, Pushed = false }
 	end
 
-	local monitorIndex = Display_PrimaryMonitorDropDown:GetValue() -- get current monitor index (should be same as the cvar "gxMonitor")
-	local isWindowed = Display_DisplayModeDropDown:windowedmode() -- test if in windowed mode (used to fallback to cvar value for resolution)
-	local isFullscreen = Display_DisplayModeDropDown:fullscreenmode() -- test if in fullscreen mode (used to fallback to cvar value for resolution)
-	local resolutionIndex = GetCurrentResolution(monitorIndex) -- get index for current resolution in list of screen resolutions
-	if not resolutionIndex then resolutionIndex = 0 end -- make sure valid number for next test...
-	local resolution = resolutionIndex > 0 and select(resolutionIndex, GetScreenResolutions(monitorIndex)) or nil -- best case scenario for accurate resolution
-	-- MOD.Debug("Raven standard resolution", monitorIndex, resolutionIndex, resolution)
-	if not ValidResolution(resolution) then resolution = isFullscreen and GetCVar("gxFullscreenResolution") or GetCVar("gxWindowedResolution") end
-	-- MOD.Debug("Raven checked resolution", resolution, ValidResolution(resolution), GetCVar("gxWindowedResolution"), GetCVar("gxFullscreenResolution"))
-	if ValidResolution(resolution) then -- should have valid resolution at this point, either from screen resolutions or appropriate cvar
-		pixelWidth, pixelHeight = DecodeResolution(resolution) -- use Blizzard's utility function to decode the resolution width and height
+	if GetPhysicalScreenSize then -- first check API that specifically provides the screen dimensions
+		pixelWidth, pixelHeight = GetPhysicalScreenSize()
 		pixelScale = GetScreenHeight() / pixelHeight -- figure out how big virtual pixels are versus screen pixels
-	else
-		pixelWidth = GetScreenWidth(); pixelHeight = GetScreenHeight() -- ultimate fallback safe values for width and height
-		pixelScale = 1 -- and safe value for pixel perfect calculations
+		-- MOD.Debug("Raven screen size", pixelWidth, pixelHeight, "pixel scale", pixelScale)
+	else -- if the preferred API is not available then try other methods
+		local monitorIndex = Display_PrimaryMonitorDropDown:GetValue() -- get current monitor index (should be same as the cvar "gxMonitor")
+		local isWindowed = Display_DisplayModeDropDown:windowedmode() -- test if in windowed mode (used to fallback to cvar value for resolution)
+		local isFullscreen = Display_DisplayModeDropDown:fullscreenmode() -- test if in fullscreen mode (used to fallback to cvar value for resolution)
+		local resolutionIndex = GetCurrentResolution(monitorIndex) -- get index for current resolution in list of screen resolutions
+		if not resolutionIndex then resolutionIndex = 0 end -- make sure valid number for next test...
+		local resolution = resolutionIndex > 0 and select(resolutionIndex, GetScreenResolutions(monitorIndex)) or nil -- best case scenario for accurate resolution
+		-- MOD.Debug("Raven standard resolution", monitorIndex, resolutionIndex, resolution)
+		if not ValidResolution(resolution) then resolution = isFullscreen and GetCVar("gxFullscreenResolution") or GetCVar("gxWindowedResolution") end
+		-- MOD.Debug("Raven checked resolution", resolution, ValidResolution(resolution), GetCVar("gxWindowedResolution"), GetCVar("gxFullscreenResolution"))
+		if ValidResolution(resolution) then -- should have valid resolution at this point, either from screen resolutions or appropriate cvar
+			pixelWidth, pixelHeight = DecodeResolution(resolution) -- use Blizzard's utility function to decode the resolution width and height
+			pixelScale = GetScreenHeight() / pixelHeight -- figure out how big virtual pixels are versus screen pixels
+		else
+			pixelWidth = GetScreenWidth(); pixelHeight = GetScreenHeight() -- ultimate fallback safe values for width and height
+			pixelScale = 1 -- and safe value for pixel perfect calculations
+		end
 	end
 
 	if Raven.db.global.AdjustUIScale then -- option to adjust UI scale for optimized pixel perfect alignment
