@@ -212,7 +212,10 @@ function MOD:SetCooldownDefaults()
 		if name and name ~= "" then cls[name] = { school = p.school, id = p.id } end
 	end
 
-	for tab = 1, 2 do -- scan first two tabs of player spell book (general and current spec) for player spells on cooldown
+	local openTabs = 2 -- on non-classic the first two tabs are open to all specializations
+	if MOD.isClassic then openTabs = GetNumSpellTabs() end -- on classic there are no specializations so all tabs are same
+
+	for tab = 1, openTabs do -- scan first two tabs of player spell book (general and current spec) for player spells on cooldown
 		local spellLine, spellIcon, offset, numSpells = GetSpellTabInfo(tab)
 		for i = 1, numSpells do
 			local index = i + offset
@@ -268,27 +271,29 @@ function MOD:SetCooldownDefaults()
 		end
 	end
 
-	local tabs = GetNumSpellTabs()
-	if tabs and tabs > 2 then
-		for tab = 3, tabs do -- scan inactive tabs of player spell book for icons
-			local spellLine, spellIcon, offset, numSpells = GetSpellTabInfo(tab)
-			for i = 1, numSpells do
-				local index = i + offset
-				local spellName = GetSpellBookItemName(index, book)
-				if not spellName then break end
-				local stype, id = GetSpellBookItemInfo(index, book)
-				if id then -- make sure valid spell book item
-					if stype == "SPELL" then -- in this case, id is not the spell id despite what online docs say
-						local name, _, icon = getSpellInfo(index, book)
-						if name and name ~= "" and icon then iconCache[name] = icon end
-					elseif stype == "FLYOUT" then -- in this case, id is flyout id
-						local _, _, numSlots, known = GetFlyoutInfo(id)
-						if known then
-							for slot = 1, numSlots do
-								local spellID, _, _, name = GetFlyoutSlotInfo(id, slot)
-								if spellID then
-									local name, _, icon = getSpellInfo(spellID)
-									if name and name ~= "" and icon then iconCache[name] = icon end
+	if not MOD.isClassic then
+		local tabs = GetNumSpellTabs()
+		if tabs and tabs > 2 then
+			for tab = 3, tabs do -- scan inactive tabs of player spell book for icons
+				local spellLine, spellIcon, offset, numSpells = GetSpellTabInfo(tab)
+				for i = 1, numSpells do
+					local index = i + offset
+					local spellName = GetSpellBookItemName(index, book)
+					if not spellName then break end
+					local stype, id = GetSpellBookItemInfo(index, book)
+					if id then -- make sure valid spell book item
+						if stype == "SPELL" then -- in this case, id is not the spell id despite what online docs say
+							local name, _, icon = getSpellInfo(index, book)
+							if name and name ~= "" and icon then iconCache[name] = icon end
+						elseif stype == "FLYOUT" then -- in this case, id is flyout id
+							local _, _, numSlots, known = GetFlyoutInfo(id)
+							if known then
+								for slot = 1, numSlots do
+									local spellID, _, _, name = GetFlyoutSlotInfo(id, slot)
+									if spellID then
+										local name, _, icon = getSpellInfo(spellID)
+										if name and name ~= "" and icon then iconCache[name] = icon end
+									end
 								end
 							end
 						end
@@ -296,9 +301,7 @@ function MOD:SetCooldownDefaults()
 				end
 			end
 		end
-	end
 
-	if not MOD.isClassic then
 		local p = professions -- scan professions for spells on cooldown
 		p[1], p[2], p[3], p[4], p[5], p[6] = GetProfessions()
 		for index = 1, 6 do
