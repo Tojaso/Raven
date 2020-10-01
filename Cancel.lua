@@ -109,9 +109,10 @@ local function Overlay_OnEnter(b)
 		GameTooltip:ClearLines() -- clear current tooltip contents
 		if b.aura_tt == "weapon" then
 			if b.aura_id then
-				if b.aura_id == "MainHandSlot" then b.aura_id = 16 end
-				if b.aura_id == "SecondaryHandSlot" then b.aura_id = 17 end
-				GameTooltip:SetInventoryItem("player", b.aura_id)
+				local slotid = b.aura_id
+				if slotid == "MainHandSlot" then slotid = 16 end
+				if slotid == "SecondaryHandSlot" then slotid = 17 end
+				if (slotid == 16) or (slotid == 17) then GameTooltip:SetInventoryItem("player", slotid) end
 			end
 		elseif b.aura_tt == "buff" then
 			if not UnitAura("player", b.aura_id, "HELPFUL") then return end

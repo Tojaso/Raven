@@ -734,8 +734,13 @@ local function Bar_OnUpdate(bar)
 	-- MOD.Debug("tt", tt, id, unit, spell, caster)
 	if tt == "text" then
 		GameTooltip:SetText(tostring(id))
-	elseif (tt == "inventory") or (tt == "weapon") then
+	elseif (tt == "inventory") then
 		if id then GameTooltip:SetInventoryItem("player", id) end
+	elseif (tt == "weapon") then
+		local slotid = id
+		if slotid == "MainHandSlot" then slotid = 16 end
+		if slotid == "SecondaryHandSlot" then slotid = 17 end
+		if (slotid == 16) or (slotid == 17) then GameTooltip:SetInventoryItem("player", slotid) end
 	elseif (tt == "spell id") or (tt == "internal") or (tt == "alert") then
 		GameTooltip:SetSpellByID(id)
 	elseif (tt == "item id") then
