@@ -1315,8 +1315,12 @@ local function BarGroup_UpdateAnchor(bg, config)
 	if pFrame and GetClickFrame(pFrame) then bg.frame:SetParent(pFrame) else bg.frame:SetParent(UIParent) end
 
 	bg.anchor:SetText(bg.name)
-	local lw, lh = bg.anchor:GetFontString():GetStringWidth() + 10, bg.height
-	if config.bars == "timeline" then lh = bg.tlHeight else if bg.width > lw then lw = bg.width end end
+	local lw, lh = bg.width, bg.height
+	if config.iconOnly then lw = rectIcons and bg.barWidth or bg.iconSize end -- anchors have same w and h as bars/icons
+	if config.bars == "timeline" then -- except for timeline bar groups that use fixed size independent of icons being displayed
+		lh = bg.tlHeight
+		lw = bg.anchor:GetFontString():GetStringWidth() + 10 -- minimum width so anchor not too skinny for the caption
+	end
 	PSetSize(bg.anchor, lw, lh)
 
 	local align = "BOTTOMLEFT" -- select corner to attach based on configuration

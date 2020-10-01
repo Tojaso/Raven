@@ -201,9 +201,9 @@ local function HideShow(key, frame, check, options)
 	local hide, show = false, false
 	local visible = frame:IsShown()
 	if visible then
-		hide = check and hideBlizz
+		if hideBlizz then hide = check end -- only hide if option for this frame is checked
 	else
-		if hideBlizz then show = not check else show = hiding[key] end
+		if hideBlizz then show = not check and hiding[key] else show = hiding[key] end -- only show if Raven hid the frame
 	end
 	-- MOD.Debug("hide/show", key, "hide:", hide, "show:", show, "vis: ", visible)
 
