@@ -1790,19 +1790,19 @@ MOD.OptionsTable = {
 							get = function(info) return MOD.db.profile.enabled end,
 							set = function(info, value) MOD.db.profile.enabled = value end,
 						},
-						HideBlizzBuffsGroup = {
+						EnableHideBlizz = {
 							type = "toggle", order = 20, name = L["Hide Blizzard"],
-							desc = L["If checked, Raven will hide selected parts of the default user interface, otherwise it will try to show them (select parts on the Defaults tab)."],
+							desc = L["Hide description"],
 							get = function(info) return MOD.db.profile.hideBlizz end,
 							set = function(info, value) MOD.db.profile.hideBlizz = value end,
 						},
-						EnableSFX = {
+						EnableMuteSFX = {
 							type = "toggle", order = 30, name = L["Mute Raven Sound"],
 							desc = L["If checked, Raven will not play sound effects."],
 							get = function(info) return MOD.db.profile.muteSFX end,
 							set = function(info, value) MOD.db.profile.muteSFX = value end,
 						},
-						MinimapGroup = {
+						EnableMinimapIcon = {
 							type = "toggle", order = 35, name = L["Minimap Icon"],
 							desc = L["If checked, Raven will add an icon to the minimap."],
 							hidden = function(info) return MOD.ldbi == nil end,
@@ -2019,32 +2019,36 @@ MOD.OptionsTable = {
 					name = L["Defaults string"],
 				},
 				HideBlizzGroup = {
-					type = "group", order = 5, name = L["Hide/Show Blizzard"], inline = true,
+					type = "group", order = 5, name = L["Hide Blizzard"], inline = true,
 					args = {
+						HideMessage = {
+							type = "description", order = 1,
+							name = L["Hide message"],
+						},
 						HidePlayer = {
 							type = "group", order = 10, name = L["Player"], inline = true,
 							args = {
 								HideUnitFrame = {
 									type = "toggle", order = 10, name = L["Unit Frame"],
-									desc = L["Hide/show default player unit frame."],
+									desc = L["Hide default player unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPlayer end,
 									set = function(info, value) MOD.db.profile.hideBlizzPlayer = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideBuffs = {
 									type = "toggle", order = 20, name = L["Buffs and Debuffs"],
-									desc = L["Hide/show default user interface for buffs and debuffs."],
+									desc = L["Hide default user interface for buffs and debuffs."],
 									get = function(info) return MOD.db.profile.hideBlizzBuffs end,
 									set = function(info, value) MOD.db.profile.hideBlizzBuffs = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideCastBar = {
 									type = "toggle", order = 30, name = L["Cast Bar"],
-									desc = L["Hide/show default player cast bar."],
+									desc = L["Hide default player cast bar."],
 									get = function(info) return MOD.db.profile.hideBlizzPlayerCastBar end,
 									set = function(info, value) MOD.db.profile.hideBlizzPlayerCastBar = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideMirrorTimers = {
 									type = "toggle", order = 40, name = L["Mirror Timers"],
-									desc = L["Hide/show default user interface for mirror timers (e.g., breath bar)."],
+									desc = L["Hide default user interface for mirror timers (e.g., breath bar)."],
 									get = function(info) return MOD.db.profile.hideBlizzMirrors end,
 									set = function(info, value) MOD.db.profile.hideBlizzMirrors = value; MOD:UpdateAllBarGroups() end,
 								},
@@ -2055,56 +2059,56 @@ MOD.OptionsTable = {
 							args = {
 								HideComboPoints = {
 									type = "toggle", order = 10, name = L["Combo Points"],
-									desc = L["Hide/show default user interface for combo points."],
+									desc = L["Hide default user interface for combo points."],
 									get = function(info) return MOD.db.profile.hideBlizzComboPoints end,
 									set = function(info, value) MOD.db.profile.hideBlizzComboPoints = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideRunesGroup = {
 									type = "toggle", order = 15, name = L["Runes"],
-									desc = L["Hide/show default user interface for runes."],
+									desc = L["Hide default user interface for runes."],
 									get = function(info) return MOD.db.profile.hideRunes end,
 									set = function(info, value) MOD.db.profile.hideRunes = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideHoly = {
 									type = "toggle", order = 20, name = L["Holy Power"],
-									desc = L["Hide/show default user interface for holy power."],
+									desc = L["Hide default user interface for holy power."],
 									get = function(info) return MOD.db.profile.hideBlizzHoly end,
 									set = function(info, value) MOD.db.profile.hideBlizzHoly = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideStagger = {
 									type = "toggle", order = 25, name = L["Stagger"],
-									desc = L["Hide/show default user interface for stagger."],
+									desc = L["Hide default user interface for stagger."],
 									get = function(info) return MOD.db.profile.hideBlizzStagger end,
 									set = function(info, value) MOD.db.profile.hideBlizzStagger = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideChi = {
 									type = "toggle", order = 30, name = L["Chi"], width = "half",
-									desc = L["Hide/show default user interface for chi."],
+									desc = L["Hide default user interface for chi."],
 									get = function(info) return MOD.db.profile.hideBlizzChi end,
 									set = function(info, value) MOD.db.profile.hideBlizzChi = value; MOD:UpdateAllBarGroups() end,
 								},
 								Space1 = { type = "description", name = "", order = 35 },
 								HideArcane = {
 									type = "toggle", order = 40, name = L["Arcane Charges"],
-									desc = L["Hide/show default user interface for arcane charges."],
+									desc = L["Hide default user interface for arcane charges."],
 									get = function(info) return MOD.db.profile.hideBlizzArcane end,
 									set = function(info, value) MOD.db.profile.hideBlizzArcane = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideShards = {
 									type = "toggle", order = 45, name = L["Soul Shards"],
-									desc = L["Hide/show default user interface for soul shards."],
+									desc = L["Hide default user interface for soul shards."],
 									get = function(info) return MOD.db.profile.hideBlizzShards end,
 									set = function(info, value) MOD.db.profile.hideBlizzShards = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideInsanity = {
 									type = "toggle", order = 50, name = L["Insanity"],
-									desc = L["Hide/show default user interface for insanity."],
+									desc = L["Hide default user interface for insanity."],
 									get = function(info) return MOD.db.profile.hideBlizzInsanity end,
 									set = function(info, value) MOD.db.profile.hideBlizzInsanity = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideTotems = {
 									type = "toggle", order = 55, name = L["Totems"], width = "half",
-									desc = L["Hide/show default user interface for totems."],
+									desc = L["Hide default user interface for totems."],
 									get = function(info) return MOD.db.profile.hideBlizzTotems end,
 									set = function(info, value) MOD.db.profile.hideBlizzTotems = value; MOD:UpdateAllBarGroups() end,
 								},
@@ -2116,19 +2120,19 @@ MOD.OptionsTable = {
 							args = {
 								HideUnitFrame = {
 									type = "toggle", order = 10, name = L["Unit Frame"],
-									desc = L["Hide/show default target unit frame."],
+									desc = L["Hide default target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPlayer end,
 									set = function(info, value) MOD.db.profile.hideBlizzPlayer = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideBuffs = {
 									type = "toggle", order = 5, name = L["Buffs and Debuffs"],
-									desc = L["Hide/show default user interface for target buffs and debuffs."],
+									desc = L["Hide default user interface for target buffs and debuffs."],
 									get = function(info) return MOD.db.profile.hideBlizzBuffs end,
 									set = function(info, value) MOD.db.profile.hideBlizzBuffs = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideCastBar = {
 									type = "toggle", order = 20, name = L["Cast Bar"],
-									desc = L["Hide/show default target cast bar."],
+									desc = L["Hide default target cast bar."],
 									get = function(info) return MOD.db.profile.hideBlizzXP end,
 									set = function(info, value) MOD.db.profile.hideBlizzXP = value; MOD:UpdateAllBarGroups() end,
 								},
@@ -2139,26 +2143,25 @@ MOD.OptionsTable = {
 							args = {
 								HideBuffs = {
 									type = "toggle", order = 5, name = L["Player Buffs and Debuffs"],
-									desc = L["Hide/show default user interface for buffs and debuffs."],
+									desc = L["Hide default user interface for buffs and debuffs."],
 									get = function(info) return MOD.db.profile.hideBlizzBuffs end,
 									set = function(info, value) MOD.db.profile.hideBlizzBuffs = value; MOD:UpdateAllBarGroups() end,
 								},
 								HidePlayer = {
 									type = "toggle", order = 10, name = L["Player Unit Frame"],
-									desc = L["Hide/show default player unit frame."],
+									desc = L["Hide default player unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPlayer end,
 									set = function(info, value) MOD.db.profile.hideBlizzPlayer = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideXP = {
 									type = "toggle", order = 10, name = L["XP and Reputation"],
-									desc = L["Hide/show XP and reputation bars in the default user interface."],
+									desc = L["Hide XP and reputation bars in the default user interface."],
 									get = function(info) return MOD.db.profile.hideBlizzXP end,
 									set = function(info, value) MOD.db.profile.hideBlizzXP = value; MOD:UpdateAllBarGroups() end,
 								},
 								HideAzerite = {
 									type = "toggle", order = 15, name = L["Azerite"],
-									desc = L["Hide/show Azerite bar in the default user interface."],
-									get = function(info) return MOD.db.profile.hideBlizzAzerite end,
+									desc = L["Hide) return MOD.db.profile.hideBlizzAzerite end,
 									set = function(info, value) MOD.db.profile.hideBlizzAzerite = value; MOD:UpdateAllBarGroups() end,
 								},
 							},
@@ -2168,32 +2171,32 @@ MOD.OptionsTable = {
 							args = {
 								Pet = {
 									type = "toggle", order = 15, name = L["Pet"],
-									desc = L["Hide/show default pet unit frame."],
+									desc = L["Hide default pet unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzPet end,
 									set = function(info, value) MOD.db.profile.hideBlizzPet = value; MOD:UpdateAllBarGroups() end,
 								},
 								Target = {
 									type = "toggle", order = 20, name = L["Target"],
-									desc = L["Hide/show default target unit frame."],
+									desc = L["Hide default target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzTarget end,
 									set = function(info, value) MOD.db.profile.hideBlizzTarget = value; MOD:UpdateAllBarGroups() end,
 								},
 								Focus = {
 									type = "toggle", order = 25, name = L["Focus"],
-									desc = L["Hide/show default focus unit frame."],
+									desc = L["Hide default focus unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzFocus end,
 									set = function(info, value) MOD.db.profile.hideBlizzFocus = value; MOD:UpdateAllBarGroups() end,
 								},
 								Space1 = { type = "description", name = "", order = 30 },
 								TargetTarget = {
 									type = "toggle", order = 35, name = L["Target's Target"],
-									desc = L["Hide/show default target's target unit frame."],
+									desc = L["Hide default target's target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzTargetTarget end,
 									set = function(info, value) MOD.db.profile.hideBlizzTargetTarget = value; MOD:UpdateAllBarGroups() end,
 								},
 								FocusTarget = {
 									type = "toggle", order = 40, name = L["Focus's Target"],
-									desc = L["Hide/show default focus's target unit frame."],
+									desc = L["Hide default focus's target unit frame."],
 									get = function(info) return MOD.db.profile.hideBlizzFocusTarget end,
 									set = function(info, value) MOD.db.profile.hideBlizzFocusTarget = value; MOD:UpdateAllBarGroups() end,
 								},
