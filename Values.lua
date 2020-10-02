@@ -506,8 +506,13 @@ end
 
 local function ValueCastBar(unit, fmt, spell, options)
 	local checkUnit = unit
-	if not MOD.isClassic and UnitHasVehicleUI("player") then
-		if unit == "player" then checkUnit = "pet" elseif unit == "pet" then checkUnit = "player" end
+	local castingInfo, channelInfo = UnitCastingInfo, UnitChannelInfo
+	if MOD.isClassic then
+		castingInfo = CastingInfo; channelInfo = ChannelInfo
+	else
+		if UnitHasVehicleUI("player") then
+			if unit == "player" then checkUnit = "pet" elseif unit == "pet" then checkUnit = "player" end
+		end
 	end
 	if not unit or not UnitGUID(unit) then return false end
 	if unit == "player" or unit == "vehicle" then
@@ -523,9 +528,9 @@ local function ValueCastBar(unit, fmt, spell, options)
 		end
 	end
 	local channel = false
-	local name, text, icon, startTime, endTime, trade, castID, noInterrupt, spellID = UnitCastingInfo(checkUnit)
+	local name, text, icon, startTime, endTime, trade, castID, noInterrupt, spellID = castingInfo(checkUnit)
 	if not name then
-		name, text, icon, startTime, endTime, trade, noInterrupt = UnitChannelInfo(checkUnit)
+		name, text, icon, startTime, endTime, trade, noInterrupt = channelInfo(checkUnit)
 		channel = true
 	end
 	if name then
