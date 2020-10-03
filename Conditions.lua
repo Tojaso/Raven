@@ -35,7 +35,7 @@ MOD.conditionTests = {
 		checkComboPoints = nil, minComboPoints = 5, checkRunes = nil, minRunes = 1, checkTotems = nil, totem = nil },
 	["Pet Status"] = { enable = false, exists = nil, inCombat = nil, checkTarget = nil,
 		checkHealth = nil, minHealth = 100, checkPower = nil, minPower = 100, checkFamily = nil, family = nil, checkSpec = nil, spec = nil },
-	["Target Status"] = { enable = false, exists = nil, isPlayer = nil, isEnemy = nil, isFriend = nil, inRange = nil, isSteal = nil, isDead = nil,
+	["Target Status"] = { enable = false, exists = nil, isPlayer = nil, isEnemy = nil, isFriend = nil, isNeutral = nil, inRange = nil, isSteal = nil, isDead = nil,
 		checkHealth = nil, minHealth = 100, checkMaxHealth = nil, maxHealth = nil, checkPower = nil, minPower = 100, classify = nil, classification = "normal" },
 	["Target's Target Status"] = { enable = false, exists = nil, isPlayer = nil, isEnemy = nil, isFriend = nil, inRange = nil, isSteal = nil, isDead = nil,
 		checkHealth = nil, minHealth = 100, checkMaxHealth = nil, maxHealth = nil, checkPower = nil, minPower = 100, classify = nil, classification = "normal" },
@@ -486,6 +486,7 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.isPlayer) and (stat.noTarget or (t.isPlayer ~= stat.targetPlayer)) then return false end
 		if IsOn(t.isEnemy) and (stat.noTarget or (t.isEnemy ~= stat.targetEnemy)) then return false end
 		if IsOn(t.isFriend) and (stat.noTarget or (t.isFriend ~= stat.targetFriend)) then return false end
+		if IsOn(t.isNeutral) and (stat.noTarget or (t.isNeutral ~= stat.targetNeutral)) then return false end
 		if IsOn(t.isDead) and (stat.noTarget or (t.isDead ~= stat.targetDead)) then return false end
 		if IsOn(t.isSteal) and (stat.noTarget or (t.isSteal ~= MOD:UnitHasBuff("target", "Steal"))) then return false end
 		if t.classify and (not t.classification or t.classification == "" or stat.noTarget or
@@ -615,6 +616,7 @@ local function CheckTestOR(ttype, t)
 			if IsOn(t.isPlayer) and (t.isPlayer == stat.targetPlayer) then return true end
 			if IsOn(t.isEnemy) and (t.isEnemy == stat.targetEnemy) then return true end
 			if IsOn(t.isFriend) and (t.isFriend == stat.targetFriend) then return true end
+			if IsOn(t.isNeutral) and (t.isNeutral == stat.targetNeutral) then return true end
 			if IsOn(t.isDead) and (t.isDead == stat.targetDead) then return true end
 			if IsOn(t.isSteal) and (t.isSteal == MOD:UnitHasBuff("target", "Steal")) then return true end
 			if t.classify and t.classification and (t.classification ~= "") and
@@ -759,6 +761,7 @@ function MOD:UpdateConditions()
 		stat.targetPlayer = UnitIsPlayer("target")
 		stat.targetEnemy = UnitIsEnemy("player", "target")
 		stat.targetFriend = UnitIsFriend("player", "target")
+		stat.targetNeutral = not stat.targetEnemy and not stat.targetFriend
 		stat.targetDead = UnitIsDead("target")
 		local classification = UnitClassification("target")
 		if MOD.LibBossIDs and MOD.CheckLibBossIDs(UnitGUID("target")) then classification = "worldboss" end
@@ -1013,6 +1016,7 @@ function MOD:GetConditionText(name)
 					if IsOn(t.isPlayer) then if t.isPlayer then a = a .. d .. L["Is Player"] else a = a .. d .. L["Not Player"] end; d = ", " end
 					if IsOn(t.isEnemy) then if t.isEnemy then a = a .. d .. L["Is Enemy"] else a = a .. d .. L["Not Enemy"] end; d = ", " end
 					if IsOn(t.isFriend) then if t.isFriend then a = a .. d .. L["Is Friendly"] else a = a .. d .. L["Not Friendly"] end; d = ", " end
+					if IsOn(t.isNeutral) then if t.isNeutral then a = a .. d .. L["Is Neutral"] else a = a .. d .. L["Not Neutral"] end; d = ", " end
 					if IsOn(t.isDead) then if t.isDead then a = a .. d .. L["Is Dead"] else a = a .. d .. L["Not Dead"] end; d = ", " end
 					if t.classify and t.classification and (t.classification ~= "") then
 						local lc = ClassificationList(t.classification); if not lc then lc = "Unknown" end

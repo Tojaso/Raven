@@ -5211,12 +5211,6 @@ MOD.OptionsTable = {
 									get = function(info) return GetBarGroupField("showMounted") end,
 									set = function(info, value) SetBarGroupField("showMounted", value) end,
 								},
-								VehicleGroup = {
-									type = "toggle", order = 21, name = L["Vehicle"],
-									desc = L["If checked, bar group is shown when the player is in a vehicle."],
-									get = function(info) return GetBarGroupField("showVehicle") end,
-									set = function(info, value) SetBarGroupField("showVehicle", value) end,
-								},
 								EnemyGroup = {
 									type = "toggle", order = 22, name = L["Enemy"],
 									desc = L["If checked, bar group is shown when the target is an enemy."],
@@ -5228,6 +5222,12 @@ MOD.OptionsTable = {
 									desc = L["If checked, bar group is shown when the target is friendly."],
 									get = function(info) return GetBarGroupField("showFriend") end,
 									set = function(info, value) SetBarGroupField("showFriend", value) end,
+								},
+								NeutralGroup = {
+									type = "toggle", order = 24, name = L["Neutral"],
+									desc = L["If checked, bar group is shown when the target is neutral."],
+									get = function(info) return GetBarGroupField("showNeutral") end,
+									set = function(info, value) SetBarGroupField("showNeutral", value) end,
 								},
 								SoloGroup = {
 									type = "toggle", order = 30, name = L["Solo"],
@@ -5247,11 +5247,11 @@ MOD.OptionsTable = {
 									get = function(info) return GetBarGroupField("showRaid") end,
 									set = function(info, value) SetBarGroupField("showRaid", value) end,
 								},
-								FocusTargetGroup = {
-									type = "toggle", order = 33, name = L["Focus=Target"],
-									desc = L["If checked, bar group is shown when focus is same as target."],
-									get = function(info) return GetBarGroupField("showFocusTarget") end,
-									set = function(info, value) SetBarGroupField("showFocusTarget", value) end,
+								BattlegroundGroup = {
+									type = "toggle", order = 33, name = L["In Battleground"],
+									desc = L["If checked, bar group is shown when the player is in a battleground."],
+									get = function(info) return GetBarGroupField("showBattleground") end,
+									set = function(info, value) SetBarGroupField("showBattleground", value) end,
 								},
 								InstanceGroup = {
 									type = "toggle", order = 34, name = L["In Instance"],
@@ -5271,11 +5271,11 @@ MOD.OptionsTable = {
 									get = function(info) return GetBarGroupField("showArena") end,
 									set = function(info, value) SetBarGroupField("showArena", value) end,
 								},
-								BattlegroundGroup = {
-									type = "toggle", order = 37, name = L["In Battleground"],
-									desc = L["If checked, bar group is shown when the player is in a battleground."],
-									get = function(info) return GetBarGroupField("showBattleground") end,
-									set = function(info, value) SetBarGroupField("showBattleground", value) end,
+								PetBattleGroup = {
+									type = "toggle", order = 37, name = L["In Pet Battle"],
+									desc = L["If checked, bar group is shown when the player is in a pet battle."],
+									get = function(info) return GetBarGroupField("showPetBattle") end,
+									set = function(info, value) SetBarGroupField("showPetBattle", value) end,
 								},
 								ShowIfBlizzard = {
 									type = "toggle", order = 45, name = L["Blizzard Buffs Enabled"],
@@ -5289,17 +5289,23 @@ MOD.OptionsTable = {
 									get = function(info) return GetBarGroupField("showNotBlizz") end,
 									set = function(info, value) SetBarGroupField("showNotBlizz", value) end,
 								},
+								VehicleGroup = {
+									type = "toggle", order = 49, name = L["Vehicle"],
+									desc = L["If checked, bar group is shown when the player is in a vehicle."],
+									get = function(info) return GetBarGroupField("showVehicle") end,
+									set = function(info, value) SetBarGroupField("showVehicle", value) end,
+								},
 								OnTaxi = {
-									type = "toggle", order = 47, name = L["On Taxi"],
+									type = "toggle", order = 50, name = L["On Taxi"],
 									desc = L["If checked, bar group is shown when player is flying on a taxi."],
 									get = function(info) return GetBarGroupField("showOnTaxi") end,
 									set = function(info, value) SetBarGroupField("showOnTaxi", value) end,
 								},
-								PetBattleGroup = {
-									type = "toggle", order = 48, name = L["In Pet Battle"],
-									desc = L["If checked, bar group is shown when the player is in a pet battle."],
-									get = function(info) return GetBarGroupField("showPetBattle") end,
-									set = function(info, value) SetBarGroupField("showPetBattle", value) end,
+								FocusTargetGroup = {
+									type = "toggle", order = 55, name = L["Focus=Target"],
+									desc = L["If checked, bar group is shown when focus is same as target."],
+									get = function(info) return GetBarGroupField("showFocusTarget") end,
+									set = function(info, value) SetBarGroupField("showFocusTarget", value) end,
 								},
 								SelectClass = {
 									type = "group", order = 75, name = L["Player Class"], inline = true,
@@ -10896,7 +10902,7 @@ MOD.OptionsTable = {
 									},
 								},
 								FriendGroup = {
-									type = "group", order = 20, name = L["Friendly"], inline = true,
+									type = "group", order = 15, name = L["Friendly"], inline = true,
 									args = {
 										CheckFriend = {
 											type = "toggle", order = 1, name = L["Enable"],
@@ -10917,6 +10923,31 @@ MOD.OptionsTable = {
 											disabled = function(info) return IsTestFieldOff("Target Status", "isFriend") end,
 											get = function(info) return GetTestField("Target Status", "isFriend") == false end,
 											set = function(info, value) SetTestField("Target Status", "isFriend", false) end,
+										},
+									},
+								},
+								NeutralGroup = {
+									type = "group", order = 20, name = L["Neutral"], inline = true,
+									args = {
+										CheckEnemy = {
+											type = "toggle", order = 1, name = L["Enable"],
+											desc = L["If checked, test if the target is neutral."],
+											get = function(info) return IsTestFieldOn("Target Status", "isNeutral") end,
+											set = function(info, value) local v = Off if value then v = true end SetTestField("Target Status", "isNeutral", v) end,
+										},
+										DoTrue = {
+											type = "toggle", order = 2, name = L["Is Neutral"],
+											desc = L["If checked, target must be neutral."],
+											disabled = function(info) return IsTestFieldOff("Target Status", "isNeutral") end,
+											get = function(info) return GetTestField("Target Status", "isNeutral") == true end,
+											set = function(info, value) SetTestField("Target Status", "isNeutral", true) end,
+										},
+										DoFalse = {
+											type = "toggle", order = 3, name = L["Not Neutral"],
+											desc = L["If checked, target must not be neutral."],
+											disabled = function(info) return IsTestFieldOff("Target Status", "isNeutral") end,
+											get = function(info) return GetTestField("Target Status", "isNeutral") == false end,
+											set = function(info, value) SetTestField("Target Status", "isNeutral", false) end,
 										},
 									},
 								},

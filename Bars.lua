@@ -75,7 +75,7 @@ MOD.BarGroupTemplate = { -- default bar group settings
 	stripeBorderTexture = "None", stripeBorderWidth = 4, stripeBorderOffset = 1, stripeBorderColor = false,
 	showSolo = true, showParty = true, showRaid = true, showCombat = true, showOOC = true, showStealth = true, showFocusTarget = true,
 	showInstance = true, showNotInstance = true, showArena = true, showBattleground = true, showPetBattle = false, showOnTaxi = true, showSpecialization = "",
-	showResting = true, showMounted = true, showVehicle = true, showFriend = true, showEnemy = true, showBlizz = true, showNotBlizz = true,
+	showResting = true, showMounted = true, showVehicle = true, showFriend = true, showEnemy = true, showNeutral = true, showBlizz = true, showNotBlizz = true,
 	detectBuffs = false, detectDebuffs = false, detectAllBuffs = false, detectAllDebuffs = false,
 	filterDebuffTypes = false, detectDispellable = false, detectInflictable = false, detectNPCDebuffs = false, detectVehicleDebuffs = false, detectBossDebuffs = false,
 	detectEffectDebuffs = false, detectAlertDebuffs = false, detectPoison = false, detectCurse = false, detectMagic = false, detectDisease = false, detectOtherDebuffs = false,
@@ -1826,7 +1826,7 @@ local function CheckShow(bp)
 		(stat.isResting and not bp.showResting) or (stat.isStealthed and not bp.showStealth) or
 		(stat.isMounted and not bp.showMounted) or (stat.inVehicle and not bp.showVehicle) or
 		(stat.targetEnemy and not bp.showEnemy) or (stat.targetFriend and not bp.showFriend) or
-		(stat.inInstance and not bp.showInstance) or (not stat.inInstance and not bp.showNotInstance) or
+		(stat.inInstance and not bp.showInstance) or (not stat.inInstance and not bp.showNotInstance) or (stat.targetNeutral and not bp.showNeutral) or
 		(stat.inArena and not bp.showArena) or (stat.inBattleground and not bp.showBattleground) or
 		(UnitIsUnit("focus", "target") and not bp.showFocusTarget) or
 		(bp.showClasses and bp.showClasses[MOD.myClass]) or
