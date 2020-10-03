@@ -710,7 +710,6 @@ L["Enter Auto Group Name"] = true
 L["Enter name of new auto bar group."] = true
 L["Cancel"] = true
 L["Cancel creating a new bar group."] = true
-L["Delete Bar Group"] = true
 L["Delete the selected bar group."] = true
 L["Delete bar group string"] = function(s) return string.format("DELETE BAR GROUP\nAre you sure you want to delete the %s bar group?", s) end
 
@@ -1533,9 +1532,10 @@ L["Create a new condition."] = true
 L["Enter Condition Name"] = true
 L["Enter name of new condition."] = true
 L["Cancel creating a new condition."] = true
-L["Delete Condition"] = true
 L["Delete the selected condition."] = true
 L["Delete condition string"] = function(name) string.format('DELETE CONDITION\nAre you sure you want to delete the "%s" condition?', name) end
+L["Copy"] = true
+L["Copy the selected condition."] = true
 
 -- Conditions > General tab
 L["Enable Condition"] = true

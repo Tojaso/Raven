@@ -864,6 +864,7 @@ local function SetSelectedCondition(value) SetNameSelection("Conditions", MOD.db
 local function DeleteCondition() DeleteNameEntry("Conditions", MOD.db.profile.Conditions[MOD.myClass]) end
 local function NoCondition() return conditions.enter or (GetSelectedCondition() == nil) end
 
+-- Create a new empty condition
 local function CreateCondition(name)
 	local n = { enabled = true, name = name, notify = true, tooltip = true, tests = {}, testResult = false, dependencies = {}, result = false }
 	AddNameEntry("Conditions", MOD.db.profile.Conditions[MOD.myClass], n)
@@ -896,6 +897,16 @@ local function PurgeCondition()
 				c.dependencies[oldName] = nil
 			end
 		end
+	end
+end
+
+-- Create a copy of the selected condition
+local function CopyCondition()
+	local con = GetCondition()
+	if con then
+		local n = MOD.CopyTable(con)
+		n.name = con.name .. "*"
+		AddNameEntry("Conditions", MOD.db.profile.Conditions[MOD.myClass], n)
 	end
 end
 
@@ -4981,7 +4992,7 @@ MOD.OptionsTable = {
 					func = function(info) bars.enter, bars.toggle = false, false end,
 				},
 				DeleteBarGroup = {
-					type = "execute", order = 8, name = L["Delete Bar Group"],
+					type = "execute", order = 8, name = L["Delete"], width = "half",
 					desc = L["Delete the selected bar group."],
 					disabled = function(info) return NoBarGroup() or InMode("Bar") end,
 					hidden = function(info) return bars.enter end,
@@ -9800,11 +9811,17 @@ MOD.OptionsTable = {
 					func = function(info) conditions.enter, conditions.toggle = false, false end,
 				},
 				DeleteCondition = {
-					type = "execute", order = 8, name = L["Delete Condition"],
+					type = "execute", order = 8, name = L["Delete"], width = "half",
 					desc = L["Delete the selected condition."],
 					hidden = function(info) return conditions.enter end,
 					func = function(info) PurgeCondition(); DeleteCondition() end,
 					confirm = function(info) return L["Delete condition string"](GetConditionField("name")) end,
+				},
+				CopyCondition = {
+					type = "execute", order = 9, name = L["Copy"], width = "half",
+					desc = L["Copy the selected condition."],
+					hidden = function(info) return conditions.enter end,
+					func = function(info) CopyCondition() end,
 				},
 				GeneralTab = {
 					type = "group", order = 20, name = L["General"],
