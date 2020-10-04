@@ -700,7 +700,7 @@ function MOD.Nest_CreateBarGroup(name)
 		bg.frame:SetMovable(true); bg.frame:SetClampedToScreen(true)
 		PCSetPoint(bg.frame, "CENTER", UIParent, "CENTER")
 		bg.backdrop = CreateFrame("Frame", "RavenBarGroupBackdrop" .. xname, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
-		bg.backdropTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
+		bg.backdropTable = { tile = false, insets = { left = 0, right = 0, top = 0, bottom = 0 }}
 		bg.borderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
 		bg.anchor = CreateFrame("Button", nil, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 
@@ -845,7 +845,8 @@ end
 function MOD.Nest_SetBarGroupBackdrop(bg, panel, texture, width, inset, padding, color, fill, offsetX, offsetY, padW, padH)
 	if not color then color = { r = 1, g = 1, b = 1, a = 1 } end
 	if not fill then fill = { r = 1, g = 1, b = 1, a = 1 } end
-	bg.backdropPanel = panel; bg.backdropTexture = texture; bg.backdropWidth = PS(width); bg.backdropInset = PS(inset or 0)
+	bg.backdropPanel = panel; bg.backdropTexture = texture; bg.backdropWidth = PS(width or 0); bg.backdropInset = PS(inset or 0)
+	if bg.backdropWidth == 0 then bg.backdropWidth = PS(1) end -- don't let this be zero width
 	bg.backdropPadding = PS(padding or 0); bg.backdropColor = color; bg.backdropFill = fill
 	bg.backdropOffsetX = PS(offsetX or 0); bg.backdropOffsetY = PS(offsetY or 0); bg.backdropPadW = PS(padW or 0); bg.backdropPadH = PS(padH or 0)
 	bg.update = true
@@ -1316,7 +1317,7 @@ local function BarGroup_UpdateAnchor(bg, config)
 
 	bg.anchor:SetText(bg.name)
 	local lw, lh = bg.width, bg.height
-	if config.iconOnly then lw = rectIcons and bg.barWidth or bg.iconSize end -- anchors have same w and h as bars/icons
+	if config.iconOnly then lw = rectIcons and bg.barWidth or bg.iconSize end -- anchors have same w and h as bars/icons, ignoring icon offsetX
 	if config.bars == "timeline" then -- except for timeline bar groups that use fixed size independent of icons being displayed
 		lh = bg.tlHeight
 		lw = bg.anchor:GetFontString():GetStringWidth() + 10 -- minimum width so anchor not too skinny for the caption
@@ -2433,9 +2434,8 @@ local function BarGroup_SortBars(bg, config)
 		local offset = 4
 		if (bg.backdropTexture or bg.backdropPanel) then
 			offset = bg.backdropPadding
-			local edgeSize = bg.backdropWidth / pixelScale; if (edgeSize < 0.1) then edgeSize = 0.1 end
-			local x, d = bg.backdropInset / pixelScale, bg.backdropTable.insets; d.left = x; d.right = x; d.top = x; d.bottom = x
-			bg.backdropTable.bgFile = bg.backdropPanel; bg.backdropTable.edgeFile = bg.backdropTexture; bg.backdropTable.edgeSize = PS(edgeSize)
+			local x, d = bg.backdropInset, bg.backdropTable.insets; d.left = x; d.right = x; d.top = x; d.bottom = x
+			bg.backdropTable.bgFile = bg.backdropPanel; bg.backdropTable.edgeFile = bg.backdropTexture; bg.backdropTable.edgeSize = bg.backdropWidth
 			bg.backdrop:SetBackdrop(bg.backdropTable)
 			local t = bg.backdropColor; bg.backdrop:SetBackdropBorderColor(t.r, t.g, t.b, t.a)
 			t = bg.backdropFill; bg.backdrop:SetBackdropColor(t.r, t.g, t.b, t.a)
