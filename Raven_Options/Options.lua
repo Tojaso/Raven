@@ -8132,6 +8132,41 @@ MOD.OptionsTable = {
 											set = function(info, value) SetBarGroupField("timelineHide", value) end,
 										},
 										Space1 = { type = "description", name = "", order = 30 },
+										BorderTexture = {
+											type = "select", order = 31, name = L["Timeline Border"],
+											desc = L["Select border for the timeline (select None to disable border)."],
+											dialogControl = 'LSM30_Border',
+											values = AceGUIWidgetLSMlists.border,
+											get = function(info) return GetBarGroupField("timelineBorderTexture") end,
+											set = function(info, value) SetBarGroupField("timelineBorderTexture", value) end,
+										},
+										BorderWidth = {
+											type = "range", order = 32, name = L["Edge Size"], min = 0, max = 32, step = 0.01,
+											desc = L["Adjust size of the border's edge."],
+											get = function(info) return GetBarGroupField("timelineBorderWidth") end,
+											set = function(info, value) SetBarGroupField("timelineBorderWidth", value) end,
+										},
+										BorderOffset = {
+											type = "range", order = 33, name = L["Offset"], min = -16, max = 16, step = 0.01,
+											desc = L["Adjust offset to the border from the bar."],
+											get = function(info) return GetBarGroupField("timelineBorderOffset") end,
+											set = function(info, value) SetBarGroupField("timelineBorderOffset", value) end,
+										},
+										BorderColor = {
+											type = "color", order = 34, name = L["Border Color"], hasAlpha = true,
+											desc = L["Set color for the border."],
+											get = function(info)
+												local t = GetBarGroupField("timelineBorderColor")
+												if t then return t.r, t.g, t.b, t.a else return 0, 0, 0, 1 end
+											end,
+											set = function(info, r, g, b, a)
+												local t = GetBarGroupField("timelineBorderColor")
+												if t then t.r = r; t.g = g; t.b = b; t.a = a else
+													t = { r = r, g = g, b = b, a = a }; SetBarGroupField("timelineBorderColor", t) end
+												MOD:UpdateAllBarGroups()
+											end,
+										},
+										Space2 = { type = "description", name = "", order = 40 },
 										SplashEffect = {
 											type = "toggle", order = 45, name = L["Splash Effect"],
 											desc = L["If checked, show a splash effect when icons expire."],
@@ -8150,7 +8185,7 @@ MOD.OptionsTable = {
 											get = function(info) return GetBarGroupField("timelineSplashY") end,
 											set = function(info, value) SetBarGroupField("timelineSplashY", value) end,
 										},
-										Space2 = { type = "description", name = "", order = 50 },
+										Space3 = { type = "description", name = "", order = 50 },
 										IconOffset = {
 											type = "range", order = 55, name = L["Icon Offset"], min = -100, max = 100, step = 1,
 											desc = L["Set vertical offset from center of timeline for icons."],
@@ -8169,7 +8204,7 @@ MOD.OptionsTable = {
 											get = function(info) return GetBarGroupField("timelineDelta") end,
 											set = function(info, value) SetBarGroupField("timelineDelta", value) end,
 										},
-										Space3 = { type = "description", name = "", order = 65 },
+										Space4 = { type = "description", name = "", order = 65 },
 										Switcher = {
 											type = "toggle", order = 70, name = L["Overlap Switch"],
 											desc = L["If checked, when icons overlap, switch which is shown on top (otherwise always show icon with shortest time remaining on top)."],
@@ -8183,7 +8218,7 @@ MOD.OptionsTable = {
 											get = function(info) return GetBarGroupField("timelineSwitch") or 2 end,
 											set = function(info, value) SetBarGroupField("timelineSwitch", value or 2) end,
 										},
-										Space4 = { type = "description", name = "", order = 85 },
+										Space5 = { type = "description", name = "", order = 85 },
 										LabelList = {
 											type = "input", order = 100, name = L["Label List"], width = "double",
 											desc = L['Enter comma-separated list of times to show as labels on the timeline (times are in seconds unless you include "m", which is included in the label, or "M", which is hidden, for minutes).'],

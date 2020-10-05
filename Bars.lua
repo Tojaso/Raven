@@ -69,6 +69,7 @@ MOD.BarGroupTemplate = { -- default bar group settings
 	spellExpireTimes = false, spellExpireColors = false, desaturate = false, desaturateFriend = false, disableAlpha = false,
 	timelineWidth = 225, timelineHeight = 25, timelineDuration = 300, timelineExp = 3, timelineHide = false, timelineAlternate = true,
 	timelineSwitch = 2, timelineTexture = "Blizzard", timelineAlpha = 1, timelineColor = false, timelineLabels = false,
+	timelineBorderTexture = "None", timelineBorderWidth = 4, timelineBorderOffset = 1, timelineBorderColor = false,
 	timelineSplash = true, timelineSplashX = 0, timelineSplashY = 0, timelinePercent = 50, timelineOffset = 0, timelineDelta = 0,
 	stripeFullWidth = false, stripeWidth = 500, stripeHeight = 30, stripeInset = 0, stripeOffset = 0, stripeTexture = "Blizzard",
 	stripeBarInset = 4, stripeBarOffset = 0, stripeColor = false, stripeAltColor = false, stripeCheckCondition = false, stripeCondition = false,
@@ -121,6 +122,7 @@ MOD.BarGroupLayoutTemplate = { -- all the bar group settings involved in layout 
 	hideIcon = 0, hideClock = 0, hideBar = 0, hideSpark = 0, hideValue = 0, hideLabel = 0, hideCount = 0, showTooltips = 0,
 	timelineWidth = 0, timelineHeight = 0, timelineDuration = 0, timelineExp = 0, timelineHide = 0, timelineAlternate = 0,
 	timelineSwitch = 0, timelineTexture = 0, timelineAlpha = 0, timelineColor = 0, timelineLabels = 0,
+	timelineBorderTexture = 0, timelineBorderWidth = 0, timelineBorderOffset = 0, timelineBorderColor = 0,
 	timelineSplash = 0, timelineSplashX = 0, timelineSplashY = 0, timelinePercent = 0, timelineOffset = 0, timelineDelta = 0,
 	stripeFullWidth = 0, stripeWidth = 0, stripeHeight = 0, stripeInset = 0, stripeOffset = 0, stripeTexture = 0,
 	stripeBarInset = 0, stripeBarOffset = 0, stripeColor = 0, stripeAltColor = 0, stripeCheckCondition = 0, stripeCondition = 0,
@@ -617,9 +619,11 @@ function MOD:UpdateBarGroup(bp)
 			bp.fgSaturation, bp.fgBrightness, bp.bgSaturation, bp.bgBrightness)
 		MOD.Nest_SetBarGroupVisibles(bg, not bp.hideIcon, not bp.hideClock, not bp.hideBar, not bp.hideSpark, not bp.hideLabel, not bp.hideValue)
 		if bp.timelineTexture then bgtexture = media:Fetch("statusbar", bp.timelineTexture) else bgtexture = nil end
+		if bp.timelineBorderTexture then fgtexture = (bp.timelineBorderTexture ~= "None") and media:Fetch("border", bp.timelineBorderTexture) or nil end
 		MOD.Nest_SetBarGroupTimeline(bg, bp.timelineWidth, bp.timelineHeight, bp.timelineDuration, bp.timelineExp, bp.timelineHide, bp.timelineAlternate,
 			bp.timelineSwitch, bp.timelinePercent, bp.timelineSplash, bp.timelineSplashX, bp.timelineSplashY, bp.timelineOffset, bp.timelineDelta,
-			bgtexture, bp.timelineAlpha, bp.timelineColor or gc, bp.timelineLabels or defaultLabels)
+			bgtexture, bp.timelineAlpha, bp.timelineColor or gc, bp.timelineLabels or defaultLabels,
+			fgtexture, bp.timelineBorderWidth, bp.timelineBorderOffset, bp.timelineBorderColor or gc)
 		MOD.Nest_SetBarGroupAttribute(bg, "targetFirst", bp.targetFirst) -- for multi-target tracking, sort target first
 		MOD.Nest_SetBarGroupAttribute(bg, "noMouse", bp.noMouse) -- disable interactivity
 		MOD.Nest_SetBarGroupAttribute(bg, "iconMouse", bp.iconMouse) -- mouse-only interactivity
@@ -1825,8 +1829,8 @@ local function CheckShow(bp)
 		(not MOD.db.profile.hideBlizz and not bp.showBlizz) or (MOD.db.profile.hideBlizz and not bp.showNotBlizz) or
 		(stat.isResting and not bp.showResting) or (stat.isStealthed and not bp.showStealth) or
 		(stat.isMounted and not bp.showMounted) or (stat.inVehicle and not bp.showVehicle) or
-		(stat.targetEnemy and not bp.showEnemy) or (stat.targetFriend and not bp.showFriend) or
-		(stat.inInstance and not bp.showInstance) or (not stat.inInstance and not bp.showNotInstance) or (stat.targetNeutral and not bp.showNeutral) or
+		(stat.targetEnemy and not bp.showEnemy) or (stat.targetFriend and not bp.showFriend) or (stat.targetNeutral and not bp.showNeutral) or
+		(stat.inInstance and not bp.showInstance) or (not stat.inInstance and not bp.showNotInstance) or
 		(stat.inArena and not bp.showArena) or (stat.inBattleground and not bp.showBattleground) or
 		(UnitIsUnit("focus", "target") and not bp.showFocusTarget) or
 		(bp.showClasses and bp.showClasses[MOD.myClass]) or

@@ -701,7 +701,7 @@ function MOD.Nest_CreateBarGroup(name)
 		PCSetPoint(bg.frame, "CENTER", UIParent, "CENTER")
 		bg.backdrop = CreateFrame("Frame", "RavenBarGroupBackdrop" .. xname, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 		bg.backdropTable = { tile = false, insets = { left = 0, right = 0, top = 0, bottom = 0 }}
-		bg.borderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
+		bg.borderTable = { tile = false, insets = { left = 0, right = 0, top = 0, bottom = 0 }}
 		bg.anchor = CreateFrame("Button", nil, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 
 		bg.anchor:SetBackdrop(anchorDefaults)
@@ -837,7 +837,8 @@ end
 -- Set bar border options for a bar group
 function MOD.Nest_SetBarGroupBorder(bg, texture, width, offset, color)
 	if not color then color = defaultBackdropColor end
-	bg.borderTexture = texture; bg.borderWidth = PS(width); bg.borderOffset = PS(offset); bg.borderColor = color
+	bg.borderTexture = texture; bg.borderWidth = PS(width or 0); bg.borderOffset = PS(offset or 0); bg.borderColor = color
+	if bg.borderWidth == 0 then bg.borderWidth = PS(1) end -- don't let this be zero width
 	bg.update = true
 end
 
@@ -867,10 +868,12 @@ function MOD.Nest_SetBarGroupVisibles(bg, icon, cooldown, bar, spark, labelText,
 end
 
 -- Set parameters related to timeline configurations
-function MOD.Nest_SetBarGroupTimeline(bg, w, h, duration, scale, hide, alternate, switch, percent, splash, x, y, offset, delta, texture, alpha, color, labels)
-	bg.tlWidth = PS(w); bg.tlHeight = PS(h); bg.tlDuration = duration; bg.tlScale = scale; bg.tlHide = hide; bg.tlAlternate = alternate
+function MOD.Nest_SetBarGroupTimeline(bg, w, h, duration, scale, hide, alt, switch, percent, splash, x, y, offset, delta, tex, alpha, color, labels, btex, bw, bo, bc)
+	bg.tlWidth = PS(w); bg.tlHeight = PS(h); bg.tlDuration = duration; bg.tlScale = scale; bg.tlHide = hide; bg.tlAlternate = alt
 	bg.tlSwitch = switch; bg.tlPercent = percent; bg.tlSplash = splash; bg.tlSplashX = x; bg.tlSplashY = y; bg.tlOffset = offset; bg.tlDelta = delta
-	bg.tlTexture = texture; bg.tlAlpha = alpha; bg.tlColor = color; bg.tlLabels = labels
+	bg.tlTexture = tex; bg.tlAlpha = alpha; bg.tlColor = color; bg.tlLabels = labels
+	bg.tlBorderTexture = btex; bg.tlBorderWidth = PS(bw or 0); bg.tlBorderOffset = PS(bo or 0); bg.tlBorderColor = bc
+	if bg.tlBorderWidth == 0 then bg.tlBorderWidth = PS(1) end -- don't let this be zero width
 	bg.update = true
 end
 
@@ -878,7 +881,8 @@ end
 function MOD.Nest_SetBarGroupStripe(bg, fullWidth, w, h, inset, offset, barInset, barOffset, texture, color, btex, bw, bo, bc)
 	if fullWidth then bg.stWidth = GetScreenWidth() else bg.stWidth = PS(w) end
 	bg.stHeight = PS(h); bg.stInset = inset; bg.stOffset = offset; bg.stBarInset = barInset; bg.stBarOffset = barOffset; bg.stTexture = texture; bg.stColor = color
-	bg.stBorderTexture = btex; bg.stBorderWidth = bw; bg.stBorderOffset = bo; bg.stBorderColor = bc; bg.stFullWidth = fullWidth
+	bg.stBorderTexture = btex; bg.stBorderWidth = PS(bw or 0); bg.stBorderOffset = PS(bo or 0); bg.stBorderColor = bc; bg.stFullWidth = fullWidth
+	if bg.stBorderWidth == 0 then bg.stBorderWidth = PS(1) end -- don't let this be zero width
 	bg.update = true
 end
 
@@ -1318,8 +1322,9 @@ local function BarGroup_UpdateAnchor(bg, config)
 	bg.anchor:SetText(bg.name)
 	local lw, lh = bg.width, bg.height
 	if config.iconOnly then lw = rectIcons and bg.barWidth or bg.iconSize end -- anchors have same w and h as bars/icons, ignoring icon offsetX
-	if config.bars == "timeline" then -- except for timeline bar groups that use fixed size independent of icons being displayed
-		lh = bg.tlHeight
+	local cfg = config.bars
+	if (cfg == "timeline") or (cfg == "stripe") then -- except timelines and stripes which use fixed size independent of icons being displayed
+		if cfg == "timeline" then lh = bg.tlHeight else lh = bg.stHeight end
 		lw = bg.anchor:GetFontString():GetStringWidth() + 10 -- minimum width so anchor not too skinny for the caption
 	end
 	PSetSize(bg.anchor, lw, lh)
@@ -1347,7 +1352,7 @@ local function BarGroup_UpdateBackground(bg, config)
 			back:SetFrameLevel(bg.frame:GetFrameLevel() + 2) -- higher than bar group's backdrop
 			back.bar = back:CreateTexture(nil, "BACKGROUND")
 			back.backdrop = CreateFrame("Frame", nil, back, BackdropTemplateMixin and "BackdropTemplate")
-			bg.stBorderTable = { tile = false, insets = { left = 2, right = 2, top = 2, bottom = 2 }}
+			bg.stBorderTable = { tile = false, insets = { left = 0, right = 0, top = 0, bottom = 0 }}
 			bg.background = back
 		end
 		local w, h = bg.stWidth, bg.stHeight
@@ -1357,11 +1362,12 @@ local function BarGroup_UpdateBackground(bg, config)
 		if bg.stTexture then back.bar:SetTexture(bg.stTexture) end
 		local t = bg.stColor; if t then back.bar:SetVertexColor(t.r, t.g, t.b, t.a) end
 		if bg.stBorderTexture then
-			local offset, edgeSize = bg.stBorderOffset, bg.stBorderWidth; if (edgeSize < 0.1) then edgeSize = 0.1 end
-			bg.stBorderTable.edgeFile = bg.stBorderTexture; bg.stBorderTable.edgeSize = edgeSize
+			local offset = bg.stBorderOffset
+			local d = bg.stBorderTable.insets; d.left = offset; d.right = offset; d.top = offset; d.bottom = offset
+			bg.stBorderTable.edgeFile = bg.stBorderTexture; bg.stBorderTable.edgeSize = bg.stBorderWidth
 			back.backdrop:SetBackdrop(bg.stBorderTable)
 			local t = bg.stBorderColor; back.backdrop:SetBackdropBorderColor(t.r, t.g, t.b, t.a)
-			PSetSize(back.backdrop, w + offset, h + offset)
+			PSetSize(back.backdrop, w + (2 * offset), h + (2 * offset))
 			PCSetPoint(back.backdrop, "CENTER", back, "CENTER", 0, 0)
 			back.backdrop:Show()
 		else
@@ -1390,11 +1396,12 @@ local function BarGroup_UpdateBackground(bg, config)
 		end
 		PSetSize(back, w, h); back:SetAlpha(bg.tlAlpha); PSetSize(back.bar, w, h);
 		if bg.borderTexture then
-			local offset, edgeSize = bg.borderOffset, bg.borderWidth; if (edgeSize < 0.1) then edgeSize = 0.1 end
-			bg.borderTable.edgeFile = bg.borderTexture; bg.borderTable.edgeSize = edgeSize
+			local offset = bg.tlBorderOffset
+			local d = bg.borderTable.insets; d.left = offset; d.right = offset; d.top = offset; d.bottom = offset
+			bg.borderTable.edgeFile = bg.tlBorderTexture; bg.borderTable.edgeSize = bg.tlBorderWidth
 			back.backdrop:SetBackdrop(bg.borderTable)
-			local t = bg.borderColor; back.backdrop:SetBackdropBorderColor(t.r, t.g, t.b, t.a)
-			PSetSize(back.backdrop, w + offset, h + offset)
+			local t = bg.tlBorderColor; back.backdrop:SetBackdropBorderColor(t.r, t.g, t.b, t.a)
+			PSetSize(back.backdrop, w + (2 * offset), h + (2 * offset))
 		end
 		if type(bg.tlLabels) == "table" then -- table of time values for labels
 			local i = 1
@@ -1508,8 +1515,8 @@ local function Bar_UpdateLayout(bg, bar, config)
 		bl:SetJustifyV(bg.labelAlign)
 	else -- bar layouts
 		local ti, offsetLeft, offsetRight, fudgeTime, fudgeLabel = bg.timeIcon and bg.showIcon, 0, 0, 0, 0
-		if bta == "normal" then fudgeTime = 4 end
-		if not bg.labelCenter then fudgeLabel = 4 end
+		if bta == "normal" then fudgeTime = PS(4) end
+		if not bg.labelCenter then fudgeLabel = PS(4) end
 
 		if bg.showIcon then
 			if config.icon == "left" then
@@ -1532,8 +1539,8 @@ local function Bar_UpdateLayout(bg, bar, config)
 		end
 
 		if ti then
-			PSetPoint(bt, "TOPLEFT", bar.icon, "TOPLEFT", bg.timeInset - 10, bg.timeOffset)
-			PSetPoint(bt, "BOTTOMRIGHT", bar.icon, "BOTTOMRIGHT", bg.timeInset + 12, bg.timeOffset) -- pad right to center time text better
+			PSetPoint(bt, "TOPLEFT", bar.icon, "TOPLEFT", bg.timeInset - PS(10), bg.timeOffset)
+			PSetPoint(bt, "BOTTOMRIGHT", bar.icon, "BOTTOMRIGHT", bg.timeInset + PS(12), bg.timeOffset) -- pad right to center time text better
 		end
 
 		if config.label == "right" then
@@ -1668,7 +1675,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 		PSetPoint(bar.spark, "BOTTOM", bf, "BOTTOMLEFT", 0, -4)
 	end
 
-	bar.tick:SetSize(pixelScale, bf:GetHeight() - (4 * pixelScale))
+	PSetSize(bar.tick, 1, bg.barHeight - PS(4))
 	bar.tooltipAnchor = bag.anchorTips
 
 	if bg.labelSpecial then
@@ -1698,8 +1705,8 @@ local function Bar_UpdateLayout(bg, bar, config)
 
 	if config.bars ~= "timeline" then SetBarFrameLevel(bar, bg.frame:GetFrameLevel() + 5, config.iconOnly) end
 	if bg.showIcon then
-		PSetPoint(bi, "LEFT", bar.icon, "LEFT", bg.iconInset - 10, bg.iconOffset)
-		PSetPoint(bi, "RIGHT", bar.icon, "RIGHT", bg.iconInset + 12, bg.iconOffset) -- pad right to center time text better
+		PSetPoint(bi, "LEFT", bar.icon, "LEFT", bg.iconInset - PS(10), bg.iconOffset)
+		PSetPoint(bi, "RIGHT", bar.icon, "RIGHT", bg.iconInset + PS(12), bg.iconOffset) -- pad right to center time text better
 		bi:SetJustifyH(bg.iconAlign); bi:SetJustifyV("MIDDLE")
 		if MSQ and bg.MSQ_Group and Raven.db.global.ButtonFacadeIcons then -- if using Masque, set custom fields in button data table and add to skinnning group
 			PSetSize(bar.cooldown, iconWidth, bg.iconSize)
@@ -1745,8 +1752,9 @@ local function Bar_UpdateLayout(bg, bar, config)
 	PSetSize(bar.frame, w, h); PSetSize(bar.container, w, h); bar.container:SetAllPoints()
 
 	if bg.showBar and bg.borderTexture and not bat.header and bar.includeBar then
-		local offset, edgeSize = bg.borderOffset / pixelScale, bg.borderWidth / pixelScale; if (edgeSize < 0.1) then edgeSize = 0.1 end
-		bg.borderTable.edgeFile = bg.borderTexture; bg.borderTable.edgeSize = PS(edgeSize)
+		local offset = bg.borderOffset
+		local d = bg.borderTable.insets; d.left = offset; d.right = offset; d.top = offset; d.bottom = offset
+		bg.borderTable.edgeFile = bg.borderTexture; bg.borderTable.edgeSize = bg.borderWidth
 		PSetSize(bar.backdrop, bg.barWidth + offset, bg.barHeight + offset)
 		PSetPoint(bar.backdrop, "CENTER", bb, "CENTER")
 		bar.backdrop:SetBackdrop(bg.borderTable)
