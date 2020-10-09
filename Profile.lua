@@ -960,7 +960,7 @@ function MOD:InitializeMedia(media)
 	media:Register(mt, "Raven DoubleWhite", [[Interface\Addons\Raven\Borders\DoubleWhite.tga]])
 	media:Register(mt, "Raven DoubleGray", [[Interface\Addons\Raven\Borders\DoubleGray.tga]])
 	media:Register(mt, "Raven Rounded", [[Interface\Addons\Raven\Borders\Rounded.tga]])
-	media:Register(mt, "Raven Blank", [[Interface\BUTTONS\WHITE8X8.blp]])
+	media:Register(mt, "Raven White8x8", [[Interface\BUTTONS\WHITE8X8.blp]])
 end
 
 -- Default profile description used to initialize the SavedVariables persistent database

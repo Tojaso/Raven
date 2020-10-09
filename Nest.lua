@@ -162,16 +162,54 @@ local function ValidFont(name)
 	return result
 end
 
+-- Check if using masque with a circular shape so splash and pulse animations look correct
+local function SetIconTextureShape(icon, b, tex, w, h)
+	if MSQ and (icon.__MSQ_Shape == "Circle") then
+		if not icon.circleMaskTexture then
+			icon.circleMaskTexture = b.frame:CreateMaskTexture()
+			icon.circleMaskTexture:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
+			icon.circleMaskTexture:SetAllPoints(b.frame)
+			-- icon.circleMaskTexture:SetTexture([[Interface\Addons\Raven\Icons\CircleMask.tga]])
+		end
+		b.texture:SetTexture(tex)
+		-- b.texture:SetMask([[Interface\Addons\Raven\Icons\CircleMask.tga]])
+		-- b.texture:SetMask("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask")
+		-- PSetSize(b.texture, w, h)
+		-- PSetPoint(b.texture, "CENTER", icon, "CENTER") -- texture is always positioned in center of icon's frame
+		IconTextureTrim(b.texture, icon, true, w, h)
+		if icon.circleMaskTexture and not icon.circleMask then
+			b.texture:AddMaskTexture(icon.circleMaskTexture)
+			PSetSize(icon.circleMaskTexture, w, h)
+			-- PSetPoint(icon.circleMaskTexture, "CENTER", icon, "CENTER")
+			icon.circleMask = true
+			MOD.Debug("added circle mask")
+		end
+	else
+		if icon.circleMask and icon.circleMaskTexture then
+			b.texture:RemoveMaskTexture(icon.circleMaskTexture)
+			icon.circleMask = false
+			MOD.Debug("removed circle mask")
+		end
+		b.texture:SetTexture(tex)
+		IconTextureTrim(b.texture, icon, true, w - 2, h - 2)
+	end
+end
+
 -- Initialize and return a bar splash-style animation based on the icon texture
 -- If anchor info is not passed in then splash will be centered over the bar's icon
 local function SplashEffect(bar, anchor1, frame, anchor2, xoffset, yoffset)
 	local tex = bar.iconTexture:GetTexture(); if not tex then return end
+	local w, h = bar.icon:GetSize()
 	local b = next(splashAnimationPool)
 	if b then splashAnimationPool[b] = nil else
 		b = {} -- initialize a new animation
 		b.frame = CreateFrame("Frame", nil, UIParent)
 		b.frame:SetFrameLevel(bar.frame:GetFrameLevel() + 10)
 		b.texture = b.frame:CreateTexture(nil, "ARTWORK") -- texture for the texture to be animated
+		b.maskTexture = b.frame:CreateMaskTexture()
+		b.maskTexture:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
+		b.maskTexture:SetAllPoints(b.frame)
+		b.masked = false
 		b.anim = b.frame:CreateAnimationGroup()
 		b.anim:SetLooping("NONE")
 		local scale = b.anim:CreateAnimation("Scale")
@@ -190,6 +228,18 @@ local function SplashEffect(bar, anchor1, frame, anchor2, xoffset, yoffset)
 	b.frame:Show()
 	b.texture:SetTexture(tex)
 	IconTextureTrim(b.texture, bar.icon, true, w - 2, h - 2)
+	if MSQ and (bar.icon.__MSQ_Shape == "Circle") then
+		if not b.masked then -- check if need a mask texture and not already masked
+			b.texture:AddMaskTexture(b.maskTexture)
+			PSetSize(b.maskTexture, w, h)
+			b.masked = true
+		end
+	else
+		if b.masked then -- check if need to remove a previously added mask texture
+			b.texture:RemoveMaskTexture(b.maskTexture)
+			b.masked = false
+		end
+	end
 	b.texture:ClearAllPoints(); b.texture:SetAllPoints(b.frame); b.texture:Show()
 	b.anim:Stop(); b.anim:Play()
 	b.endTime = GetTime() + 1 -- stop after one second
@@ -214,14 +264,19 @@ end
 
 -- Pulse animation on the bar icon
 local function PulseEffect(bar)
+	local tex = bar.iconTexture:GetTexture(); if not tex then return end
+	local w, h = bar.icon:GetSize()
 	local a = bar.pulseEffect -- get an animation if one has already been allocated for this bar
 	if not a then -- allocate an animation if necessary
 		a = next(pulseEffectPool) -- get one from the recycling pool if available
 		if a then pulseEffectPool[a] = nil else
 			a = {} -- initialize a new animation for this pulse effect
 			a.frame = CreateFrame("Frame", nil, UIParent)
-			a.frame:SetFrameStrata("HIGH")
 			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated
+			a.maskTexture = a.frame:CreateMaskTexture()
+			a.maskTexture:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
+			a.maskTexture:SetAllPoints(a.frame)
+			a.masked = false
 			a.anim = a.frame:CreateAnimationGroup()
 			a.anim:SetLooping("NONE")
 			local alpha1 = a.anim:CreateAnimation("Alpha")
@@ -234,6 +289,7 @@ local function PulseEffect(bar)
 			alpha2:SetFromAlpha(1); alpha2:SetToAlpha(0); alpha2:SetDuration(0.05); alpha2:SetOrder(3)
 		end
 		a.frame:ClearAllPoints()
+		a.frame:SetFrameStrata(bar.frame:GetFrameStrata())
 		a.frame:SetFrameLevel(bar.frame:GetFrameLevel() + 10)
 		local w, h = bar.icon:GetSize()
 		PSetSize(a.frame, w, h)
@@ -244,8 +300,20 @@ local function PulseEffect(bar)
 		bar.pulseEffect = a
 	end
 	if not a.anim:IsPlaying() then
-		a.texture:SetTexture(bar.iconTexture:GetTexture())
-		IconTextureTrim(a.texture, bar.icon, true, bar.icon:GetWidth() - 2, bar.icon:GetHeight() - 2)
+		a.texture:SetTexture(tex)
+		IconTextureTrim(a.texture, bar.icon, true, w - 2, h - 2)
+		if MSQ and (bar.icon.__MSQ_Shape == "Circle") then
+			if not a.masked then -- check if need a mask texture and not already masked
+				a.texture:AddMaskTexture(a.maskTexture)
+				PSetSize(a.maskTexture, w, h)
+				a.masked = true
+			end
+		else
+			if a.masked then -- check if need to remove a previously added mask texture
+				a.texture:RemoveMaskTexture(a.maskTexture)
+				a.masked = false
+			end
+		end
 		a.anim:Stop(); a.anim:Play()
 	end
 end
@@ -331,7 +399,6 @@ local function ShineEffect(bar, color)
 		if a then shineEffectPool[a] = nil else
 			a = {} -- initialize a new animation for this shine effect
 			a.frame = CreateFrame("Frame", nil, UIParent)
-			a.frame:SetFrameStrata("HIGH")
 			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated
 			a.texture:SetTexture("Interface\\Cooldown\\star4")
 			a.texture:SetBlendMode("ADD")
@@ -349,6 +416,7 @@ local function ShineEffect(bar, color)
 			alpha2:SetFromAlpha(1); alpha2:SetToAlpha(0); alpha2:SetDuration(0.05); alpha2:SetOrder(3)
 		end
 		a.frame:ClearAllPoints()
+		a.frame:SetFrameStrata(bar.frame:GetFrameStrata())
 		a.frame:SetFrameLevel(bar.frame:GetFrameLevel() + 10)
 		local w, h = bar.icon:GetSize()
 		PSetSize(a.frame, w, h)
@@ -399,7 +467,6 @@ local function SparkleEffect(bar, color)
 			sparkleCount = sparkleCount + 1
 			a = {} -- initialize a new animation for this sparkle effect
 			a.frame = CreateFrame("Frame", nil, UIParent)
-			a.frame:SetFrameStrata("HIGH")
 			a.texture = a.frame:CreateTexture(nil, "ARTWORK") -- texture to be animated
 			a.texture:SetTexture("Interface\\Cooldown\\starburst")
 			a.texture:SetBlendMode("ADD")
@@ -448,6 +515,7 @@ local function SparkleEffect(bar, color)
 			end
 		end
 		a.frame:ClearAllPoints()
+		a.frame:SetFrameStrata(bar.frame:GetFrameStrata())
 		a.frame:SetFrameLevel(bar.frame:GetFrameLevel() + 10)
 		local w, h = bar.icon:GetSize()
 		PSetSize(a.frame, w, h)
@@ -704,6 +772,8 @@ function MOD.Nest_CreateBarGroup(name)
 		bg.borderTable = { tile = false, insets = { left = 0, right = 0, top = 0, bottom = 0 }}
 		bg.anchor = CreateFrame("Button", nil, bg.frame, BackdropTemplateMixin and "BackdropTemplate")
 
+		anchorDefaults.tileSize = PS(ANCHOR_TILESIZE)
+		anchorDefaults.edgeSize = PS(ANCHOR_EDGESIZE)
 		bg.anchor:SetBackdrop(anchorDefaults)
 		bg.anchor:SetBackdropColor(0.3, 0.3, 0.3, 0.9)
 		bg.anchor:SetBackdropBorderColor(0, 0, 0, 0.9)
@@ -1619,6 +1689,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 					else
 						f.segmentWidth = sw
 						PSetSize(f, sw, bh); PSetSize(sf, sw, bh); PSetSize(sb, sw, bh)
+						iconBackdrop.edgeSize = PS(1) -- used for single pixel backdrops
 						f:SetBackdrop(iconBackdrop) -- add a backdrop for single pixel border around each segment
 						f:SetBackdropColor(1, 1, 1, 0.5) -- backdrop is set to white, color is supplied by textures
 						f:SetBackdropBorderColor(bc.r, bc.g, bc.b, bc.a) -- backdrop border color defaults to black but can be set in options
@@ -1736,6 +1807,7 @@ local function Bar_UpdateLayout(bg, bar, config)
 				PSetSize(bar.cooldown, iconWidth, bg.iconSize)
 				PSetPoint(bar.cooldown, "CENTER", bar.icon, "CENTER")
 				IconTextureTrim(bar.iconTexture, bar.icon, Raven.db.global.TrimIcon, iconWidth - PS(2), bg.iconSize - PS(2))
+				iconBackdrop.edgeSize = PS(1) -- used for single pixel backdrops
 				bar.icon:SetBackdrop(iconBackdrop)
 				local t = MOD.db.global.DefaultIconBackdropColor; bar.icon:SetBackdropColor(t.r, t.g, t.b, t.a)
 				bar.iconBorder:SetColorTexture(0, 0, 0, 0)
@@ -2533,37 +2605,6 @@ end
 -- Force a global update.
 function MOD.Nest_TriggerUpdate() update = true end
 
--- Adapted from wow's source code: helper function to deal with decoding the resolution string
-local function DecodeResolution(valueString)
-	if(valueString) then
-		local xIndex = strfind(valueString, "x")
-		local len = strlen(valueString)
-		if xIndex and (xIndex > 2) and len and (len > (xIndex + 2)) then
-			local width = strsub(valueString, 1, xIndex - 1)
-			local height = strsub(valueString, xIndex + 1, len)
-			local widthIndex = strfind(height, " ")
-			if (widthIndex) then
-				height = strsub(height, 0, widthIndex - 1)
-			end
-			MOD.Debug("DecodeResolution", valueString, width, height)
-			return tonumber(width), tonumber(height)
-		end
-	end
-	MOD.Debug("DecodeResolution unknown", valueString)
-	return 0, 0
-end
-
--- Validate a resolution string with format "w x h" as used by the system menu for selecting display settings
-local function ValidResolution(res)
-	if type(res) == "string" then
-		local w, h = DecodeResolution(res)
-		if w and h and type(w) == "number" and type(h) == "number" then
-			if w > 0 and h > 0 then return true end
-		end
-	end
-	return false
-end
-
 -- Initialize the module
 function MOD.Nest_Initialize()
 	if Raven.MSQ then
@@ -2572,42 +2613,23 @@ function MOD.Nest_Initialize()
 			Disabled = false, Flash = false, Highlight = false, HotKey = false, Icon = false, Name = false, Normal = false, Pushed = false }
 	end
 
-	if GetPhysicalScreenSize then -- first check API that specifically provides the screen dimensions
-		pixelWidth, pixelHeight = GetPhysicalScreenSize()
-		pixelScale = GetScreenHeight() / pixelHeight -- figure out how big virtual pixels are versus screen pixels
-		-- MOD.Debug("Raven screen size", pixelWidth, pixelHeight, "pixel scale", pixelScale)
-	else -- if the preferred API is not available then try other methods
-		local monitorIndex = Display_PrimaryMonitorDropDown:GetValue() -- get current monitor index (should be same as the cvar "gxMonitor")
-		local isWindowed = Display_DisplayModeDropDown:windowedmode() -- test if in windowed mode (used to fallback to cvar value for resolution)
-		local isFullscreen = Display_DisplayModeDropDown:fullscreenmode() -- test if in fullscreen mode (used to fallback to cvar value for resolution)
-		local resolutionIndex = GetCurrentResolution(monitorIndex) -- get index for current resolution in list of screen resolutions
-		if not resolutionIndex then resolutionIndex = 0 end -- make sure valid number for next test...
-		local resolution = resolutionIndex > 0 and select(resolutionIndex, GetScreenResolutions(monitorIndex)) or nil -- best case scenario for accurate resolution
-		-- MOD.Debug("Raven standard resolution", monitorIndex, resolutionIndex, resolution)
-		if not ValidResolution(resolution) then resolution = isFullscreen and GetCVar("gxFullscreenResolution") or GetCVar("gxWindowedResolution") end
-		-- MOD.Debug("Raven checked resolution", resolution, ValidResolution(resolution), GetCVar("gxWindowedResolution"), GetCVar("gxFullscreenResolution"))
-		if ValidResolution(resolution) then -- should have valid resolution at this point, either from screen resolutions or appropriate cvar
-			pixelWidth, pixelHeight = DecodeResolution(resolution) -- use Blizzard's utility function to decode the resolution width and height
-			pixelScale = GetScreenHeight() / pixelHeight -- figure out how big virtual pixels are versus screen pixels
-		else
-			pixelWidth = GetScreenWidth(); pixelHeight = GetScreenHeight() -- ultimate fallback safe values for width and height
-			pixelScale = 1 -- and safe value for pixel perfect calculations
-		end
-	end
+	pixelWidth, pixelHeight = GetPhysicalScreenSize() -- size in pixels of display in full screen, otherwise window size in pixels
+	pixelScale = GetScreenHeight() / pixelHeight -- figure out how big virtual pixels are versus screen pixels
 
-	if Raven.db.global.AdjustUIScale then -- option to adjust UI scale for optimized pixel perfect alignment
+	if Raven.db.global.AdjustUIScale then -- option to adjust "UIscale" for optimized pixel perfect alignment on monitor
 		local oscale = GetCVar("uiScale")
 		local pscale = 768 / pixelHeight
 		local x = MOD.db.global.SetUIScale
 		if MOD.db.global.OverrideUIScale and x and (x >= 0.1) and (x <= 1) then pscale = x end
+		SetCVar("useUiScale", 1)
 		SetCVar("uiScale", pscale)
+		-- UIParent:SetScale(pscale) -- this also works, it is how ElvUI does it
 		if not Raven.db.global.SilentUIScale then
 			print("Raven: detected display resolution " .. tostring(pixelWidth) .. "x" .. tostring(pixelHeight) ..
 				", adjusted UI scale from " .. tostring(oscale) .. " to " .. tostring(pscale))
 		end
 	end
 
-	-- MOD.Debug("Raven result resolution", resolution, pixelScale, pixelWidth, pixelHeight, GetCVar("uiScale"), GetScreenWidth(), GetScreenHeight())
 	pixelPerfect = (not Raven.db.global.TukuiSkin and Raven.db.global.PixelPerfect) or (Raven.db.global.TukuiSkin and Raven.db.global.TukuiScale)
 	rectIcons = (Raven.db.global.RectIcons == true)
 	zoomIcons = rectIcons and (Raven.db.global.ZoomIcons == true)
@@ -2616,14 +2638,6 @@ end
 
 -- Return the pixel perfect scaling factor
 function MOD.Nest_PixelScale() return pixelScale end
-
--- Update the pixel perfect scaling factor is necessary
-local function UpdatePixelScale()
-	pixelScale = GetScreenHeight() / pixelHeight -- quicker to just update these than to track uiScale changes
-	iconBackdrop.edgeSize = PS(1) -- used for single pixel backdrops
-	anchorDefaults.tileSize = PS(ANCHOR_TILESIZE)
-	anchorDefaults.edgeSize = PS(ANCHOR_EDGESIZE)
-end
 
 -- Return the actual screen resolution expressed in pixels
 function MOD.Nest_ScreenResolution() return pixelWidth, pixelHeight end
@@ -2647,7 +2661,8 @@ function MOD.Nest_Update()
 		end
 	end
 
-	UpdatePixelScale()
+	pixelScale = GetScreenHeight() / pixelHeight -- quicker to update this than to track uiScale changes
+	-- if IsAltKeyDown() then MOD.Debug("Raven uiScale", pixelScale, UIParent:GetEffectiveScale(), pixelWidth, pixelHeight, GetCVar("uiScale"), GetScreenWidth(), GetScreenHeight()) end
 
 	for _, bg in pairs(barGroups) do
 		if bg.configuration then -- make sure configuration is valid
