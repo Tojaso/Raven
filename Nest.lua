@@ -162,39 +162,6 @@ local function ValidFont(name)
 	return result
 end
 
--- Check if using masque with a circular shape so splash and pulse animations look correct
-local function SetIconTextureShape(icon, b, tex, w, h)
-	if MSQ and (icon.__MSQ_Shape == "Circle") then
-		if not icon.circleMaskTexture then
-			icon.circleMaskTexture = b.frame:CreateMaskTexture()
-			icon.circleMaskTexture:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
-			icon.circleMaskTexture:SetAllPoints(b.frame)
-			-- icon.circleMaskTexture:SetTexture([[Interface\Addons\Raven\Icons\CircleMask.tga]])
-		end
-		b.texture:SetTexture(tex)
-		-- b.texture:SetMask([[Interface\Addons\Raven\Icons\CircleMask.tga]])
-		-- b.texture:SetMask("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask")
-		-- PSetSize(b.texture, w, h)
-		-- PSetPoint(b.texture, "CENTER", icon, "CENTER") -- texture is always positioned in center of icon's frame
-		IconTextureTrim(b.texture, icon, true, w, h)
-		if icon.circleMaskTexture and not icon.circleMask then
-			b.texture:AddMaskTexture(icon.circleMaskTexture)
-			PSetSize(icon.circleMaskTexture, w, h)
-			-- PSetPoint(icon.circleMaskTexture, "CENTER", icon, "CENTER")
-			icon.circleMask = true
-			MOD.Debug("added circle mask")
-		end
-	else
-		if icon.circleMask and icon.circleMaskTexture then
-			b.texture:RemoveMaskTexture(icon.circleMaskTexture)
-			icon.circleMask = false
-			MOD.Debug("removed circle mask")
-		end
-		b.texture:SetTexture(tex)
-		IconTextureTrim(b.texture, icon, true, w - 2, h - 2)
-	end
-end
-
 -- Initialize and return a bar splash-style animation based on the icon texture
 -- If anchor info is not passed in then splash will be centered over the bar's icon
 local function SplashEffect(bar, anchor1, frame, anchor2, xoffset, yoffset)
