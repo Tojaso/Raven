@@ -533,29 +533,40 @@ local function GlowEffect(bar, color)
 			a.texture:SetTexture("Interface\\SpellActivationOverlay\\IconAlert")
 			a.texture:SetTexCoord(0.00781250, 0.50781250, 0.53515625, 0.78515625)
 			a.texture:SetBlendMode("ADD")
+			a.circle = a.frame:CreateTexture(nil, "BACKGROUND") -- alternative circle texture
+			a.circle:SetTexture("Interface\\Common\\GoldRing")
+			a.circle:SetBlendMode("ADD")
 		end
 		a.frame:ClearAllPoints()
 		a.frame:SetFrameStrata(bar.frame:GetFrameStrata())
 		a.frame:SetFrameLevel(bar.frame:GetFrameLevel())
-		local w, h = bar.icon:GetSize()
-		PSetSize(a.frame, w, h)
-		PCSetPoint(a.frame, "CENTER", bar.icon, "CENTER", 0, 0)
-		PSetSize(a.texture, (w - 2) * 2, (h - 2) * 2)
-		PCSetPoint(a.texture, "CENTER", a.frame, "CENTER", -1, 0)
 		a.frame:SetAlpha(0.5)
-		a.frame:Show(); a.texture:Show()
 		bar.glowEffect = a
 	end
+	local w, h = bar.icon:GetSize()
+	PSetSize(a.frame, w, h)
+	PCSetPoint(a.frame, "CENTER", bar.icon, "CENTER", 0, 0)
+	PSetSize(a.texture, (w - 2) * 2, (h - 2) * 2)
+	PCSetPoint(a.texture, "CENTER", a.frame, "CENTER", -1, 0)
+	PSetSize(a.circle, (w - 2) * 1.5, (h - 2) * 1.5)
+	PCSetPoint(a.circle, "CENTER", a.frame, "CENTER", -1, 0)
 	local r, g, b = 1, 1, 1
 	if color then r = color.r; g = color.g; b = color.b end
-	a.texture:SetVertexColor(r, g, b, 1) -- add color to the texture
+	if MSQ and (bar.icon.__MSQ_Shape == "Circle") then
+		a.circle:SetVertexColor(r, g, b, 1) -- add color to the circle texture
+		a.texture:Hide(); a.circle:Show()
+	else
+		a.texture:SetVertexColor(r, g, b, 1) -- add color to the texture
+		a.texture:Show(); a.circle:Hide()
+	end
+	a.frame:Show()
 end
 
 -- When a bar is deleted then release allocated glow animation, if any
 local function ReleaseGlowEffect(bar)
 	local a = bar.glowEffect -- get the glow animation, if any, that is allocated for this bar
 	if a then
-		a.frame:ClearAllPoints(); a.texture:Hide(); a.frame:Hide()
+		a.texture:Hide(); a.circle:Hide(); a.frame:Hide()
 		glowEffectPool[a] = true
 		bar.glowEffect = nil
 	end
