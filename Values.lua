@@ -275,7 +275,14 @@ local function ValueUnitThreat(unit, fmt)
 	if not unit or not UnitGUID(unit) then return false end
 	local status = UnitThreatSituation(unit) or 0
 	if status == 0 then return false end
-	local r, g, b = GetThreatStatusColor(status)
+	local r, g, b = 1, 0, 0
+	if GetThreatStatusColor then
+		r, g, b = GetThreatStatusColor(status)
+	else
+		if status == 0 then r = 0.69; g = 0.69; b = 0.69 end
+		if status == 1 then g = 1; b = 0.47 end
+		if status == 2 then g = 0.6 end
+	end
 	local s = GetFormattedText(fmt, status, 3)
 	return true, status, 3, nil, nil, iconThreat, nil, nil, r, g, b
 end
@@ -702,17 +709,16 @@ function MOD:InitializeValues()
 	scanTooltip = CreateFrame("GameTooltip", "Puffin_ScanTip", nil, "GameTooltipTemplate")
 	scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
 	mirrorIcons = { BREATH = GetSpellTexture(5697), DEATH = GetSpellTexture(98391), EXHAUSTION = GetSpellTexture(57723), FEIGNDEATH = GetSpellTexture(5384) }
-	iconXP = GetItemIcon(120205)
-	iconRested = GetItemIcon(31403)
-	iconMail = GetItemIcon(94553)
+	iconXP = GetItemIcon(122270)
+	iconRested = GetItemIcon(10940)
+	iconMail = GetItemIcon(9555)
 	iconClock = GetItemIcon(4389)
 	iconCurrency = GetItemIcon(34518)
-	iconLatency = GetItemIcon(40531)
-	iconFramerate = GetItemIcon(23784)
-	iconMap = GetItemIcon(128693)
-	iconMapX = GetSpellTexture(87219)
-	iconMapY = GetSpellTexture(74922)
-	iconArrow = GetItemIcon(64307)
+	iconLatency = GetItemIcon(4389)
+	iconFramerate = GetItemIcon(4382)
+	iconMap = GetItemIcon(4851)
+	iconMapX = GetSpellTexture(87219) or iconMap
+	iconMapY = GetSpellTexture(74922) or iconMap
 	iconLevel = GetSpellTexture(236254)
 	iconHealth = GetSpellTexture(150554)
 	iconPower = GetItemIcon(133142)
