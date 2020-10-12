@@ -1770,6 +1770,12 @@ local function SelectValueFormat(info, vf)
 	return false
 end
 
+-- Check if font changes are currently ineffective because Tukui/ElvUI fonts are enabled
+local function ValidateFontChange()
+	if Raven.db.global.TukuiFont and ChatFrame1 then print("Raven: Tukui/ElvUI font currently enabled, change on Defaults tab to use custom fonts") end
+	return true
+end
+
 -- Create a mini-options table to be inserted at top level in the Bliz interface
 -- L["Top Options"] = "This addon lets you monitor buffs and debuffs for player, target and focus. Monitored buffs and debuffs can trigger helpful notifications."
 -- For some reason cannot localize the strings in this table!
@@ -2456,6 +2462,7 @@ MOD.OptionsTable = {
 									desc = L["Select font."],
 									dialogControl = 'LSM30_Font',
 									values = AceGUIWidgetLSMlists.font,
+									validate = ValidateFontChange,
 									get = function(info) return MOD.db.global.Defaults.labelFont end,
 									set = function(info, value) MOD.db.global.Defaults.labelFont = value; MOD:UpdateAllBarGroups() end,
 								},
@@ -2525,6 +2532,7 @@ MOD.OptionsTable = {
 									desc = L["Select font."],
 									dialogControl = 'LSM30_Font',
 									values = AceGUIWidgetLSMlists.font,
+									validate = ValidateFontChange,
 									get = function(info) return MOD.db.global.Defaults.timeFont end,
 									set = function(info, value) MOD.db.global.Defaults.timeFont = value; MOD:UpdateAllBarGroups() end,
 								},
@@ -2594,6 +2602,7 @@ MOD.OptionsTable = {
 									desc = L["Select font."],
 									dialogControl = 'LSM30_Font',
 									values = AceGUIWidgetLSMlists.font,
+									validate = ValidateFontChange,
 									get = function(info) return MOD.db.global.Defaults.iconFont end,
 									set = function(info, value) MOD.db.global.Defaults.iconFont = value; MOD:UpdateAllBarGroups() end,
 								},
@@ -8816,6 +8825,7 @@ MOD.OptionsTable = {
 											dialogControl = 'LSM30_Font',
 											values = AceGUIWidgetLSMlists.font,
 											disabled = function(info) return GetBarGroupField("useDefaultFontsAndTextures") end,
+											validate = ValidateFontChange,
 											get = function(info) return GetBarGroupField("labelFont") end,
 											set = function(info, value) SetBarGroupField("labelFont", value) end,
 										},
@@ -8894,6 +8904,7 @@ MOD.OptionsTable = {
 											dialogControl = 'LSM30_Font',
 											values = AceGUIWidgetLSMlists.font,
 											disabled = function(info) return GetBarGroupField("useDefaultFontsAndTextures") end,
+											validate = ValidateFontChange,
 											get = function(info) return GetBarGroupField("timeFont") end,
 											set = function(info, value) SetBarGroupField("timeFont", value) end,
 										},
@@ -8972,6 +8983,7 @@ MOD.OptionsTable = {
 											dialogControl = 'LSM30_Font',
 											values = AceGUIWidgetLSMlists.font,
 											disabled = function(info) return GetBarGroupField("useDefaultFontsAndTextures") end,
+											validate = ValidateFontChange,
 											get = function(info) return GetBarGroupField("iconFont") end,
 											set = function(info, value) SetBarGroupField("iconFont", value) end,
 										},

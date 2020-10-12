@@ -1373,7 +1373,7 @@ local function BarGroup_UpdateAnchor(bg, config)
 	local cfg = config.bars
 	if (cfg == "timeline") or (cfg == "stripe") then -- except timelines and stripes which use fixed size independent of icons being displayed
 		if cfg == "timeline" then lh = bg.tlHeight else lh = bg.stHeight end
-		lw = bg.anchor:GetFontString():GetStringWidth() + 10 -- minimum width so anchor not too skinny for the caption
+		lw = bg.anchor:GetFontString():GetStringWidth() + 8 -- minimum width so anchor not too skinny for the caption
 	end
 	PSetSize(bg.anchor, lw, lh)
 
@@ -1433,8 +1433,9 @@ local function BarGroup_UpdateBackground(bg, config)
 		end
 		back.anchorPoint = "BOTTOMLEFT"
 		local w, h, edge, offX, offY, justH, justV
+		local iconWidth = rectIcons and bg.barWidth or bg.iconSize
 		if config.orientation == "horizontal" then
-			w = bg.tlWidth + bg.iconSize; h = bg.tlHeight; edge = "RIGHT"; justH = "RIGHT"; justV = "MIDDLE"
+			w = bg.tlWidth + iconWidth; h = bg.tlHeight; edge = "RIGHT"; justH = "RIGHT"; justV = "MIDDLE"
 			if not bg.growDirection then back.anchorPoint = "BOTTOMRIGHT"; dir = -1; edge = "LEFT"; justH = "LEFT" end
 			offX = -dir; offY = 0
 		else
@@ -1469,9 +1470,11 @@ local function BarGroup_UpdateBackground(bg, config)
 					fs:SetFontObject(ChatFontNormal); if ValidFont(bg.labelFont) then fs:SetFont(bg.labelFont, bg.labelFSize, bg.labelFlags) end
 					local t = bg.labelColor; fs:SetTextColor(t.r, t.g, t.b, bg.labelAlpha); fs:SetShadowColor(0, 0, 0, bg.labelShadow and 1 or 0)
 					fs:SetText(v); fs:SetJustifyH(justH); fs:SetJustifyV(justV); fs:ClearAllPoints()
-					local delta = Timeline_Offset(bg, secs) + ((bg.iconSize + bg.labelFSize) / 2)
-					local offsetX = (offX == 0) and 0 or ((delta - w) * dir)
-					local offsetY = (offY == 0) and 0 or ((delta - h) * dir)
+					local delta = Timeline_Offset(bg, secs)
+					local deltaX = delta + ((iconWidth + bg.labelFSize) / 2)
+					local deltaY = delta + ((bg.iconSize + bg.labelFSize) / 2)
+					local offsetX = (offX == 0) and 0 or ((deltaX - w) * dir)
+					local offsetY = (offY == 0) and 0 or ((deltaY - h) * dir)
 					PSetPoint(fs, edge, back, edge, offsetX + bg.labelInset, offsetY + bg.labelOffset)
 					fs.hidden = false; i = i + 1
 				end
@@ -2252,9 +2255,9 @@ local function BarGroup_RefreshTimeline(bg, config)
 	local overlapCount, switchCount = 0, 0
 	for i = 1, bg.count do
 		local bar = bg.bars[bg.sorter[i].name]
-		if i <= maxBars and bar.timeLeft then
+		if i <= maxBars then
 			local clevel = level + ((bg.count - i) * 10)
-			local delta = Timeline_Offset(bg, bar.timeLeft)
+			local delta = Timeline_Offset(bg, bar.timeLeft or 0)
 			local isOverlap = i > 1 and lastBar and math.abs(delta - lastDelta) < (bg.iconSize * (1 - ((bg.tlPercent or 50) / 100)))
 			if isOverlap then overlapCount = overlapCount + 1 else overlapCount = 0 end -- number of overlapping icons
 			if bg.tlAlternate and isOverlap then
