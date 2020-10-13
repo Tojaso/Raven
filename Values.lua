@@ -219,7 +219,7 @@ local function ValueComboPoints(unit, fmt)
 	if not p or not pmax or (pmax == 0) then return false end
 	local c = PowerBarColor["COMBO_POINTS"] or rc
 	local s = GetFormattedText(fmt, p, pmax)
-	return true, p, pmax, s, nil, nil, nil, nil, c.r, c.g, c.b
+	return true, p, pmax, s, nil, iconCombo, nil, nil, c.r, c.g, c.b
 end
 
 local function ValueHolyPower(unit, fmt)
@@ -588,6 +588,7 @@ local function ValueGold(unit, fmt)
 	local gold = math.floor(money / 10000)
 	local s = GetCoinTextureString(money)
 	local g = GetCoinTextureString(gold * 10000)
+	if gold <= 10 then g = s end -- only show rounded amount when get a bit of gold
 	goldTable[1] = "|cffffcc00Gold|r"
 	goldTable[2] = "|cffffff00Current|r " .. s
 	local change = money - startMoney
@@ -654,7 +655,7 @@ local integerRange = { ["i"] = true, ["pct"] = true, ["slash"] = true }
 local numberRange = { ["i"] = true, ["f1"] = true, ["f2"] = true, ["pct"] = true, ["slash"] = true }
 
 local functionTable = {
-	[L["Absorb"]] = { func = ValueUnitAbsorb, unit = true, fmt = "pct", fmts = integerRange },
+	[L["Absorb"]] = { func = ValueUnitAbsorb, unit = true, fmt = "pct", fmts = integerRange},
 	[L["Arcane Charges"]] = { func = ValueArcaneCharges, unit = false, frequent = true, segment = true, fmts = integerRange },
 	[L["Azerite"]] = { func = ValueAzerite, unit = false, fmt = "pct", fmts = integerRange },
 	[L["Cast Bar"]] = { func = ValueCastBar, unit = true, frequent = true, comment = L["Cast bar comment"], fmt = "f1", fmts = numberRange },
@@ -704,39 +705,59 @@ local functionTable = {
 -- Initialize functions and data used by this module
 function MOD:InitializeValues()
 	valueFunctions = MOD.CopyTable(functionTable)
+	if MOD.isClassic then -- remove unsupported value types
+		valueFunctions[L["Absorb"]] = nil
+		valueFunctions[L["Azerite"]] = nil
+		valueFunctions[L["Chi"]] = nil
+		valueFunctions[L["Arcane Charges"]] = nil
+		valueFunctions[L["Holy Power"]] = nil
+		valueFunctions[L["Soul Shards"]] = nil
+		valueFunctions[L["Runes"]] = nil
+		valueFunctions[L["Rune 1"]] = nil
+		valueFunctions[L["Rune 2"]] = nil
+		valueFunctions[L["Rune 3"]] = nil
+		valueFunctions[L["Rune 4"]] = nil
+		valueFunctions[L["Rune 5"]] = nil
+		valueFunctions[L["Rune 6"]] = nil
+		valueFunctions[L["Stagger"]] = nil
+		valueFunctions[L["Honor"]] = nil
+		valueFunctions[L["Health + Incoming"]] = nil
+	end
 	startMoney = GetMoney()
 	startTime = GetTime()
 	scanTooltip = CreateFrame("GameTooltip", "Puffin_ScanTip", nil, "GameTooltipTemplate")
 	scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-	mirrorIcons = { BREATH = GetSpellTexture(5697), DEATH = GetSpellTexture(98391), EXHAUSTION = GetSpellTexture(57723), FEIGNDEATH = GetSpellTexture(5384) }
+	mirrorIcons = { BREATH = GetSpellTexture(5697), DEATH = GetSpellTexture(10848), EXHAUSTION = GetSpellTexture(9256), FEIGNDEATH = GetSpellTexture(5384) }
 	iconXP = GetItemIcon(122270)
 	iconRested = GetItemIcon(10940)
 	iconMail = GetItemIcon(9555)
-	iconClock = GetItemIcon(4389)
-	iconCurrency = GetItemIcon(34518)
-	iconLatency = GetItemIcon(4389)
-	iconFramerate = GetItemIcon(4382)
+	iconClock = GetItemIcon(134376)
+	iconCurrency = GetSpellTexture(2481)
+	iconLatency = GetSpellTexture(2006)
+	iconFramerate = GetItemIcon(12947)
 	iconMap = GetItemIcon(4851)
 	iconMapX = GetSpellTexture(87219) or iconMap
 	iconMapY = GetSpellTexture(74922) or iconMap
-	iconLevel = GetSpellTexture(236254)
-	iconHealth = GetSpellTexture(150554)
-	iconPower = GetItemIcon(133142)
-	iconChi = GetSpellTexture(179126)
+	iconArrow = GetItemIcon(11104)
+	iconLevel = GetItemIcon(8545)
+	iconHealth = GetItemIcon(19711)
+	iconPower = GetItemIcon(19714)
+	iconCombo = GetItemIcon(16040)
+	iconChi = GetSpellTexture(179126) or iconPower
 	iconArcaneCharge = GetSpellTexture(190427)
 	iconSoulShard = GetSpellTexture(138556)
 	iconRune = [[Interface\PlayerFrame\UI-PlayerFrame-Deathknight-SingleRune]]
-	iconHeals = GetSpellTexture(88753)
-	iconAbsorb = GetSpellTexture(137174)
-	iconStagger = GetSpellTexture(124255)
-	iconThreat = GetSpellTexture(38329)
-	iconDurability = GetItemIcon(31823)
-	iconAzerite = GetItemIcon(163647)
-	iconCombat = GetSpellTexture(267489)
-	iconHonor = GetSpellTexture(186334)
-	iconHonorHorde = GetSpellTexture(273672)
-	iconHonorAlliance = GetSpellTexture(278819)
-	iconReputation = GetSpellTexture(232214)
+	iconHeals = GetSpellTexture(25297)
+	iconAbsorb = GetSpellTexture(5102)
+	iconStagger = GetSpellTexture(25750)
+	iconThreat = GetSpellTexture(26658)
+	iconDurability = GetItemIcon(14387)
+	iconAzerite = GetItemIcon(1706)
+	iconCombat = GetSpellTexture(674)
+	iconHonor = GetItemIcon(20560)
+	iconHonorHorde = GetItemIcon(21438)
+	iconHonorAlliance = GetItemIcon(21436)
+	iconReputation = GetItemIcon(20077)
 	iconResting = [[Interface\Addons\Raven\Icons\ZZZ.tga]]
 end
 
