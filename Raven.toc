@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: Raven
 ## Notes: Monitors buffs, debuffs and cooldowns and provides timer bars and icons plus helpful notifications
 ## Author: Tomber

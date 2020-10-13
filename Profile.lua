@@ -212,7 +212,7 @@ function MOD:SetCooldownDefaults()
 		if name and name ~= "" then cls[name] = { school = p.school, id = p.id } end
 	end
 
-	local openTabs = 2 -- on non-classic the first two tabs are open to all specializations
+	local openTabs = 3 -- on live first two tabs are open to all specializations and the third is current spec
 	if MOD.isClassic then openTabs = GetNumSpellTabs() end -- on classic there are no specializations so all tabs are same
 
 	for tab = 1, openTabs do -- scan first two tabs of player spell book (general and current spec) for player spells on cooldown
@@ -273,8 +273,8 @@ function MOD:SetCooldownDefaults()
 
 	if not MOD.isClassic then
 		local tabs = GetNumSpellTabs()
-		if tabs and tabs > 2 then
-			for tab = 3, tabs do -- scan inactive tabs of player spell book for icons
+		if tabs and tabs > 3 then
+			for tab = 4, tabs do -- scan inactive tabs of player spell book for icons
 				local spellLine, spellIcon, offset, numSpells = GetSpellTabInfo(tab)
 				for i = 1, numSpells do
 					local index = i + offset
