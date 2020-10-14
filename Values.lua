@@ -740,8 +740,8 @@ function MOD:InitializeValues()
 	iconMapY = GetSpellTexture(74922) or iconMap
 	iconArrow = GetItemIcon(11104)
 	iconLevel = GetItemIcon(8545)
-	iconHealth = GetItemIcon(19711)
-	iconPower = GetItemIcon(19714)
+	iconHealth = GetSpellTexture(150554) or GetItemIcon(19711)
+	iconPower = GetSpellTexture(334538) or GetItemIcon(19714)
 	iconCombo = GetItemIcon(16040)
 	iconChi = GetSpellTexture(179126) or iconPower
 	iconArcaneCharge = GetSpellTexture(190427)
