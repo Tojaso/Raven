@@ -82,7 +82,7 @@ local bgTemplate = { -- these fields are preserved when a bar group is deleted
 
 local barTemplate = { -- these fields are preserved when a bar is deleted
 	buttonName = 0, attributes = 0, callbacks = 0, frame = 0, container = 0, fgTexture = 0, bgTexture = 0, backdrop = 0, spark = 0, tick = 0,
-	textFrame = 0, labelText = 0, timeText = 0, icon = 0, iconTexture = 0, cooldown = 0, iconTextFrame = 0, iconText = 0, iconBorder = 0,
+	textFrame = 0, tipFrame = 0, labelText = 0, timeText = 0, icon = 0, iconTexture = 0, cooldown = 0, iconTextFrame = 0, iconText = 0, iconBorder = 0,
 	tukbar = 0, tukcolor_r = 0, tukcolor_g = 0, tukcolor_b = 0, tukcolor_a = 0, buttonData = 0, segments = 0, segmentsAllocated = 0,
 }
 
@@ -680,6 +680,7 @@ function MOD.Nest_RegisterCallbacks(cbs) if cbs then for k, v in pairs(cbs) do c
 -- Event handling functions for bar group anchors, pass both anchor and bar group
 local function BarGroup_OnEvent(anchor, callback)
 	local bg, bgName = nil, anchor.bgName
+	-- MOD.Debug("BarGroup_OnEvent", anchor, bgName, callback)
 	if bgName then bg = barGroups[bgName] end -- locate the bar group associated with the anchor
 	if bg then
 		local func = bg.callbacks[callback]
@@ -1040,6 +1041,7 @@ end
 -- Event handling functions for bars with callback
 local function Bar_OnEvent(frame, callback, value)
 	local bg, bgName, name = nil, frame.bgName, frame.name
+	-- MOD.Debug("Bar_OnEvent", frame, bgName, name, callback, value)
 	if bgName then bg = barGroups[bgName] end -- locate the bar group associated with the anchor
 	if bg then
 		local bar = bg.bars[name]
@@ -1078,7 +1080,8 @@ function MOD.Nest_CreateBar(bg, name)
 		bar.spark:SetBlendMode("ADD")
 		bar.spark:SetTexCoord(0, 1, 0, 1)
 		bar.tick = bar.container:CreateTexture(nil, "OVERLAY")
-		bar.textFrame = CreateFrame("Frame", bname .. "TextFrame", bar.container)
+		bar.tipFrame = CreateFrame("Frame", bname .. "TipFrame", bar.container) -- used only for tooltips
+		bar.textFrame = CreateFrame("Frame", bname .. "TextFrame", bar.container) -- used to assign texts in right level
 		bar.labelText = bar.textFrame:CreateFontString(nil, "OVERLAY")
 		bar.timeText = bar.textFrame:CreateFontString(nil, "OVERLAY")
 		bar.icon = CreateFrame("Button", bname, bar.frame, BackdropTemplateMixin and "BackdropTemplate")
@@ -1128,6 +1131,10 @@ function MOD.Nest_CreateBar(bg, name)
 	bar.icon:SetScript("OnEnter", Bar_OnEnter)
 	bar.icon:SetScript("OnLeave", Bar_OnLeave)
 	bar.icon:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+	bar.tipFrame.name = name
+	bar.tipFrame.bgName = bg.name
+	bar.tipFrame:SetScript("OnEnter", Bar_OnEnter)
+	bar.tipFrame:SetScript("OnLeave", Bar_OnLeave)
 	bar.startTime = GetTime()
 	bar.name = name
 	bar.update = true
@@ -1181,6 +1188,10 @@ function MOD.Nest_DeleteBar(bg, bar)
 	bar.icon:SetScript("OnLeave", nil)
 	bar.icon.name = nil
 	bar.icon.bgName = nil
+	bar.tipFrame:SetScript("OnEnter", nil)
+	bar.tipFrame:SetScript("OnLeave", nil)
+	bar.tipFrame.name = nil
+	bar.tipFrame.bgName = nil
 	bar.cooldown:SetCooldown(0, 0)
 	bar.iconPath = nil
 	bar.update = false
@@ -1552,6 +1563,9 @@ local function Bar_UpdateLayout(bg, bar, config)
 			local dw = timeMaxWidth - iconWidth
 			if bta == "LEFT" then fr = dw elseif bta == "RIGHT" then fl = dw else fr = dw / 2; fl = dw / 2 end
 		end
+
+		local padding = bg.barWidth - iconWidth -- if bar is wider than icon then increase time text width
+		if padding > 0 then padding = padding / 2; fl = fl + padding; fr = fr + padding end
 
 		PSetPoint(bt, "TOPRIGHT", bar.icon, "BOTTOMRIGHT", bg.timeInset + fr, bg.timeOffset) -- align top of time text with bottom of icon
 		PSetPoint(bt, "BOTTOMLEFT", bar.icon, "BOTTOMLEFT", bg.timeInset - fl, bg.timeOffset - bg.timeFSize) -- set bottom so text doesn't jitter
@@ -1991,7 +2005,8 @@ end
 local function Bar_UpdateSettings(bg, bar, config)
 	local bat, bag = bar.attributes, bg.attributes
 	local fill, sparky, ticky, hideBar, offsetX, showBorder = 1, false, false, true, 0, false -- fill is fraction of the bar to display, default to full bar
-	local timeText, labelText, bt, bl, bi, bf, bb, bx = "", "", bar.timeText, bar.labelText, bar.iconText, bar.fgTexture, bar.bgTexture, bar.iconBorder
+	local timeText, labelText = "", ""
+	local bt, bl, bi, bf, bb, bx, btf = bar.timeText, bar.labelText, bar.iconText, bar.fgTexture, bar.bgTexture, bar.iconBorder, bar.tipFrame
 	local isHeader = bat.header
 	if not bat.hideLabel then labelText = bar.label end -- optionally suppress label for a custom bar
 	if bar.timeLeft and bar.duration and bar.maxTime and bar.offsetTime then -- only update if key parameters are set
@@ -2148,13 +2163,22 @@ local function Bar_UpdateSettings(bg, bar, config)
 		FaderEffect(bar, alpha, fade)
 	end
 
+	btf:ClearAllPoints() -- frame used to enable interactivity with bars in icon configs
+
 	if not isHeader and (bag.noMouse or (bag.iconMouse and not bg.showIcon)) then -- non-interactive or "only icon" but icon disabled
-		bar.icon:EnableMouse(false); bar.frame:EnableMouse(false); if callbacks.deactivate then callbacks.deactivate(bar.overlay) end
+		bar.icon:EnableMouse(false); bar.frame:EnableMouse(false); btf:EnableMouse(false); if callbacks.deactivate then callbacks.deactivate(bar.overlay) end
 	elseif not isHeader and bag.iconMouse then -- only icon is interactive
-		bar.icon:EnableMouse(true); bar.frame:EnableMouse(false); if callbacks.activate then callbacks.activate(bar, bar.icon) end
+		bar.icon:EnableMouse(true); bar.frame:EnableMouse(false); btf:EnableMouse(false); if callbacks.activate then callbacks.activate(bar, bar.icon) end
 	else -- entire bar is interactive
-		bar.icon:EnableMouse(false); bar.frame:EnableMouse(true); if callbacks.activate then callbacks.activate(bar, bar.frame) end
+		if config.iconOnly and (bg.barWidth > 0) and (bg.barHeight > 0) then -- enable interactivity with potentially separated bars in icon configs
+			PSetPoint(btf, "TOP", bar.icon, "BOTTOM", bg.iconOffsetX, -bg.iconOffsetY) -- adjust location and dimensions to match bar
+			PSetSize(btf, bg.barWidth, bg.barHeight)
+			bar.icon:EnableMouse(true); bar.frame:EnableMouse(false); btf:EnableMouse(true); if callbacks.activate then callbacks.activate(bar, bar.icon) end
+		else
+			bar.icon:EnableMouse(false); bar.frame:EnableMouse(true); btf:EnableMouse(false); if callbacks.activate then callbacks.activate(bar, bar.frame) end
+		end
 	end
+
 	if bat.header and not bag.headerGaps then
 		bf:SetAlpha(0); bb:SetAlpha(0)
 		local id, tag = bat.tooltipUnit, ""

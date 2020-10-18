@@ -2,6 +2,7 @@
 ## Title: Raven Options
 ## Notes: Load on demand options panel for Raven
 ## Author: Tomber
+## Version: 9.0.1
 ## Dependencies: Raven
 ## LoadOnDemand: 1
 
