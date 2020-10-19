@@ -2326,7 +2326,7 @@ MOD.OptionsTable = {
 										},
 										TooltipsGroup = {
 											type = "toggle", order = 37, name = L["Tooltips"], width = "half",
-											desc = L["Show tooltips when the cursor is over a bar's icon."],
+											desc = L["Show tooltips when the cursor is over bar/icon (may require /reload). See bar group's General tab for tooltip settings."],
 											get = function(info) return MOD.db.global.Defaults.showTooltips end,
 											set = function(info, value) MOD.db.global.Defaults.showTooltips = value; MOD:UpdateAllBarGroups() end,
 										},
@@ -2435,7 +2435,7 @@ MOD.OptionsTable = {
 										},
 										TooltipsGroup = {
 											type = "toggle", order = 37, name = L["Tooltips"], width = "half",
-											desc = L["Show tooltips when the cursor is over a bar's icon."],
+											desc = L["Show tooltips when the cursor is over bar/icon (may require /reload). See bar group's General tab for tooltip settings."],
 											get = function(info) return MOD.db.global.Defaults.i_showTooltips end,
 											set = function(info, value) MOD.db.global.Defaults.i_showTooltips = value; MOD:UpdateAllBarGroups() end,
 										},
@@ -6091,20 +6091,20 @@ MOD.OptionsTable = {
 								},
 								NoMouse = {
 									type = "toggle", order = 35, name = L["Non-Interactive"],
-									desc = L["If checked, the bar group is non-interactive and doesn't show tooltips or respond to clicks."],
+									desc = L["If checked, the bar group is non-interactive and doesn't show tooltips or respond to clicks. Tooltips must also be enabled in the bar group's Format settings."],
 									get = function(info) return GetBarGroupField("noMouse") end,
 									set = function(info, value) SetBarGroupField("noMouse", value) end,
 								},
 								BarOrIcon = {
 									type = "toggle", order = 40, name = L["Only Icons Interact"],
-									desc = L["If checked, only icons show tooltips and respond to clicks, otherwise entire bar does."],
+									desc = L["If checked, only icons show tooltips and respond to clicks, otherwise entire bar does. Tooltips must also be enabled in the bar group's Format settings."],
 									disabled = function(info) return GetBarGroupField("noMouse") end,
 									get = function(info) return GetBarGroupField("iconMouse") end,
 									set = function(info, value) SetBarGroupField("iconMouse", value) end,
 								},
 								CombatTooltips = {
 									type = "toggle", order = 45, name = L["Combat Tooltips"],
-									desc = L["If checked, tooltips are shown during combat."],
+									desc = L["If checked, tooltips are shown during combat. Tooltips must also be enabled in the bar group's Format settings."],
 									disabled = function(info) return GetBarGroupField("noMouse") end,
 									get = function(info) return GetBarGroupField("combatTips") end,
 									set = function(info, value) SetBarGroupField("combatTips", value) end,
@@ -8497,7 +8497,7 @@ MOD.OptionsTable = {
 										},
 										TooltipsGroup = {
 											type = "toggle", order = 37, name = L["Tooltips"], width = "half",
-											desc = L["Show tooltips when the cursor is over a bar's icon."],
+											desc = L["Show tooltips when the cursor is over bar/icon (may require /reload). See bar group's General tab for tooltip settings."],
 											get = function(info) return GetBarGroupField("showTooltips") end,
 											set = function(info, value) SetBarGroupField("showTooltips", value) end,
 										},

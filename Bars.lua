@@ -729,11 +729,13 @@ end
 -- Update a tooltip for a bar
 local function Bar_OnUpdate(bar)
 	local bat = bar.attributes
-	local tt = bat.tooltipType
 	local id = bat.tooltipID
 	local unit = bat.tooltipUnit
 	local spell = bat.tooltipSpell
 	local caster = bat.caster
+	local tt = bat.tooltipType
+	if not tt then return end -- tooltipType set to nil suppresses tooltips
+
 	GameTooltip:ClearLines() -- clear current tooltip contents
 	-- MOD.Debug("tt", tt, id, unit, spell, caster)
 	if tt == "text" then
@@ -822,8 +824,10 @@ local function Bar_OnEnter(frame, bgName, barName, ttanchor)
 	local bar = MOD.Nest_GetBar(bg, barName)
 	if not bar then return end
 	local bat = bar.attributes
-	local tt = bat.tooltipType
 	local db = bat.tooltipID
+	local tt = bat.tooltipType
+	if not tt then return end -- tooltipType set to nil suppresses tooltips
+
 	if tt == "broker" then
 		if type(db) == "table" then
 			if db.tooltip and type(db.tooltip) == "table" and type(db.tooltip.SetText) == "function" and type(dp.tooltip.Show) == "function" then
@@ -1164,8 +1168,12 @@ local function UpdateBar(bp, vbp, bg, b, icon, timeLeft, duration, count, btype,
 		bat.group = b.group -- optional group sorting parameter
 		bat.groupName = b.groupName -- optional group name
 		bat.header = (b.group and not b.groupName) -- special effect of hiding bar and icon
-		bat.tooltipType = ttType; bat.tooltipID = ttID; bat.tooltipUnit = ttUnit -- tooltip info passed from bar source
-		if vbp.spellTips then bat.tooltipSpell = b.spellID else bat.tooltipSpell = nil end  -- for spell id in tooltip when control and alt keys are both down
+		if vbp.showTooltips and (vbp.combatTips or not MOD.status.inCombat) then
+			bat.tooltipType = ttType; bat.tooltipID = ttID; bat.tooltipUnit = ttUnit -- tooltip info passed from bar source
+			if vbp.spellTips then bat.tooltipSpell = b.spellID else bat.tooltipSpell = nil end  -- for spell id in tooltip when control and alt keys are both down
+		else
+			bat.tooltipType = nil; bat.tooltipID = nil; bat.tooltipUnit = nil; bat.tooltipSpell = nil -- tooltip info passed from bar source
+		end
 		bat.listID = b.listID -- for tooltip to show if found in a spell list
 		if vbp.casterTips then bat.caster = ttCaster else bat.caster = nil end
 		bat.saveBar = b -- not valid in auto bar group since it then points to a local not a permanent table!
