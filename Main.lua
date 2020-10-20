@@ -1140,7 +1140,7 @@ function MOD:Update(elapsed)
 
 	if MOD.db.profile.enabled then
 		if forceUpdate or (elapsedTime >= elapsedTarget) then -- limit update rate
-			if forceUpdate then doUpdate = true; forceUpdate = false end
+			if forceUpdate then doUpdate = true; forceUpdate = false; MOD.Nest_TriggerUpdate() end
 			updateCounter = updateCounter + 1; refreshCounter = refreshCounter + 1; throttleCounter = throttleCounter + 1
 			if throttleCounter > throttleTracker then throttleTracker = throttleCounter end -- tracker for actual throttle maximums
 			if not talentsInitialized then InitializeTalents() end -- retry until talents initialized
