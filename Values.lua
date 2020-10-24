@@ -8,7 +8,7 @@ local valueFunctions, colorFunctions
 local mirrorIcons
 local iconXP, iconMail, iconCurrency, iconClock, iconLatency, iconFramerate, iconMap, iconMapX, iconMapY, iconArrow, iconAzerite
 local iconLevel, iconHealth, iconPower, iconHeals, iconAbsorb, iconStagger, iconThreat, iconDurability, iconCombat, iconRune, iconRested, iconResting
-local iconChi, iconArcaneCharge, iconSoulShard, iconHonor, iconHonorHorde, iconHonorAlliance, iconReputation
+local iconChi, iconArcaneCharge, iconSoulShard, iconHonor, iconHonorHorde, iconHonorAlliance, iconReputation, iconClassification
 local directionTable = { "S", "SSE", "SE", "ESE", "E", "ENE", "NE", "NNE", "N", "NNW", "NW", "WNW", "W", "WSW", "SW", "SSW" }
 local rc = { r = 1, g = 0, b = 0 }
 local channelColor = { r = 0.125, g = 0.25, b = 0.75 }
@@ -202,6 +202,16 @@ local function ValueUnitPower(unit, fmt)
 	if pmax == 0 then pmax = 1 end -- avoid divide by zero
 	local s = GetFormattedText(fmt, p, pmax)
 	return true, p, pmax, s, _G[token], iconPower, nil, nil, r, g, b
+end
+
+local function ValueClassification(unit, fmt)
+	if not unit or not UnitGUID(unit) then return false end
+	local classification = UnitClassification(unit)
+	if not classification then return false end
+	if MOD.LibBossIDs and MOD.CheckLibBossIDs(UnitGUID(unit)) then classification = "worldboss" end
+	local classificationList = { normal = L["Normal"], worldboss = L["Boss"], elite = L["Elite"], rare = L["Rare"], rlite = L["Rare Elite"], trivial = L["Trivial"], minus = L["Minus"] }
+	local s = classificationList[classification]
+	return true, 0, 0, s, nil, iconClassification
 end
 
 local function ValueChi(unit, fmt)
@@ -660,6 +670,7 @@ local functionTable = {
 	[L["Azerite"]] = { func = ValueAzerite, unit = false, fmt = "pct", fmts = integerRange },
 	[L["Cast Bar"]] = { func = ValueCastBar, unit = true, frequent = true, comment = L["Cast bar comment"], fmt = "f1", fmts = numberRange },
 	[L["Chi"]] = { func = ValueChi, unit = false, frequent = true, segment = true, fmts = integerRange },
+	[L["Classification"]] = { func = ValueClassification, unit = true, fmts = onlyCustom },
 	[L["Clock"]] = { func = ValueClock, unit = false, fmts = onlyCustom },
 	[L["Combo Points"]] = { func = ValueComboPoints, unit = false, frequent = true, segment = true, fmts = integerRange },
 	[L["Durability"]] = { func = ValueDurability, unit = false, fmt = "pct", fmts = integerRange },
@@ -758,6 +769,7 @@ function MOD:InitializeValues()
 	iconHonorHorde = GetItemIcon(21438)
 	iconHonorAlliance = GetItemIcon(21436)
 	iconReputation = GetItemIcon(20077)
+	iconClassification = GetItemIcon(17442)
 	iconResting = [[Interface\Addons\Raven\Icons\ZZZ.tga]]
 end
 

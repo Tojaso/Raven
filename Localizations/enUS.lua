@@ -1667,6 +1667,8 @@ L["Stance"] = true
 L["Talent"] = TALENT
 L["Specialization"] = SPECIALIZATION
 L["Spellbook"] = SPELLBOOK
+L["Trivial"] = true
+L["Minus"] = true
 
 -- Conditions > Tests > Pet Status
 L["Pet Status"] = true
