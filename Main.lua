@@ -127,6 +127,7 @@ local hiding = {} -- used to track elements of the UI so don't keep trying to sh
 local bagCooldowns = {} -- table containing all the bag items with cooldowns
 local inventoryCooldowns = {} -- table containing all the inventory items with cooldowns
 local nullFunction = function() end -- used to disable Blizzard frames
+local updateUIScale = false
 
 local alertColors = { -- default colors for spell alerts
 	EnemySpellCastAlerts = { r = 1, g = 0, b = 0, a = 1 },
@@ -780,6 +781,9 @@ local function CheckMouseoverRaidTarget() CheckRaidTarget("mouseover"); CheckRai
 -- Return the raid target index for a GUID
 function MOD:GetRaidTarget(id) for k, v in pairs(raidTargets) do if v == id then return k end end return nil end
 
+-- When UI Scale changes need to recalculate pixel perfect settings and force a complete update
+function UIScaleChanged() updateUIScale = true end
+
 -- Event called when addon is enabled
 function MOD:OnEnable()
 	if addonEnabled then return end -- only run this code once
@@ -824,6 +828,7 @@ function MOD:OnEnable()
 	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", CheckSpellCasts)
 	self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START", CheckCastBar)
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", CombatLogTracker)
+	self:RegisterEvent("UI_SCALE_CHANGED", UIScaleChanged)
 
 	if MOD.isClassic then -- register events specific to classic
 		if MOD.LCD then -- in classic, add library callback so target auras are handled correctly
@@ -1127,6 +1132,13 @@ function MOD:Update(elapsed)
 	else
 		throttleRate = MOD.db.global.ThrottleRate
 		MOD.combatTimer = 0
+		if updateUIScale then
+			updateUIScale = false -- updates are deferred while in combat and then happen after leaving combat
+			MOD.Nest_UpdatePixelScale(false)
+			MOD.Nest_DeleteAllBarGroups() -- delete existing display bar groups
+			MOD:UpdateAllBarGroups() -- regenerate display bar groups
+			forceUpdate = true
+		end
 	end
 	local throttleTarget = elapsedTarget * (throttleRate or 5)
 

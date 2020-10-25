@@ -818,6 +818,12 @@ function MOD.Nest_DeleteBarGroup(bg)
 	update = true
 end
 
+-- Delete all bar groups (should trigger rebuild of existing bar groups in Bars.lua)
+function MOD.Nest_DeleteAllBarGroups()
+	for _, bg in pairs(barGroups) do MOD.Nest_DeleteBarGroup(bg) end
+	update = true
+end
+
 -- Set layout options for a bar group
 function MOD.Nest_SetBarGroupBarLayout(bg, barWidth, barHeight, iconSize, scale, spacingX, spacingY, iconOffsetX, iconOffsetY,
 			labelOffset, labelInset, labelWrap, labelAlign, labelCenter, labelAdjust, labelAuto, labelWidth,
@@ -2607,8 +2613,34 @@ function MOD.Nest_CheckDisplayDimensions()
 	end
 end
 
--- Force a global update.
-function MOD.Nest_TriggerUpdate() update = true end
+-- Force a global update
+function MOD.Nest_TriggerUpdate()
+	update = true
+end
+
+-- Update pixel perfect scaling settings
+function MOD.Nest_UpdatePixelScale(displayReport)
+	pixelWidth, pixelHeight = GetPhysicalScreenSize() -- size in pixels of display in full screen, otherwise window size in pixels
+	pixelScale = GetScreenHeight() / pixelHeight -- figure out how big virtual pixels are versus screen pixels
+	pixelPerfect = (not MOD.db.global.TukuiSkin and MOD.db.global.PixelPerfect) or (MOD.db.global.TukuiSkin and MOD.db.global.TukuiScale)
+
+	if MOD.db.global.AdjustUIScale then -- option to adjust "UIscale" for optimized pixel perfect alignment on monitor
+		local oscale = GetCVar("uiScale")
+		local pscale = 768 / pixelHeight
+		local x = MOD.db.global.SetUIScale
+		if MOD.db.global.OverrideUIScale and x and (x >= 0.1) and (x <= 1) then pscale = x end
+		if math.abs(oscale - pscale) > 0.0001 then -- only adjust if necessary, avoid feedback with other addons
+			if GetCVar("useUiScale") ~= 1 then SetCVar("useUiScale", 1) end
+			SetCVar("uiScale", pscale)
+			-- UIParent:SetScale(pscale) -- this also works, it is how ElvUI does it, but we don't in order to be compatible with ElvUI
+			displayReport = true
+		end
+		if not MOD.db.global.SilentUIScale and displayReport then
+			print("Raven: detected display resolution " .. tostring(pixelWidth) .. "x" .. tostring(pixelHeight) ..
+				", adjusted UI scale from " .. tostring(oscale) .. " to " .. tostring(pscale))
+		end
+	end
+end
 
 -- Initialize the module
 function MOD.Nest_Initialize()
@@ -2618,26 +2650,10 @@ function MOD.Nest_Initialize()
 			Disabled = false, Flash = false, Highlight = false, HotKey = false, Icon = false, Name = false, Normal = false, Pushed = false }
 	end
 
-	pixelWidth, pixelHeight = GetPhysicalScreenSize() -- size in pixels of display in full screen, otherwise window size in pixels
-	pixelScale = GetScreenHeight() / pixelHeight -- figure out how big virtual pixels are versus screen pixels
+	MOD.Nest_UpdatePixelScale(true)
 
-	if Raven.db.global.AdjustUIScale then -- option to adjust "UIscale" for optimized pixel perfect alignment on monitor
-		local oscale = GetCVar("uiScale")
-		local pscale = 768 / pixelHeight
-		local x = MOD.db.global.SetUIScale
-		if MOD.db.global.OverrideUIScale and x and (x >= 0.1) and (x <= 1) then pscale = x end
-		SetCVar("useUiScale", 1)
-		SetCVar("uiScale", pscale)
-		-- UIParent:SetScale(pscale) -- this also works, it is how ElvUI does it
-		if not Raven.db.global.SilentUIScale then
-			print("Raven: detected display resolution " .. tostring(pixelWidth) .. "x" .. tostring(pixelHeight) ..
-				", adjusted UI scale from " .. tostring(oscale) .. " to " .. tostring(pscale))
-		end
-	end
-
-	pixelPerfect = (not Raven.db.global.TukuiSkin and Raven.db.global.PixelPerfect) or (Raven.db.global.TukuiSkin and Raven.db.global.TukuiScale)
-	rectIcons = (Raven.db.global.RectIcons == true)
-	zoomIcons = rectIcons and (Raven.db.global.ZoomIcons == true)
+	rectIcons = (MOD.db.global.RectIcons == true)
+	zoomIcons = rectIcons and (MOD.db.global.ZoomIcons == true)
 	MOD.Nest_ValidateCustomTimeFormatFunction() -- this will validate a custom time format and add it to the options list
 end
 
@@ -2666,8 +2682,9 @@ function MOD.Nest_Update()
 		end
 	end
 
-	pixelScale = GetScreenHeight() / pixelHeight -- quicker to update this than to track uiScale changes
+	-- pixelScale = GetScreenHeight() / pixelHeight -- not needed when tracking uiScale changes
 	-- if IsAltKeyDown() then MOD.Debug("Raven uiScale", pixelScale, UIParent:GetEffectiveScale(), pixelWidth, pixelHeight, GetCVar("uiScale"), GetScreenWidth(), GetScreenHeight()) end
+	-- if IsShiftKeyDown() then MOD.Debug("pixelScale", pixelScale, "UI scale", UIParent:GetScale(), "UI effscale", UIParent:GetEffectiveScale(), "UI size", UIParent:GetSize()) end
 
 	for _, bg in pairs(barGroups) do
 		if bg.configuration then -- make sure configuration is valid

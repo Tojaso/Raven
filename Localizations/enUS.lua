@@ -499,11 +499,12 @@ L["UI Scale warning"] = "UI Scale is a setting on the System menu's Advanced tab
 	"This affects the entire UI and is commonly adjusted by addons like ElvUI. " ..
 	"Raven provides options to adjust UI Scale in case it is not already set correctly."
 L["Adjust UI Scale"] = true
-L["UIScale description"] = "If checked then, during initialization, Raven will adjust the UI Scale to optimize for pixel perfect alignment (requires /reload)."
+L["UIScale description"] = "If checked, Raven will adjust the UI Scale to optimize for pixel perfect alignment (requires /reload)."
 L["Report UI Scale"] = true
-L["UIScale message"] = "If checked, Raven will report display resolution and UI Scale in the chat window during initialization. " ..
-	"Please verify that display resolution was detected correctly and change system settings if necessary " ..
-	"(e.g., sometimes switching between windowed and full screen modes and adjusting display resolution can resolve issues)."
+L["UIScale message"] = "If checked, Raven will report UI Scale changes in the chat window. " ..
+	"Please verify that display resolution is detected correctly and adjust system settings if necessary " ..
+	"(e.g., sometimes switching between windowed and full screen modes and adjusting display resolution can resolve issues). " ..
+	"If this option is enabled then Raven will report during initialization and also after detecting UI Scale changes."
 L["Override"] = true
 L["UIScale override"] = "If checked then, during initialization, Raven will set the UI Scale to a specified value between 0.1 and 1 (requires /reload)."
 L["UI Scale"] = true
