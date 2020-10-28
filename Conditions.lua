@@ -491,7 +491,7 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.isSteal) and (stat.noTarget or (t.isSteal ~= MOD:UnitHasBuff("target", "Steal"))) then return false end
 		if t.classify and (not t.classification or t.classification == "" or stat.noTarget or
 			(t.classify ~= CheckClassification(stat.targetClassification, t.classification))) then return false end
-		if t.checkMaxHealth and (not t.maxHealth or stat.noTarget or (tonumber(t.maxHealth) or 0) > stat.targetMaxHealth) then return false end
+		if IsOn(t.checkMaxHealth) and (stat.noTarget or (tonumber(t.maxHealth or 0) or 0) > stat.targetMaxHealth) then return false end
 		if IsOn(t.checkHealth) and IsOn(t.minHealth) and (stat.noTarget or (t.checkHealth ~= (stat.targetHealth >= t.minHealth))) then return false end
 		if IsOn(t.checkPower) and IsOn(t.minPower) and (stat.noTarget or (t.checkPower ~= (stat.targetPower >= t.minPower))) then return false end
 		if IsOn(t.inRange) and (stat.noTarget or (t.inRange ~= stat.targetInRange)) then return false end
@@ -504,7 +504,7 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.isSteal) and (stat.noTargetTarget or (t.isSteal ~= MOD:UnitHasBuff("targettarget", "Steal"))) then return false end
 		if t.classify and (not t.classification or t.classification == "" or stat.noTargetTarget or
 			(t.classify ~= CheckClassification(stat.targetTargetClassification, t.classification))) then return false end
-		if t.checkMaxHealth and (not t.maxHealth or stat.noTargetTarget or (tonumber(t.maxHealth) or 0) > stat.targetTargetMaxHealth) then return false end
+		if IsOn(t.checkMaxHealth) and (stat.noTargetTarget or (tonumber(t.maxHealth or 0) or 0) > stat.targetTargetMaxHealth) then return false end
 		if IsOn(t.checkHealth) and IsOn(t.minHealth) and (stat.noTargetTarget or (t.checkHealth ~= (stat.targetTargetHealth >= t.minHealth))) then return false end
 		if IsOn(t.checkPower) and IsOn(t.minPower) and (stat.noTargetTarget or (t.checkPower ~= (stat.targetTargetPower >= t.minPower))) then return false end
 		if IsOn(t.inRange) and (stat.noTargetTarget or (t.inRange ~= stat.targetTargetInRange)) then return false end
@@ -621,7 +621,7 @@ local function CheckTestOR(ttype, t)
 			if IsOn(t.isSteal) and (t.isSteal == MOD:UnitHasBuff("target", "Steal")) then return true end
 			if t.classify and t.classification and (t.classification ~= "") and
 				(t.classify == CheckClassification(stat.targetClassification, t.classification)) then return true end
-			if t.checkMaxHealth and (t.maxHealth and not stat.noTarget and (tonumber(t.maxHealth) or 0) <= stat.targetMaxHealth) then return true end
+			if IsOn(t.checkMaxHealth) and ((tonumber(t.maxHealth or 0) or 0) <= stat.targetMaxHealth) then return true end
 			if IsOn(t.checkHealth) and IsOn(t.minHealth) and (t.checkHealth == (stat.targetHealth >= t.minHealth)) then return true end
 			if IsOn(t.checkPower) and IsOn(t.minPower) and (t.checkPower == (stat.targetPower >= t.minPower)) then return true end
 			if IsOn(t.inRange) and (t.inRange == stat.targetInRange) then return true end
@@ -636,7 +636,7 @@ local function CheckTestOR(ttype, t)
 			if IsOn(t.isSteal) and (t.isSteal == MOD:UnitHasBuff("targettarget", "Steal")) then return true end
 			if t.classify and t.classification and (t.classification ~= "") and
 				(t.classify == CheckClassification(stat.targetTargetClassification, t.classification)) then return true end
-			if t.checkMaxHealth and (t.maxHealth and not stat.noTargetTarget and (tonumber(t.maxHealth) or 0) <= stat.targetTargetMaxHealth) then return true end
+			if IsOn(t.checkMaxHealth) and ((tonumber(t.maxHealth or 0) or 0) <= stat.targetTargetMaxHealth) then return true end
 			if IsOn(t.checkHealth) and IsOn(t.minHealth) and (t.checkHealth == (stat.targetTargetHealth >= t.minHealth)) then return true end
 			if IsOn(t.checkPower) and IsOn(t.minPower) and (t.checkPower == (stat.targetTargetPower >= t.minPower)) then return true end
 			if IsOn(t.inRange) and (t.inRange == stat.targetTargetInRange) then return true end
@@ -1025,7 +1025,7 @@ function MOD:GetConditionText(name)
 					end
 					if IsOn(t.inRange) then if t.inRange then a = a .. d .. L["In Range"] else a = a .. d .. L["Out Of Range"] end; d = ", " end
 					if IsOn(t.isSteal) then if t.isSteal then a = a .. d .. L["Spellsteal"] else a = a .. d .. L["Not Spellsteal"] end; d = ", " end
-					if IsOn(t.checkMaxHealth) and t.maxHealth then a = a .. d .. L["Max Health String"](t.maxHealth); d = ", " end
+					if IsOn(t.checkMaxHealth) then a = a .. d .. L["Max Health String"](t.maxHealth or 0); d = ", " end
 					if IsOn(t.checkHealth) and t.minHealth then local x = "<"; if t.checkHealth then x = ">=" end;
 						a = a .. d .. L["Health String"](x, t.minHealth); d = ", " end
 					if IsOn(t.checkPower) and t.minPower then local x = "<"; if t.checkPower then x = ">=" end;
