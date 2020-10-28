@@ -11046,8 +11046,8 @@ MOD.OptionsTable = {
 										Enable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
 											desc = L["If checked, test the target's classification (you can select multiple classifications)."],
-											get = function(info) return GetTestField("Target Status", "classify") end,
-											set = function(info, value) SetTestField("Target Status", "classify", value) end,
+											get = function(info) return IsTestFieldOn("Target Status", "classify") end,
+											set = function(info, value) local v = Off if value then v = true end SetTestField("Target Status", "classify", v) end,
 										},
 										spacer1 = { type = "description", name = "", order = 10 },
 										Normal = {
@@ -11349,8 +11349,8 @@ MOD.OptionsTable = {
 										Enable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
 											desc = L["If checked, test the target's target classification (you can select multiple classifications)."],
-											get = function(info) return GetTestField("Target's Target Status", "classify") end,
-											set = function(info, value) SetTestField("Target's Target Status", "classify", value) end,
+											get = function(info) return IsTestFieldOn("Target's Target Status", "classify") end,
+											set = function(info, value) local v = Off if value then v = true end SetTestField("Target's Target Status", "classify", v) end,
 										},
 										spacer1 = { type = "description", name = "", order = 10 },
 										Normal = {
@@ -11652,8 +11652,8 @@ MOD.OptionsTable = {
 										Enable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
 											desc = L["If checked, test the focus's classification (you can select multiple classifications)."],
-											get = function(info) return GetTestField("Focus Status", "classify") end,
-											set = function(info, value) SetTestField("Focus Status", "classify", value) end,
+											get = function(info) return IsTestFieldOn("Focus Status", "classify") end,
+											set = function(info, value) local v = Off if value then v = true end SetTestField("Focus Status", "classify", v) end,
 										},
 										spacer1 = { type = "description", name = "", order = 10 },
 										Normal = {
@@ -11938,8 +11938,8 @@ MOD.OptionsTable = {
 										Enable = {
 											type = "toggle", order = 1, name = L["Enable"], width = "half",
 											desc = L["If checked, test the focus target's classification (you can select multiple classifications)."],
-											get = function(info) return GetTestField("Focus's Target Status", "classify") end,
-											set = function(info, value) SetTestField("Focus's Target Status", "classify", value) end,
+											get = function(info) return IsTestFieldOn("Focus's Target Status", "classify") end,
+											set = function(info, value) local v = Off if value then v = true end SetTestField("Focus's Target Status", "classify", v) end,
 										},
 										spacer1 = { type = "description", name = "", order = 10 },
 										Normal = {

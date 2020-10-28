@@ -489,8 +489,8 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.isNeutral) and (stat.noTarget or (t.isNeutral ~= stat.targetNeutral)) then return false end
 		if IsOn(t.isDead) and (stat.noTarget or (t.isDead ~= stat.targetDead)) then return false end
 		if IsOn(t.isSteal) and (stat.noTarget or (t.isSteal ~= MOD:UnitHasBuff("target", "Steal"))) then return false end
-		if t.classify and (not t.classification or t.classification == "" or stat.noTarget or
-			(t.classify ~= CheckClassification(stat.targetClassification, t.classification))) then return false end
+		if IsOn(t.classify) and (not t.classification or t.classification == "" or stat.noTarget or
+			not CheckClassification(stat.targetClassification, t.classification)) then return false end
 		if IsOn(t.checkMaxHealth) and (stat.noTarget or (tonumber(t.maxHealth or 0) or 0) > stat.targetMaxHealth) then return false end
 		if IsOn(t.checkHealth) and IsOn(t.minHealth) and (stat.noTarget or (t.checkHealth ~= (stat.targetHealth >= t.minHealth))) then return false end
 		if IsOn(t.checkPower) and IsOn(t.minPower) and (stat.noTarget or (t.checkPower ~= (stat.targetPower >= t.minPower))) then return false end
@@ -502,8 +502,8 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.isFriend) and (stat.noTargetTarget or (t.isFriend ~= stat.targetTargetFriend)) then return false end
 		if IsOn(t.isDead) and (stat.noTargetTarget or (t.isDead ~= stat.targetTargetDead)) then return false end
 		if IsOn(t.isSteal) and (stat.noTargetTarget or (t.isSteal ~= MOD:UnitHasBuff("targettarget", "Steal"))) then return false end
-		if t.classify and (not t.classification or t.classification == "" or stat.noTargetTarget or
-			(t.classify ~= CheckClassification(stat.targetTargetClassification, t.classification))) then return false end
+		if IsOn(t.classify) and (not t.classification or t.classification == "" or stat.noTargetTarget or
+			not CheckClassification(stat.targetTargetClassification, t.classification)) then return false end
 		if IsOn(t.checkMaxHealth) and (stat.noTargetTarget or (tonumber(t.maxHealth or 0) or 0) > stat.targetTargetMaxHealth) then return false end
 		if IsOn(t.checkHealth) and IsOn(t.minHealth) and (stat.noTargetTarget or (t.checkHealth ~= (stat.targetTargetHealth >= t.minHealth))) then return false end
 		if IsOn(t.checkPower) and IsOn(t.minPower) and (stat.noTargetTarget or (t.checkPower ~= (stat.targetTargetPower >= t.minPower))) then return false end
@@ -515,8 +515,8 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.isFriend) and (stat.noFocus or (t.isFriend ~= stat.focusFriend)) then return false end
 		if IsOn(t.isDead) and (stat.noFocus or (t.isDead ~= stat.focusDead)) then return false end
 		if IsOn(t.isSteal) and (stat.noFocus or (t.isSteal ~= MOD:UnitHasBuff("focus", "Steal"))) then return false end
-		if t.classify and (not t.classification or t.classification == "" or stat.noFocus or
-			(t.classify ~= CheckClassification(stat.focusClassification, t.classification))) then return false end
+		if IsOn(t.classify) and (not t.classification or t.classification == "" or stat.noFocus or
+			not CheckClassification(stat.focusClassification, t.classification)) then return false end
 		if IsOn(t.checkHealth) and IsOn(t.minHealth) and (stat.noFocus or (t.checkHealth ~= (stat.focusHealth >= t.minHealth))) then return false end
 		if IsOn(t.checkPower) and IsOn(t.minPower) and (stat.noFocus or (t.checkPower ~= (stat.focusPower >= t.minPower))) then return false end
 		if IsOn(t.inRange) and (stat.noFocus or (t.inRange ~= stat.focusInRange)) then return false end
@@ -527,8 +527,8 @@ local function CheckTestAND(ttype, t)
 		if IsOn(t.isFriend) and (stat.noFocusTarget or (t.isFriend ~= stat.focusTargetFriend)) then return false end
 		if IsOn(t.isDead) and (stat.noFocusTarget or (t.isDead ~= stat.focusTargetDead)) then return false end
 		if IsOn(t.isSteal) and (stat.noFocusTarget or (t.isSteal ~= MOD:UnitHasBuff("focustarget", "Steal"))) then return false end
-		if t.classify and (not t.classification or t.classification == "" or stat.noFocusTarget or
-			(t.classify ~= CheckClassification(stat.focusTargetClassification, t.classification))) then return false end
+		if IsOn(t.classify) and (not t.classification or t.classification == "" or stat.noFocusTarget or
+			not CheckClassification(stat.focusTargetClassification, t.classification)) then return false end
 		if IsOn(t.checkHealth) and IsOn(t.minHealth) and (stat.noFocusTarget or (t.checkHealth ~= (stat.focusTargetHealth >= t.minHealth))) then return false end
 		if IsOn(t.checkPower) and IsOn(t.minPower) and (stat.noFocusTarget or (t.checkPower ~= (stat.focusTargetPower >= t.minPower))) then return false end
 		if IsOn(t.inRange) and (stat.noFocusTarget or (t.inRange ~= stat.focusTargetInRange)) then return false end
@@ -619,8 +619,8 @@ local function CheckTestOR(ttype, t)
 			if IsOn(t.isNeutral) and (t.isNeutral == stat.targetNeutral) then return true end
 			if IsOn(t.isDead) and (t.isDead == stat.targetDead) then return true end
 			if IsOn(t.isSteal) and (t.isSteal == MOD:UnitHasBuff("target", "Steal")) then return true end
-			if t.classify and t.classification and (t.classification ~= "") and
-				(t.classify == CheckClassification(stat.targetClassification, t.classification)) then return true end
+			if IsOn(t.classify) and t.classification and (t.classification ~= "") and
+				CheckClassification(stat.targetClassification, t.classification) then return true end
 			if IsOn(t.checkMaxHealth) and ((tonumber(t.maxHealth or 0) or 0) <= stat.targetMaxHealth) then return true end
 			if IsOn(t.checkHealth) and IsOn(t.minHealth) and (t.checkHealth == (stat.targetHealth >= t.minHealth)) then return true end
 			if IsOn(t.checkPower) and IsOn(t.minPower) and (t.checkPower == (stat.targetPower >= t.minPower)) then return true end
@@ -634,8 +634,8 @@ local function CheckTestOR(ttype, t)
 			if IsOn(t.isFriend) and (t.isFriend == stat.targetTargetFriend) then return true end
 			if IsOn(t.isDead) and (t.isDead == stat.targetTargetDead) then return true end
 			if IsOn(t.isSteal) and (t.isSteal == MOD:UnitHasBuff("targettarget", "Steal")) then return true end
-			if t.classify and t.classification and (t.classification ~= "") and
-				(t.classify == CheckClassification(stat.targetTargetClassification, t.classification)) then return true end
+			if IsOn(t.classify) and t.classification and (t.classification ~= "") and
+				CheckClassification(stat.targetTargetClassification, t.classification) then return true end
 			if IsOn(t.checkMaxHealth) and ((tonumber(t.maxHealth or 0) or 0) <= stat.targetTargetMaxHealth) then return true end
 			if IsOn(t.checkHealth) and IsOn(t.minHealth) and (t.checkHealth == (stat.targetTargetHealth >= t.minHealth)) then return true end
 			if IsOn(t.checkPower) and IsOn(t.minPower) and (t.checkPower == (stat.targetTargetPower >= t.minPower)) then return true end
@@ -649,8 +649,8 @@ local function CheckTestOR(ttype, t)
 			if IsOn(t.isFriend) and (t.isFriend == stat.focusFriend) then return true end
 			if IsOn(t.isDead) and (t.isDead == stat.focusDead) then return true end
 			if IsOn(t.isSteal) and (t.isSteal == MOD:UnitHasBuff("focus", "Steal")) then return true end
-			if t.classify and t.classification and (t.classification ~= "") and
-				(t.classify == CheckClassification(stat.focusClassification, t.classification)) then return true end
+			if IsOn(t.classify) and t.classification and (t.classification ~= "") and
+				CheckClassification(stat.focusClassification, t.classification) then return true end
 			if IsOn(t.checkHealth) and IsOn(t.minHealth) and (t.checkHealth == (stat.focusHealth >= t.minHealth)) then return true end
 			if IsOn(t.checkPower) and IsOn(t.minPower) and (t.checkPower == (stat.focusPower >= t.minPower)) then return true end
 			if IsOn(t.inRange) and (t.inRange == stat.focusInRange) then return true end
@@ -663,8 +663,8 @@ local function CheckTestOR(ttype, t)
 			if IsOn(t.isFriend) and (t.isFriend == stat.focusTargetFriend) then return true end
 			if IsOn(t.isDead) and (t.isDead == stat.focusTargetDead) then return true end
 			if IsOn(t.isSteal) and (t.isSteal == MOD:UnitHasBuff("focustarget", "Steal")) then return true end
-			if t.classify and t.classification and (t.classification ~= "") and
-				(t.classify == CheckClassification(stat.focusTargetClassification, t.classification)) then return true end
+			if IsOn(t.classify) and t.classification and (t.classification ~= "") and
+				CheckClassification(stat.focusTargetClassification, t.classification) then return true end
 			if IsOn(t.checkHealth) and IsOn(t.minHealth) and (t.checkHealth == (stat.focusTargetHealth >= t.minHealth)) then return true end
 			if IsOn(t.checkPower) and IsOn(t.minPower) and (t.checkPower == (stat.focusTargetPower >= t.minPower)) then return true end
 			if IsOn(t.inRange) and (t.inRange == stat.focusTargetInRange) then return true end
