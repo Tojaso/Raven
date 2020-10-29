@@ -19,13 +19,11 @@ Raven.lockSpells = { -- spells that normally do not have cooldowns and can be us
 	{ school = "Shadow", id = 55078 },    -- Blood Plague (death knight)
 	{ school = "Holy", id = 585 },        -- Smite (priest)
 	{ school = "Holy", id = 2061 },       -- Flash Heal (priest - holy)
-	{ school = "Holy", id = 200829 },     -- Plea (priest - discipline)
-	{ school = "Holy", id = 19750 },      -- Flash of Light (paladin)	
+	{ school = "Holy", id = 19750 },      -- Flash of Light (paladin)
 	{ school = "Nature", id = 339 },      -- Entangling Roots (druid)
 	{ school = "Nature", id = 982 },      -- Revive Pet (hunter)
 	{ school = "Nature", id = 115178 },   -- Resuscitate (monk)
-	{ school = "Nature", id = 116694 },   -- Effuse (monk)
-	{ school = "Nature", id = 222062 },   -- Kingsbane (rogue)
+	{ school = "Nature", id = 116670 },   -- Vivify (monk)
 	{ school = "Nature", id = 546 },      -- Water Walking (shaman)
 	{ school = "Nature", id = 370 },      -- Purge (shaman)
 	{ school = "Arcane", id = 8921 },     -- Moonfire (druid)
@@ -34,16 +32,15 @@ Raven.lockSpells = { -- spells that normally do not have cooldowns and can be us
 	{ school = "Arcane", id = 30451 },    -- Arcane Blast (mage - arcane)
 	{ school = "Arcane", id = 185358 },   -- Arcane Shot (hunter)
 	{ school = "Fire", id = 133 },        -- Fireball (mage - fire)
-	{ school = "Fire", id = 60103 },      -- Lava Lash (shaman - enhancement)
+	{ school = "Fire", id = 318038 },     -- Flametongue Weapon (shaman - enhancement)
 	{ school = "Fire", id = 348 },        -- Immolate (warlock - destruction)
 	{ school = "Fire", id = 29722 },      -- Incinerate (warlock - destruction)
 	{ school = "Fire", id = 204197 },     -- Purge the Wicked (priest - discipline)
 	{ school = "Frost", id = 190780 },    -- Frost Breath (death knight)
 	{ school = "Frost", id = 45524 },     -- Chains of Ice (death knight - frost, unholy)
 	{ school = "Frost", id = 116 },       -- Frost Bolt (mage - frost)
-	{ school = "Frost", id = 196834 },    -- Frostbrand (shaman - enhancement)
-	{ school = "Physical", id = 1966 },   -- Feint (rogue)
-	{ school = "Physical", id = 193315 }, -- Saber Slash (rogue - outlaw)
+	{ school = "Physical", id = 1752 },   -- Sinister Strike (rogue)
+	{ school = "Physical", id = 193315 }, -- Sinister Strike (rogue - outlaw)
 	{ school = "Physical", id = 1329 },   -- Mutilate (rogue -  assassination)
 	{ school = "Physical", id = 114014 }, -- Shuriken Toss (rogue -  subtlety)
 }
@@ -750,7 +747,7 @@ Raven.internalCooldowns = {
 	{ id = 75173, duration = 45, }, -- Darkglow Embroidery (Rank 2)
 	{ id = 95712, duration = 45, }, -- Gnomish X-Ray Scope
 	{ id = 59626, duration = 35, }, -- Black Magic
-	
+
 	-- Item internal cooldowns
 	{ id = 146296, duration = 115, item = 103989 }, -- [MOP] Alacrity of Xuen
 	{ id = 146218, duration = 115, item = 103987 }, -- [MOP] Yu'lon's Bite
