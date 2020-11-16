@@ -237,7 +237,7 @@ L["Setup"] = "Установка" --"Setup"
 L["Enable Raven"] = "Включить Raven" --"Enable Raven"
 L["If checked, Raven is enabled, otherwise all features are disabled."] = "Если отмечено, Raven включен, в противном случае все фунцкии отключены" --"If checked, Raven is enabled, otherwise all features are disabled."
 L["Hide Blizzard"] = "Скрыть Blizzard" --"Hide Blizzard"
-L["Hide description"] = 'Если отмечено, Raven скроет выбранные элементы стандартного пользовательского интерфейса (выберите элементы на странице "По умолчанию").' --"If checked, Raven will hide selected parts of the default user interface (select parts on the Defaults tab)."
+L["Hide description"] = 'Если отмечено, Raven скроет выбранные элементы стандартного пользовательского интерфейса (выберите элементы на странице "Стандартные").' --"If checked, Raven will hide selected parts of the default user interface (select parts on the Defaults tab)."
 L["Mute Raven Sound"] = "Заглушить звуки Raven" --"Mute Raven Sound"
 L["If checked, Raven will not play sound effects."] = "Если отмечено, Raven не будет воспроизводить звуковые эффекты." --"If checked, Raven will not play sound effects."
 L["Minimap Icon"] = "Иконка у миникарты" --"Minimap Icon"
@@ -304,31 +304,37 @@ L["Bar Group Anchors and Test Mode"] = "Якори групп и Тестовы�
 L["Toggle test mode for all bar groups."] = "Переключить Тестовый режим для всех групп." --"Toggle test mode for all bar groups."
 
 -- Defaults tab
-L["Defaults"] = DEFAULTS
-L["Defaults string"] = "Bars in a bar group share appearance options such as dimensions and fonts/textures. " ..
-	"You can adjust defaults for these options with settings in this section. " ..
-	"These settings are shared across all profiles to simplify use with multiple characters.\n"
-L["Hide Blizzard"] = true
-L["Hide message"] = "When Hide Blizzard is enabled on the Setup tab, Raven will hide selected parts of the default user interface. " ..
-		"Raven will only try to unhide a part when the options panel is open and selection is toggled for a part hidden by Raven (this may take several seconds). " ..
-		"Note that there is potential conflict with other addons so take care to only hide any given part in one addon."
-L["Unit Frame"] = true
-L["Hide default player unit frame."] = true
-L["Buffs and Debuffs"] = true
-L["Hide default user interface for buffs and debuffs."] = true
-L["Cast Bar"] = true
-L["Hide default player cast bar."] = true
-L["Mirror Timers"] = true
-L["Hide default user interface for mirror timers (e.g., breath bar)."] = true
-L["Hide default user interface for combo points."] = true
-L["Hide default user interface for chi."] = true
-L["Hide default user interface for stagger."] = true
-L["Hide default user interface for arcane charges."] = true
-L["Hide default user interface for holy power."] = true
-L["Hide default user interface for soul shards."] = true
-L["Hide default user interface for insanity."] = true
-L["Hide default user interface for totems."] = true
-L["Hide default user interface for runes."] = true
+L["Defaults"] = "Стандартные" --DEFAULTS
+L["Defaults string"] = "Полосы в группе имеют общий внешний вид, например: размеры и шрифт с текстурами. "..
+	"Вы можете изменять стандарт для этих опций в данной секции. " ..
+	"Эти настройки общие для всех профилей для более простого использования несколькими персонажами.\n"
+	--"Bars in a bar group share appearance options such as dimensions and fonts/textures. " ..
+	--"You can adjust defaults for these options with settings in this section. " ..
+	--"These settings are shared across all profiles to simplify use with multiple characters.\n"
+L["Hide Blizzard"] = "Скрыть Blizzard" --"Hide Blizzard"
+L["Hide message"] = 'Когда "Скрыть Blizzard" включено на странице "Установка", Raven скроет выбранные элементы стандартного интерфейса. ' ..
+		"Raven вернет скрытый элемент, когда окно настроек открыто и выбор изменен для элемента, скрытого Raven'ом (может занять несколько секунд). " ..
+		"Заметьте, что может быть конфликт с другими аддонами, поэтому убедитесь, что только один аддон скрывает определенный элемент."
+		--"When Hide Blizzard is enabled on the Setup tab, Raven will hide selected parts of the default user interface. " ..
+		--"Raven will only try to unhide a part when the options panel is open and selection is toggled for a part hidden by Raven (this may take several seconds). " ..
+		--"Note that there is potential conflict with other addons so take care to only hide any given part in one addon."
+L["Unit Frame"] = "Панель игрока" --"Unit Frame"
+L["Hide default player unit frame."] = "Скрыть стандартную панель игрока." --"Hide default player unit frame."
+L["Buffs and Debuffs"] = "Баффы и дебаффы" --"Buffs and Debuffs"
+L["Hide default user interface for buffs and debuffs."] = "Скрыть стандартный интерфейс для баффов и дебаффов." --"Hide default user interface for buffs and debuffs."
+L["Cast Bar"] = "Полоса применения заклинаний" --"Cast Bar"
+L["Hide default player cast bar."] = "Скрыть стандартную полосу применения заклинаний." --"Hide default player cast bar."
+L["Mirror Timers"] = "Зеркальные таймеры"
+L["Hide default user interface for mirror timers (e.g., breath bar)."] = 'Скрыть стандартые "зеркальные" таймеры (например, дыхание).' --"Hide default user interface for mirror timers (e.g., breath bar)."
+L["Hide default user interface for combo points."] = "Скрыть стандартную Серию приемов." --"Hide default user interface for combo points."
+L["Hide default user interface for chi."] = "Скрыть стандартную Энергию ци." --"Hide default user interface for chi."
+L["Hide default user interface for stagger."] = "Скрыть стандартное Пошатывание." --"Hide default user interface for stagger."
+L["Hide default user interface for arcane charges."] = "Скрыть стандартные Чародейские заряды." --"Hide default user interface for arcane charges."
+L["Hide default user interface for holy power."] = "Скрыть стандартную Энергию Света." --"Hide default user interface for holy power."
+L["Hide default user interface for soul shards."] = "Скрыть стандартные Осколки душ." --"Hide default user interface for soul shards."
+L["Hide default user interface for insanity."] = "Скрыть стандартное Безумие." --"Hide default user interface for insanity."
+L["Hide default user interface for totems."] = "Скрыть стандартный интерфейс Тотемов." --"Hide default user interface for totems."
+L["Hide default user interface for runes."] = "Скрыть стандартные руны." --"Hide default user interface for runes."
 
 L["XP and Reputation"] = true
 L["Hide XP and reputation bars in the default user interface."] = true
