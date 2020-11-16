@@ -7,7 +7,7 @@ L["Raven"] = true
 L["Raven left click"] = "|cffffff00Левый клик|r, чтобы открыть/закрыть меню настроек" --"|cffffff00Left-click|r to open/close options menu"
 L["Raven right click"] = "|cffffff00Правый клик|r, чтобы переключить закрепление всех групп" --"|cffffff00Right-click|r to toggle locking all bar groups"
 L["Raven shift left click"] = "|cffffff00Шифт+Левый клик|r, чтобы включить/отключить Raven" --"|cffffff00Shift-left-click|r to enable/disable Raven"
-L["Raven shift right click"] = "|cffffff00Шифт+Правый клик|r, чтобы переключить баффы Близзард" --"|cffffff00Shift-right-click|r to toggle Blizzard buffs"
+L["Raven shift right click"] = "|cffffff00Шифт+Правый клик|r, чтобы переключить баффы Blizzard" --"|cffffff00Shift-right-click|r to toggle Blizzard buffs"
 L["Shared Potion Cooldown"] = "Общее время восстановления зелий" --"Shared Potion Cooldown"
 L["Shared Elixir Cooldown"] = "Общее время восстановления эликсиров" --"Shared Elixir Cooldown"
 L["Global Cooldown"] = "Общее время восстановления" --"Global Cooldown"
@@ -185,113 +185,123 @@ L["Dead"] = "Мертв" --"Dead"
 L["Ghost"] = "Призрак" --"Ghost"
 
 -- Nest.lua
-L["Right-to-left bars, label left, icon left"] = true
-L["Left-to-right bars, label left, icon left"] = true
-L["Right-to-left bars, label right, icon left"] = true
-L["Left-to-right bars, label right, icon left"] = true
-L["Right-to-left bars, label left, icon right"] = true
-L["Left-to-right bars, label left, icon right"] = true
-L["Right-to-left bars, label right, icon right"] = true
-L["Left-to-right bars, label right, icon right"] = true
-L["Icons in rows, with right-to-left mini-bars"] = true
-L["Icons in rows, with left-to-right mini-bars"] = true
-L["Icons in columns, right-to-left mini-bars"] = true
-L["Icons in columns, left-to-right mini-bars"] = true
-L["Icons on horizontal timeline, no mini-bars"] = true
-L["Icons on vertical timeline, no mini-bars"] = true
-L["Icons with variable width on horizontal stripe"] = true
+L["Right-to-left bars, label left, icon left"] = "Полосы справа-налево, название слева, иконка слева" --"Right-to-left bars, label left, icon left"
+L["Left-to-right bars, label left, icon left"] = "Полосы слева-направо, название слева, иконпка слева" --"Left-to-right bars, label left, icon left"
+L["Right-to-left bars, label right, icon left"] = "Полосы справа-налево, название справа, иконка слева"--"Right-to-left bars, label right, icon left"
+L["Left-to-right bars, label right, icon left"] = "Полосы слева-направо, название справа, иконка слева" --"Left-to-right bars, label right, icon left"
+L["Right-to-left bars, label left, icon right"] = "Полосы справа-налево, название слева, иконка справа" --"Right-to-left bars, label left, icon right"
+L["Left-to-right bars, label left, icon right"] = "Полосы слева-направо, название слева, иконка справа" --"Left-to-right bars, label left, icon right"
+L["Right-to-left bars, label right, icon right"] = "Полосы справа-налево, название справа, иконка справа" --"Right-to-left bars, label right, icon right"
+L["Left-to-right bars, label right, icon right"] = "Полосы слева-направо, название справа, иконка справа" --"Left-to-right bars, label right, icon right"
+L["Icons in rows, with right-to-left mini-bars"] = "Иконки в рядах с левонаправленными полосами" --"Icons in rows, with right-to-left mini-bars"
+L["Icons in rows, with left-to-right mini-bars"] = "Иконки в рядах с правонаправленными полосами" --"Icons in rows, with left-to-right mini-bars"
+L["Icons in columns, right-to-left mini-bars"] = "Иконки в колоннах с левонаправленными полосами" --"Icons in columns, right-to-left mini-bars"
+L["Icons in columns, left-to-right mini-bars"] = "Иконки в колоннах с правонаправленными полосами" --"Icons in columns, left-to-right mini-bars"
+L["Icons on horizontal timeline, no mini-bars"] = "Иконки на горизонтальной временной шкале, без полос" --"Icons on horizontal timeline, no mini-bars"
+L["Icons on vertical timeline, no mini-bars"] = "Иконки на вертикальной временной шкале, без полос" --"Icons on vertical timeline, no mini-bars"
+L["Icons with variable width on horizontal stripe"] = "Иконки с изменяемой шириной на горизонтальной полосе" --"Icons with variable width on horizontal stripe"
 
 -- L["Buff button right click"] = "|cffffff00Right-click|r to cancel this buff"
 
 -- Shared cooldowns
-L["Summon Infernal/Doomguard"] = true
+L["Summon Infernal/Doomguard"] = "Призыв Инфернала/Стража ужаса" --"Summon Infernal/Doomguard"
 
 -- All strings from here down are used for the options panel and are referenced in Options.lua.
 
-L["Not valid string"] = function(n) return string.format("Raven: warning \"%s\" is not a recognized spell name (disable warnings to use it anyway)", n) end
-L["Circular string"] = function(a, b) return string.format("Raven: \"%s\" cannot be attached to \"%s\" because that creates a circular dependency", a, b) end
-L["Dup bar group string"] = function(n) return string.format("DUPLICATE NAME\nThere is already a bar group named %s. Do you want to overwrite it?", n) end
-L["Dup condition string"] = function(n) return string.format("DUPLICATE NAME\nThere is already a condition named %s. Do you want to overwrite it?", n) end
-L["is a duplicate of an existing bar label"] = true
-L["does not begin with a letter or contains restricted characters"] = true
-L["Unconditional string"] = function(t) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Unconditional|r", t) end
-L["Type and condition string"] = function(t, a) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Condition:|r %s", t, a) end
-L["Associated spell string"] = function(s) return string.format("\n|cFF7adbf2Associated Spell:|r %s", s) end
-L["Broker string"] = function(t, a) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Name:|r %s", t, a) end
-L["Broker data source string"] = "\n|cFF7adbf2Class:|r Data Source"
-L["Broker launcher string"] = "\n|cFF7adbf2Class:|r Launcher"
-L["Value string"] = function(t, a) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Name:|r %s", t, a) end
-L["Color string"] = "\n|cFF7adbf2Color:|r "
-L["Unit string"] = "\n|cFF7adbf2Unit:|r "
-L["Type action string"] = function(a, t, s) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Action:|r %s", t, a) end
-L["Type string"] = function(t, s) return string.format("|cFF7adbf2Type:|r %s", t) end
-L["Action on cast by string"] = function(m, c) return string.format("\n|cFF7adbf2Action On:|r %s\n|cFF7adbf2Cast By:|r %s", m, c) end
-L["Comment string"] = "\n|cFF7adbf2Comment:|r "
+L["Not valid string"] = function(n) return string.format("Raven: Предупреждение \"%s\" - неизвестное назвение заклинания (отключите предупреждения, чтобы использовать в любом случае)", n) end --function(n) return string.format("Raven: warning \"%s\" is not a recognized spell name (disable warnings to use it anyway)", n) end
+L["Circular string"] = function(a, b) return string.format("Raven: \"%s\" не может быть присоединен к \"%s\", потому что создает взаимную зависимость", a, b) end --function(a, b) return string.format("Raven: \"%s\" cannot be attached to \"%s\" because that creates a circular dependency", a, b) end
+L["Dup bar group string"] = function(n) return string.format("ПОВТОРЯЮЩЕЕСЯ НАЗВАНИЕ\nУже существует группа с названием %s. Хотите перезаписать?", n) end --function(n) return string.format("DUPLICATE NAME\nThere is already a bar group named %s. Do you want to overwrite it?", n) end
+L["Dup condition string"] = function(n) return string.format("ПОВТОРЯЮЩЕЕСЯ НАЗВАНИЕ\nУже существует условие с названием %s. Хотите перезаписать?", n) end --function(n) return string.format("DUPLICATE NAME\nThere is already a condition named %s. Do you want to overwrite it?", n) end
+L["is a duplicate of an existing bar label"] = "- повторение существуещего названия группы" --"is a duplicate of an existing bar label"
+L["does not begin with a letter or contains restricted characters"] = "не начинается с буквы или содержит запрещенные знаки" --"does not begin with a letter or contains restricted characters"
+L["Unconditional string"] = function(t) return string.format("|cFF7adbf2Тип:|r %s\n|cFF7adbf2Без Условий|r", t) end --function(t) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Unconditional|r", t) end
+L["Type and condition string"] = function(t, a) return string.format("|cFF7adbf2Тип:|r %s\n|cFF7adbf2Условие:|r %s", t, a) end --function(t, a) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Condition:|r %s", t, a) end
+L["Associated spell string"] = function(s) return string.format("\n|cFF7adbf2Связанное заклинание:|r %s", s) end --function(s) return string.format("\n|cFF7adbf2Associated Spell:|r %s", s) end
+L["Broker string"] = function(t, a) return string.format("|cFF7adbf2Тип:|r %s\n|cFF7adbf2Имя:|r %s", t, a) end --function(t, a) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Name:|r %s", t, a) end
+L["Broker data source string"] = "\n|cFF7adbf2Класс:|r Data Source" --"\n|cFF7adbf2Class:|r Data Source"
+L["Broker launcher string"] = "\n|cFF7adbf2Класс:|r Launcher" --"\n|cFF7adbf2Class:|r Launcher"
+L["Value string"] = function(t, a) return string.format("|cFF7adbf2Тип:|r %s\n|cFF7adbf2Имя:|r %s", t, a) end --function(t, a) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Name:|r %s", t, a) end
+L["Color string"] = "\n|cFF7adbf2Цвет:|r " --"\n|cFF7adbf2Color:|r "
+L["Unit string"] = "\n|cFF7adbf2Единица:|r " --"\n|cFF7adbf2Unit:|r 
+L["Type action string"] = function(a, t, s) return string.format("|cFF7adbf2Тип:|r %s\n|cFF7adbf2Действие:|r %s", t, a) end --function(a, t, s) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Action:|r %s", t, a) end
+L["Type string"] = function(t, s) return string.format("|cFF7adbf2Тип:|r %s", t) end --function(t, s) return string.format("|cFF7adbf2Type:|r %s", t) end
+L["Action on cast by string"] = function(m, c) return string.format("\n|cFF7adbf2Действие на:|r %s\n|cFF7adbf2Использовано:|r %s", m, c) end --function(m, c) return string.format("\n|cFF7adbf2Action On:|r %s\n|cFF7adbf2Cast By:|r %s", m, c) end
+L["Comment string"] = "\n|cFF7adbf2Комментарий:|r " --"\n|cFF7adbf2Comment:|r "
 
 -- Blizzard Addons option table
-L["Configure"] = true
-L["Open Raven's standalone options panel."] = true
+L["Configure"] = "Настроить" --"Configure"
+L["Open Raven's standalone options panel."] = "Открыть панель настроек Raven" --"Open Raven's standalone options panel."
 
 -- Setup tab
-L["Setup"] = true
-L["Enable Raven"] = true
-L["If checked, Raven is enabled, otherwise all features are disabled."] = true
-L["Hide Blizzard"] = true
-L["Hide description"] = "If checked, Raven will hide selected parts of the default user interface (select parts on the Defaults tab)."
-L["Mute Raven Sound"] = true
-L["If checked, Raven will not play sound effects."] = true
-L["Minimap Icon"] = true
-L["If checked, Raven will add an icon to the minimap."] = true
-L["Standard Bar Groups"] = true
-L["Anchor description"] = "Raven lets you display bars and icons for buffs, debuffs and cooldowns. " ..
-	'You can use the many options under the "Bar Groups" tab to set up a personalized user interface. ' ..
-	"To get started, however, it may be easier to begin with the standard bar groups listed here. " ..
-	'Select the ones you want and then click either "Create As Bars" or "Create As Icons". ' ..
-	'You can do this multiple times to configure a mix of bars and icons.\n'
-L["All buffs on the player."] = true
-L["Short Buffs"] = true
-L["Buffs on the player lasting less than 2 minutes."] = true
-L["Long Buffs"] = true
-L["Buffs on the player lasting at least 2 minutes."] = true
-L["Debuffs"] = true
-L["Debuffs on the player."] = true
-L["Cooldowns"] = true
-L["Cooldowns for the player lasting at least 2 seconds."] = true
+L["Setup"] = "Установка" --"Setup"
+L["Enable Raven"] = "Включить Raven" --"Enable Raven"
+L["If checked, Raven is enabled, otherwise all features are disabled."] = "Если отмечено, Raven включен, в противном случае все фунцкии отключены" --"If checked, Raven is enabled, otherwise all features are disabled."
+L["Hide Blizzard"] = "Спрятать Blizzard" --"Hide Blizzard"
+L["Hide description"] = 'Если отмечено, Raven спрячет выбранные элементы стандартного пользовательского интерфейса (выберите элементы на странице "По умолчанию").' --"If checked, Raven will hide selected parts of the default user interface (select parts on the Defaults tab)."
+L["Mute Raven Sound"] = "Заглушить звуки Raven" --"Mute Raven Sound"
+L["If checked, Raven will not play sound effects."] = "Если отмечено, Raven не будет воспроизводить звуковые эффекты." --"If checked, Raven will not play sound effects."
+L["Minimap Icon"] = "Иконка у миникарты" --"Minimap Icon"
+L["If checked, Raven will add an icon to the minimap."] = "Если отмечено, Raven добавит иконку к миникарте." --"If checked, Raven will add an icon to the minimap."
+L["Standard Bar Groups"] = "Стандартные группы" --"Standard Bar Groups"
+L["Anchor description"] = "Raven позволяет отображать полосы и иконки для баффов, дебаффов и восстановления заклинаний.. " ..
+	'Вы можете использовать множество опций на странице "Группы" для создания своего личного интерфейса. ' ..
+	"Для начала, однако, будет проще выбрать стандартные группы перечисленные здесь. " ..
+	'Выберите, что хотите, а затем кликните "Создать как Полосы" или "Создать как Иконки". ' ..
+	'Вы можете делать это несколько раз, чтобы настроить микс из иконок и полос.\n' 
+	--"Raven lets you display bars and icons for buffs, debuffs and cooldowns. " ..
+	--'You can use the many options under the "Bar Groups" tab to set up a personalized user interface. ' ..
+	--"To get started, however, it may be easier to begin with the standard bar groups listed here. " ..
+	--'Select the ones you want and then click either "Create As Bars" or "Create As Icons". ' ..
+	--'You can do this multiple times to configure a mix of bars and icons.\n'
+L["All buffs on the player."] = "Все баффы на игроке" --"All buffs on the player."
+L["Short Buffs"] = "Короткие баффы" --"Short Buffs"
+L["Buffs on the player lasting less than 2 minutes."] = "Баффы на игроке, длящиеся меньше 2-ух минут." --"Buffs on the player lasting less than 2 minutes."
+L["Long Buffs"] = "Длительные баффы" --"Long Buffs"
+L["Buffs on the player lasting at least 2 minutes."] = "Баффы на игроке, длящиеся хотя бы 2 минуты." --"Buffs on the player lasting at least 2 minutes."
+L["Debuffs"] = "Дебаффы" --"Debuffs"
+L["Debuffs on the player."] = "Дебаффы на игроке" --"Debuffs on the player."
+L["Cooldowns"] = "Время восстановления заклинаний" --"Cooldowns"
+L["Cooldowns for the player lasting at least 2 seconds."] = "Восстановление заклинаний для игрока, длящиееся хотя бы 2 секунды" --"Cooldowns for the player lasting at least 2 seconds."
 L["Target"] = TARGET
-L["Buffs and debuffs cast by the player on the target."] = true
-L["Focus"] = FOCUS
-L["Buffs and debuffs cast by the player on the focus."] = true
+L["Buffs and debuffs cast by the player on the target."] = "Баффы и дебаффы, наложенные игроком на цель." --"Buffs and debuffs cast by the player on the target."
+L["Focus"] = "Запомненная цель" --"Focus"
+L["Buffs and debuffs cast by the player on the focus."] = "Баффы и дебаффы, наложенные игроком на фокус." --"Buffs and debuffs cast by the player on the focus."
 L["Totems"] = UNIT_NAME_ENEMY_TOTEMS
-L["Totem tracker bars for Shaman players."] = true
-L["Rune cooldown bars for Death Knight players."] = true
-L["Notifications"] = true
-L["Common class-specific notifications."] = true
-L["Buff Tracker"] = true
-L["Buff tracker string"] = "Buffs cast by the player on all targets (HoT timers)."
-L["Debuff Tracker"] = true
-L["Debuff tracker string"] = "Debuffs cast by the player on all targets (DoT timers)."
-L["Timeline string"] = "Timeline icon configuration showing cooldowns for the player."
-L["Create As Bars"] = true
-L["Create bars string"] = "Create the selected bar groups using a bar-oriented format."
-L["Create As Icons"] = true
-L["Create icons string"] = "Create the selected bar groups using an icon-oriented format."
-L["Configure string"] = "CREATE BAR GROUPS\nAre you sure you want to create the selected bar groups, overwriting existing bar groups with the same names?"
-L["Reset selections."] = true
-L["Link"] = true
-L["Link standard group string"] = "Toggle linking selected bar groups to bar groups in other profiles with the same names. Linked bar groups share position, layout, appearance and timer options. This can be helpful when setting up multiple characters."
-L["Delete the selected bar groups."] = true
-L["Delete standard string"] = "DELETE BAR GROUPS\nAre you sure you want to delete the selected bar groups?"
-L["Bar group anchor string"] = "Bar groups have anchors that show where bars will be displayed. " ..
-	"Anchor tooltips list helpful shortcuts (e.g., change direction bars grow from the anchor, cycle through configuration choices, show test bars). " ..
-	"You can left-click and drag anchors. " ..
-	"You can right-click an anchor to lock it when you are satisfied with its position. " ..
-	'Locked anchors are hidden--use the "Unlock All Anchors" button to show them again.\n'
-L["Lock All Anchors"] = true
-L["Lock and hide the anchors for all bar groups."] = true
-L["Unlock All Anchors"] = true
-L["Unlock and show the anchors for all bar groups."] = true
-L["Bar Group Anchors and Test Mode"] = true
-L["Toggle test mode for all bar groups."] = true
+L["Totem tracker bars for Shaman players."] = "Полосы отслеживания тотемов для Шаманов." --"Totem tracker bars for Shaman players."
+L["Rune cooldown bars for Death Knight players."] = "Полосы отслеживания рун для Рыцарей Смерти." --"Rune cooldown bars for Death Knight players."
+L["Notifications"] = "Объявления" --"Notifications"
+L["Common class-specific notifications."] = "Стандартные объявления для класса." --"Common class-specific notifications."
+L["Buff Tracker"] = "Отслеживание баффов" --"Buff Tracker"
+L["Buff tracker string"] = "Баффы, наложенные игроком ко всем целям(таймеры ХоТов)." --"Buffs cast by the player on all targets (HoT timers)."
+L["Debuff Tracker"] = "Отслеживание дебаффов" --"Debuff Tracker"
+L["Debuff tracker string"] = "Дебаффы, наложенные игроком ко всем целям(таймеры ДоТов)." --"Debuffs cast by the player on all targets (DoT timers)."
+L["Timeline string"] = "Временная шкала для иконок, отображающая время восстановления для игрока" --"Timeline icon configuration showing cooldowns for the player."
+L["Create As Bars"] = "Создать как Полосы" --"Create As Bars"
+L["Create bars string"] = "Создать выбранные группы используя формат полос." --"Create the selected bar groups using a bar-oriented format."
+L["Create As Icons"] = "Создать как Иконки" --"Create As Icons"
+L["Create icons string"] = "Создать выбранные группы используя формат иконок." --"Create the selected bar groups using an icon-oriented format."
+L["Configure string"] = "СОЗДАТЬ ГРУППУ\nВы уверены, что хотите создать выбранные группы, перезаписав существующие с такими же именами?" --"CREATE BAR GROUPS\nAre you sure you want to create the selected bar groups, overwriting existing bar groups with the same names?"
+L["Reset selections."] = "Сброс выбора" --"Reset selections."
+L["Link"] = "Связь" --"Link"
+L["Link standard group string"] = "Переключение связи выбранныех групп с группами в других профилях с такими же именами. Связанные группы имеют общие позицию, схему, внешний вид и настройки таймеров. Полезно при настройке наскольких персонажей." --"Toggle linking selected bar groups to bar groups in other profiles with the same names. Linked bar groups share position, layout, appearance and timer options. This can be helpful when setting up multiple characters."
+L["Delete the selected bar groups."] = "Удалить выбранные группы." --"Delete the selected bar groups."
+L["Delete standard string"] = "УДАЛЕНИЕ ГРУПП\nВы уверены, что хотите удалить выбранные группы?" --"DELETE BAR GROUPS\nAre you sure you want to delete the selected bar groups?"
+L["Bar group anchor string"] = "Группы имеют якоря, которые показывают, где группа будет отображена. " ..
+	"Всплывающая подсказка якоря показывает полезные опции (например: изменение направления группы, переключение выбора настройки, показать тестовые группы). " ..
+	"Вы можете перемещать якоря левой кнопкой мыши. " ..
+	"Вы можете закрепить якорь правой кнопкой мыши, когда довольны его расположением. " ..
+	'Закрепленные якоря спрятаны - используйте кнопку "Открепить Все Якоря", чтобы отобразить их.\n'
+	--"Bar groups have anchors that show where bars will be displayed. " ..
+	--"Anchor tooltips list helpful shortcuts (e.g., change direction bars grow from the anchor, cycle through configuration choices, show test bars). " ..
+	--"You can left-click and drag anchors. " ..
+	--"You can right-click an anchor to lock it when you are satisfied with its position. " ..
+	--'Locked anchors are hidden--use the "Unlock All Anchors" button to show them again.\n'
+L["Lock All Anchors"] = "Закрепить Все Якоря" --"Lock All Anchors"
+L["Lock and hide the anchors for all bar groups."] = "Закрепить и спрятать якоря для всех групп." --"Lock and hide the anchors for all bar groups."
+L["Unlock All Anchors"] = "Открепить Все Якоря" --"Unlock All Anchors"
+L["Unlock and show the anchors for all bar groups."] = "Открепить и показать якоря для всех групп." --"Unlock and show the anchors for all bar groups."
+L["Bar Group Anchors and Test Mode"] = "Якори групп и Тестовый режим" --"Bar Group Anchors and Test Mode"
+L["Toggle test mode for all bar groups."] = "Переключить Тестовый режим для всех групп." --"Toggle test mode for all bar groups."
 
 -- Defaults tab
 L["Defaults"] = DEFAULTS
