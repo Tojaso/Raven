@@ -41,14 +41,14 @@ L["Auto Bar Group"] = "Автоматическая группа" --"Auto Bar Gr
 L["Anchor attached"] = '|cffffff00Присоединен|r к "' --'|cffffff00Attached|r to "'
 L["Anchor left click 1"] = "|cffffff00Левый клик|r, чтобы открепить и передвигать якорь" --"|cffffff00Left-click|r to unattach and then move the anchor"
 L["Anchor left click 2"] = "|cffffff00Левый клик|r, чтобы двигать якорь" --"|cffffff00Left-click|r to move the anchor"
-L["Anchor right click"] = "|cffffff00Правый клик|r, чтобы закрепить и спрятать якорь" --"|cffffff00Right-click|r to lock and hide the anchor"
+L["Anchor right click"] = "|cffffff00Правый клик|r, чтобы закрепить и скрыть якорь" --"|cffffff00Right-click|r to lock and hide the anchor"
 L["Anchor shift left click"] = "|cffffff00Шифт+Левый клик|r, чтобы переключить тестовые полосы" --"|cffffff00Shift-left-click|r to toggle test bars"
 L["Anchor shift right click"] = "|cffffff00Шифт+Правый клик|r, чтобы переключить направление" --"|cffffff00Shift-right-click|r to toggle direction"
 L["Anchor alt left click"] = "|cffffff00Альт+Левый клик|r, чтобы открыть/закрыть меню настроек" --"|cffffff00Alt-left-click|r to open/close options menu"
 L["Anchor alt right click"] = "|cffffff00Альт+Правый клик|r, чтобы переключаться между конфигурациями" --"|cffffff00Alt-right-click|r to cycle through configurations"
 L["Add filter"] = function(a, b, n) return string.format("Raven: \"%s\" добавлен в %s фильтр для группы \"%s\"", a, b, n) end --function(a, b, n) return string.format("Raven: \"%s\" added to %s filter list for bar group \"%s\"", a, b, n) end
-L["Header click"] = "|cffffff00Правый клик|r, чтобы спрятать единицу до тех пор, пока не выбрана в цель, или новое заклинание наложено, или до следующего такта заклинания" --"|cffffff00Right-click|r to hide unit until re-targeted or next spell tick or spell is reapplied"
-L["Header shift click"] = "|cffffff00Шифт+Правый клик|r, чтобы спрятать все единицы с одинаковым именем" --"|cffffff00Shift-right-click|r to hide all units with same name"
+L["Header click"] = "|cffffff00Правый клик|r, чтобы скрыть единицу до тех пор, пока не выбрана в цель, или новое заклинание наложено, или до следующего такта заклинания" --"|cffffff00Right-click|r to hide unit until re-targeted or next spell tick or spell is reapplied"
+L["Header shift click"] = "|cffffff00Шифт+Правый клик|r, чтобы скрыть все единицы с одинаковым именем" --"|cffffff00Shift-right-click|r to hide all units with same name"
 L["<Applied by "] = "<Применил(а) " --"<Applied by "
 
 -- Conditions.lua
@@ -236,8 +236,8 @@ L["Open Raven's standalone options panel."] = "Открыть панель на�
 L["Setup"] = "Установка" --"Setup"
 L["Enable Raven"] = "Включить Raven" --"Enable Raven"
 L["If checked, Raven is enabled, otherwise all features are disabled."] = "Если отмечено, Raven включен, в противном случае все фунцкии отключены" --"If checked, Raven is enabled, otherwise all features are disabled."
-L["Hide Blizzard"] = "Спрятать Blizzard" --"Hide Blizzard"
-L["Hide description"] = 'Если отмечено, Raven спрячет выбранные элементы стандартного пользовательского интерфейса (выберите элементы на странице "По умолчанию").' --"If checked, Raven will hide selected parts of the default user interface (select parts on the Defaults tab)."
+L["Hide Blizzard"] = "Скрыть Blizzard" --"Hide Blizzard"
+L["Hide description"] = 'Если отмечено, Raven скроет выбранные элементы стандартного пользовательского интерфейса (выберите элементы на странице "По умолчанию").' --"If checked, Raven will hide selected parts of the default user interface (select parts on the Defaults tab)."
 L["Mute Raven Sound"] = "Заглушить звуки Raven" --"Mute Raven Sound"
 L["If checked, Raven will not play sound effects."] = "Если отмечено, Raven не будет воспроизводить звуковые эффекты." --"If checked, Raven will not play sound effects."
 L["Minimap Icon"] = "Иконка у миникарты" --"Minimap Icon"
@@ -290,14 +290,14 @@ L["Bar group anchor string"] = "Группы имеют якоря, которы
 	"Всплывающая подсказка якоря показывает полезные опции (например: изменение направления группы, переключение выбора настройки, показать тестовые группы). " ..
 	"Вы можете перемещать якоря левой кнопкой мыши. " ..
 	"Вы можете закрепить якорь правой кнопкой мыши, когда довольны его расположением. " ..
-	'Закрепленные якоря спрятаны - используйте кнопку "Открепить Все Якоря", чтобы отобразить их.\n'
+	'Закрепленные якоря скрыты - используйте кнопку "Открепить Все Якоря", чтобы отобразить их.\n'
 	--"Bar groups have anchors that show where bars will be displayed. " ..
 	--"Anchor tooltips list helpful shortcuts (e.g., change direction bars grow from the anchor, cycle through configuration choices, show test bars). " ..
 	--"You can left-click and drag anchors. " ..
 	--"You can right-click an anchor to lock it when you are satisfied with its position. " ..
 	--'Locked anchors are hidden--use the "Unlock All Anchors" button to show them again.\n'
 L["Lock All Anchors"] = "Закрепить Все Якоря" --"Lock All Anchors"
-L["Lock and hide the anchors for all bar groups."] = "Закрепить и спрятать якоря для всех групп." --"Lock and hide the anchors for all bar groups."
+L["Lock and hide the anchors for all bar groups."] = "Закрепить и скрыть якоря для всех групп." --"Lock and hide the anchors for all bar groups."
 L["Unlock All Anchors"] = "Открепить Все Якоря" --"Unlock All Anchors"
 L["Unlock and show the anchors for all bar groups."] = "Открепить и показать якоря для всех групп." --"Unlock and show the anchors for all bar groups."
 L["Bar Group Anchors and Test Mode"] = "Якори групп и Тестовый режим" --"Bar Group Anchors and Test Mode"
