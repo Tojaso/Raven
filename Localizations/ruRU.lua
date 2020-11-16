@@ -5,9 +5,9 @@ if not L then return end
 -- Main.lua
 L["Raven"] = true
 L["Raven left click"] = "|cffffff00Левый клик|r, чтобы открыть/закрыть меню настроек" --"|cffffff00Left-click|r to open/close options menu"
-L["Raven right click"] = "|cffffff00Правый клик|r, чтобы передвигать все группы" --"|cffffff00Right-click|r to toggle locking all bar groups"
+L["Raven right click"] = "|cffffff00Правый клик|r, чтобы переключить закрепление всех групп" --"|cffffff00Right-click|r to toggle locking all bar groups"
 L["Raven shift left click"] = "|cffffff00Шифт+Левый клик|r, чтобы включить/отключить Raven" --"|cffffff00Shift-left-click|r to enable/disable Raven"
-L["Raven shift right click"] = "|cffffff00Шифт+Правый клик|r, чтобы включить/отключить стандартные баффы" --"|cffffff00Shift-right-click|r to toggle Blizzard buffs"
+L["Raven shift right click"] = "|cffffff00Шифт+Правый клик|r, чтобы переключить баффы Близзард" --"|cffffff00Shift-right-click|r to toggle Blizzard buffs"
 L["Shared Potion Cooldown"] = "Общее время восстановления зелий" --"Shared Potion Cooldown"
 L["Shared Elixir Cooldown"] = "Общее время восстановления эликсиров" --"Shared Elixir Cooldown"
 L["Global Cooldown"] = "Общее время восстановления" --"Global Cooldown"
@@ -42,14 +42,14 @@ L["Anchor attached"] = '|cffffff00Присоединен|r к "' --'|cffffff00At
 L["Anchor left click 1"] = "|cffffff00Левый клик|r, чтобы открепить и передвигать якорь" --"|cffffff00Left-click|r to unattach and then move the anchor"
 L["Anchor left click 2"] = "|cffffff00Левый клик|r, чтобы двигать якорь" --"|cffffff00Left-click|r to move the anchor"
 L["Anchor right click"] = "|cffffff00Правый клик|r, чтобы закрепить и спрятать якорь" --"|cffffff00Right-click|r to lock and hide the anchor"
-L["Anchor shift left click"] = "|cffffff00Shift-left-click|r to toggle test bars"
-L["Anchor shift right click"] = "|cffffff00Shift-right-click|r to toggle direction"
-L["Anchor alt left click"] = "|cffffff00Alt-left-click|r to open/close options menu"
-L["Anchor alt right click"] = "|cffffff00Alt-right-click|r to cycle through configurations"
-L["Add filter"] = function(a, b, n) return string.format("Raven: \"%s\" added to %s filter list for bar group \"%s\"", a, b, n) end
-L["Header click"] = "|cffffff00Right-click|r to hide unit until re-targeted or next spell tick or spell is reapplied"
-L["Header shift click"] = "|cffffff00Shift-right-click|r to hide all units with same name"
-L["<Applied by "] = true
+L["Anchor shift left click"] = "|cffffff00Шифт+Левый клик|r, чтобы переключить тестовые полосы" --"|cffffff00Shift-left-click|r to toggle test bars"
+L["Anchor shift right click"] = "|cffffff00Шифт+Правый клик|r, чтобы переключить направление" --"|cffffff00Shift-right-click|r to toggle direction"
+L["Anchor alt left click"] = "|cffffff00Альт+Левый клик|r, чтобы открыть/закрыть меню настроек" --"|cffffff00Alt-left-click|r to open/close options menu"
+L["Anchor alt right click"] = "|cffffff00Альт+Правый клик|r, чтобы переключаться между конфигурациями" --"|cffffff00Alt-right-click|r to cycle through configurations"
+L["Add filter"] = function(a, b, n) return string.format("Raven: \"%s\" добавлен в %s фильтр для группы \"%s\"", a, b, n) end --function(a, b, n) return string.format("Raven: \"%s\" added to %s filter list for bar group \"%s\"", a, b, n) end
+L["Header click"] = "|cffffff00Правый клик|r, чтобы спрятать единицу до тех пор, пока не выбрана в цель, или новое заклинание наложено, или до следующего такта заклинания" --"|cffffff00Right-click|r to hide unit until re-targeted or next spell tick or spell is reapplied"
+L["Header shift click"] = "|cffffff00Шифт+Правый клик|r, чтобы спрятать все единицы с одинаковым именем" --"|cffffff00Shift-right-click|r to hide all units with same name"
+L["<Applied by "] = "<Применил(а) " --"<Applied by "
 
 -- Conditions.lua
 -- These strings are used in GetConditionText function to produce a detail condition description.
