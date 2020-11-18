@@ -480,60 +480,68 @@ L["OmniCC"] = true
 L["Hide OmniCC"] = "Скрыть OmniCC" --"Hide OmniCC"
 L["If checked, OmniCC counts are hidden on icons in all bar groups (requires /reload)."] = "Если отмечено, таймеры OmniCC скрыты на иконках всех групп (требуется /reload)." --"If checked, OmniCC counts are hidden on icons in all bar groups (requires /reload)."
 L["Tukui/ElvUI"] = true
-L["If checked, bars are skinned with Tukui/ElvUI borders (requires /reload)."] = true
-L["If checked, icons are also skinned with Tukui/ElvUI borders (requires /reload)."] = true
-L["If checked, fonts are replaced with the normal font for Tukui/ElvUI (requires /reload)."] = true
+L["If checked, bars are skinned with Tukui/ElvUI borders (requires /reload)."] = "Если отмечено, полосы будут использовать границы Tukui/ElvUI (требуется /reload)." --"If checked, bars are skinned with Tukui/ElvUI borders (requires /reload)."
+L["If checked, icons are also skinned with Tukui/ElvUI borders (requires /reload)."] = "Если отмечено, иконки также будут использовать границы Tukui/ElvUI (требуется /reload)." --"If checked, icons are also skinned with Tukui/ElvUI borders (requires /reload)."
+L["If checked, fonts are replaced with the normal font for Tukui/ElvUI (requires /reload)."] = "Если отмечено, шрифты замещены обычными шрифтами ukui/ElvUI (требуется /reload)." --"If checked, fonts are replaced with the normal font for Tukui/ElvUI (requires /reload)."
 L["Pixel Perfect"] = true
-L["If checked, icons and bars will be adjusted for pixel perfect size and position (requires /reload)."] = true
+L["If checked, icons and bars will be adjusted for pixel perfect size and position (requires /reload)."] = "Если отмечено, иконки и полосы будут откорректированы под идеальный размер и позицию в пикселях (требуется /reload)." --"If checked, icons and bars will be adjusted for pixel perfect size and position (requires /reload)."
 L["Pixel Icon Border"] = true
-L["If checked, icons will be displayed with a border one pixel wide (requires /reload)."] = true
-L["Backdrop"] = true
-L["Set color for icon backdrop (displayed only if pixel icon borders are enabled)."] = true
+L["If checked, icons will be displayed with a border one pixel wide (requires /reload)."] = "Если отмечено, иконки будут отображать гриницу на один пиксель шире (требуется /reload)." --"If checked, icons will be displayed with a border one pixel wide (requires /reload)."
+L["Backdrop"] = "Фон" --"Backdrop"
+L["Set color for icon backdrop (displayed only if pixel icon borders are enabled)."] = "Установить цвет для фона иконки (отображается только если включен Pixel Icon Border)." --"Set color for icon backdrop (displayed only if pixel icon borders are enabled)."
 L["Icon Clock Edge"] = true
-L["If checked, icon clock overlays will be displayed with an edge (requires /reload)."] = true
-L["Skin Options"] = true
-L["Hide Custom Border"] = true
-L["By default, icons are displayed with a custom border and can be informatively colored using settings in the bar group Appearance tab. If this option is checked then custom borders are hidden."] = true
-L["Trim Icon Texture"] = true
-L["When hiding custom borders, the full icon texture is displayed by default but when this option is enabled the texture is trimmed to remove the outer edge."] = true
-L["If checked, custom borders are automatically hidden and icons are skinned with Masque (requires /reload)."] = true
-L["Use Masque"] = true
+L["If checked, icon clock overlays will be displayed with an edge (requires /reload)."] = "Если отмечено, часовая стрелка иконок будет иметь границу (требуется /reload)." --"If checked, icon clock overlays will be displayed with an edge (requires /reload)."
+L["Skin Options"] = "Настройки шкурок"
+L["Hide Custom Border"] = "Скрыть пользовательскую границу"
+L["By default, icons are displayed with a custom border and can be informatively colored using settings in the bar group Appearance tab. If this option is checked then custom borders are hidden."] = "По умолчанию, иконки отображаются с пользовательской границей и могут быть покрашены, используя настройки на странице 'Внешний вид' группы. Если эта опция включена, тогда пользовательские границы скрыты." --"By default, icons are displayed with a custom border and can be informatively colored using settings in the bar group Appearance tab. If this option is checked then custom borders are hidden."
+L["Trim Icon Texture"] = "Выравнивание текстуры иконки"
+L["When hiding custom borders, the full icon texture is displayed by default but when this option is enabled the texture is trimmed to remove the outer edge."] = "Когда пользовательские границы скрыты, отображается полная текстура иконки, но эта опция выравнивает текстуру, убирая внешние края." --"When hiding custom borders, the full icon texture is displayed by default but when this option is enabled the texture is trimmed to remove the outer edge."
+L["If checked, custom borders are automatically hidden and icons are skinned with Masque (requires /reload)."] = "Если отмечено, пользовательские границы автоматически скрыты и иконки используют шкурки Masque (требуется /reload)." --"If checked, custom borders are automatically hidden and icons are skinned with Masque (requires /reload)."
+L["Use Masque"] = "Использовать Masque" --"Use Masque"
 L["Masque"] = true
-L["Enable setting highlights through Masque if it is loaded. This is not ideal for every skin which is why it can be disabled. Try both enabled and disabled settings and see which works best."] = true
-L["Rectangular Icons"] = true
-L["If checked, allow rectangular icons in icon-oriented configurations, using bar width to set icon's width (requires /reload)."] = true
-L["Zoom Icons"] = true
-L["If checked, rectangular icons are zoomed, rather than stretched (requires /reload)."] = true
-L["Set default color for icon borders (displayed if None selected in Bar Color Scheme for Icon Border)."] = true
-L["Color Normal Texture"] = true
-L["If checked, icon border color is applied to the normal texture."] = true
-L["Color Border Texture"] = true
-L["If checked, icon border color is applied to the border texture."] = true
-L["UI Scale Options"] = true
-L["UI Scale warning"] = "UI Scale is a setting on the System menu's Advanced tab that adjusts the size of user interface elements. " ..
-	"It must be set correctly to display pixel perfect elements like thin borders around bars and icons. " ..
-	"This affects the entire UI and is commonly adjusted by addons like ElvUI. " ..
-	"Raven provides options to adjust UI Scale in case it is not already set correctly."
-L["Adjust UI Scale"] = true
-L["UIScale description"] = "If checked, Raven will adjust the UI Scale to optimize for pixel perfect alignment (requires /reload)."
-L["Report UI Scale"] = true
-L["UIScale message"] = "If checked, Raven will report UI Scale changes in the chat window. " ..
-	"Please verify that display resolution is detected correctly and adjust system settings if necessary " ..
-	"(e.g., sometimes switching between windowed and full screen modes and adjusting display resolution can resolve issues). " ..
-	"If this option is enabled then Raven will report during initialization and also after detecting UI Scale changes."
-L["Override"] = true
-L["UIScale override"] = "If checked then, during initialization, Raven will set the UI Scale to a specified value between 0.1 and 1 (requires /reload)."
-L["UI Scale"] = true
-L["Enter value between 0.1 and 1 to set during initialization."] = true
-L["Sound Channel"] = true
+L["Enable setting highlights through Masque if it is loaded. This is not ideal for every skin which is why it can be disabled. Try both enabled and disabled settings and see which works best."] = "Включить отображение настроек через Masque, если он загружен. Не самое идеальное решение, поэтому может быть отключено. Попробуйте оба варианта и определитесь, какой для Вас лучше." --"Enable setting highlights through Masque if it is loaded. This is not ideal for every skin which is why it can be disabled. Try both enabled and disabled settings and see which works best."
+L["Rectangular Icons"] = "Прямоугольные иконки" --"Rectangular Icons"
+L["If checked, allow rectangular icons in icon-oriented configurations, using bar width to set icon's width (requires /reload)."] = "Если отмечено, разрешает прямоугольные иконки в настройках иконок, используя опцию ширины полос для настройки ширины иконок (требуется /reload)." --"If checked, allow rectangular icons in icon-oriented configurations, using bar width to set icon's width (requires /reload)."
+L["Zoom Icons"] = "Увеличение иконок" --"Zoom Icons"
+L["If checked, rectangular icons are zoomed, rather than stretched (requires /reload)."] = "Если отмечено, прямоугольные иконки приближены, а не растянуты (требуется /reload)." --"If checked, rectangular icons are zoomed, rather than stretched (requires /reload)."
+L["Set default color for icon borders (displayed if None selected in Bar Color Scheme for Icon Border)."] = "Установить стандартный цвет для границ иконок (отображается, если выбрано None в Цветовой Схеме Полос для Границы Иконок)." --"Set default color for icon borders (displayed if None selected in Bar Color Scheme for Icon Border)."
+L["Color Normal Texture"] = "Окрашивание обычной текстуры" --"Color Normal Texture"
+L["If checked, icon border color is applied to the normal texture."] = "Если отмечено, цвет границы иконок применен к обычной текстуре." --"If checked, icon border color is applied to the normal texture."
+L["Color Border Texture"] = "Окрашивание текстуры границы" --"Color Border Texture"
+L["If checked, icon border color is applied to the border texture."] = "Если отмечено, цвет границы иконок применен к текстуре границ." --"If checked, icon border color is applied to the border texture."
+L["UI Scale Options"] = "Настройки масштабирования интерфейса" --"UI Scale Options"
+L["UI Scale warning"] = "Масшабирование интерфейса - это настройка видео, которая регулирует размер элементов пользовательского интерфейса. " ..
+	"Оно должно быть корректно настроено, чтобы идеально отображать пиксельные элементы, как тонкие границы иконок и полос.. " ..
+	"Масштабирование распространяется на весь интерфейс и обычно регулируется аддонами типа ElvUI. " ..
+	"Raven предоставляет данную функцию, если она ещё не установленна корректно."
+	--"UI Scale is a setting on the System menu's Advanced tab that adjusts the size of user interface elements. " ..
+	--"It must be set correctly to display pixel perfect elements like thin borders around bars and icons. " ..
+	--"This affects the entire UI and is commonly adjusted by addons like ElvUI. " ..
+	--"Raven provides options to adjust UI Scale in case it is not already set correctly."
+L["Adjust UI Scale"] = "Регулирование масштабирования" --"Adjust UI Scale"
+L["UIScale description"] = "Если отмечено, Raven будет регулировать масштабирование интерфейса для оптимизации пиксельного выравнивания (требуется /reload)." --"If checked, Raven will adjust the UI Scale to optimize for pixel perfect alignment (requires /reload)."
+L["Report UI Scale"] = "Оповещать о масштабировании" --"Report UI Scale"
+L["UIScale message"] = "Если отмечено, Raven  будет отчитываться об изменении масштабирования в окне чата. " ..
+	"Пожалуйста, проверьте, что разрешение экрана определено правильно, и отрегулируйте, если необходимо " ..
+	"(например, иногда переключение между оконнным и полноэкранным режимами и изменение настроек разрешение может решить проблемы). " ..
+	"Если данная опция включена, Raven будет оповещать при инициализации, а также при обнаружении изменений масштабирования."
+	--"If checked, Raven will report UI Scale changes in the chat window. " ..
+	--"Please verify that display resolution is detected correctly and adjust system settings if necessary " ..
+	--"(e.g., sometimes switching between windowed and full screen modes and adjusting display resolution can resolve issues). " ..
+	--"If this option is enabled then Raven will report during initialization and also after detecting UI Scale changes."
+L["Override"] = "Приоритет" --"Override"
+L["UIScale override"] = "Если отмечено, то при инициализации Raven будет устанавливать масштабирование интерфейса на определенное значение от 0.1 and 1 (требуется /reload)." --"If checked then, during initialization, Raven will set the UI Scale to a specified value between 0.1 and 1 (requires /reload)."
+L["UI Scale"] = "Масштабирование" --"UI Scale"
+L["Enter value between 0.1 and 1 to set during initialization."] = "Введите значение от 0.1 до 1 для установки во время загрузки." --"Enter value between 0.1 and 1 to set during initialization."
+L["Sound Channel"] = "Звуковой канал" --"Sound Channel"
 L["Master"] = MASTER
-L["If checked, sound is played in Master channel."] = true
-L["SFX"] = true -- LEGION BUG
-L["If checked, sound is played in Sound Effects channel."] = true
+L["If checked, sound is played in Master channel."] = "Если отмечено, звуки будут воспроизодиться в Основном канале." --"If checked, sound is played in Master channel."
+L["SFX"] = "Эффекты" --"SFX" --LEGION BUG
+L["If checked, sound is played in Sound Effects channel."] = "Если отмечено, звуки будут воспроизодиться в канале Эффекты" --"If checked, sound is played in Sound Effects channel."
 L["Music"] = VOICE_MUSIC
-L["If checked, sound is played in Music channel."] = true
+L["If checked, sound is played in Music channel."] = "Если отмечено, звуки будут воспроизодиться в канале Музыка." --"If checked, sound is played in Music channel."
 L["Ambience"] = VOICE_AMBIENCE
-L["If checked, sound is played in Ambience channel."] = true
+L["If checked, sound is played in Ambience channel."] = "Если отмечено, звуки будут воспроизодиться в канале Мир." --"If checked, sound is played in Ambience channel."
 
 -- Spells tab
 L["Spells"] = SPELLS
