@@ -682,88 +682,99 @@ L["Delete the selected spell effect."] = "Удалить выбранный эф
 L["Delete effect string"] = "УДАЛИТЬ ЭФФЕКТ ЗАКЛИНАНИЯ\nВы уверены, что хотите удалить выбранный эффект заклинания?" --"DELETE SPELL EFFECT\nAre you sure you want to delete the selected spell effect?"
 L["Enable detecting this spell effect."] = "Включить отслеживание этого эффекта заклинания." --"Enable detecting this spell effect."
 L["Renew"] = "Обновление" --"Renew"
-L["If checked, spell effect is renewed if spell is cast again while effect is active."] = true
-L["If checked, include name of caster in the label if spell effect is a buff or debuff."] = true
-L["Enter spell name or numeric identifier for spell to be associated with this effect (default is to use spell that triggers the effect)."] = true
-L["Required Talent"] = true
-L["Enter name or numeric identifier for talent required for effect to happen (leave blank if no talent required)."] = true
-L["Required Buff"] = true
-L["Enter name or numeric identifier for buff required to be active on player for effect to happen (leave blank if no buff required)."] = true
-L["Required Condition"] = true
-L["Enter name of condition required to be true for effect to happen (leave blank if no condition required)."] = true
-L["Optional Buff"] = true
-L["Enter name or numeric identifier for buff that changes the duration of the effect when active on player (leave blank if no buff required)."] = true
-L["Optional Duration"] = true
-L["Enter duration of spell effect when optional buff is active on player."] = true
-L["If checked, spell must be cast by the player to trigger the spell effect."] = true
-L["If checked, spell must be cast by the player's pet to trigger the spell effect."] = true
-L["If checked, spell must be cast by the target to trigger the spell effect."] = true
-L["If checked, spell must be cast by the focus to trigger the spell effect."] = true
-L["If checked, spell must be cast by anyone other than the player or pet to trigger the spell effect."] = true
-L["If checked, spell must be cast by the player or pet to trigger the spell effect."] = true
-L["If checked, trigger the spell effect if the spell is cast by anyone, including player."] = true
-L["Spell Lists"] = true
-L["Spell List"] = true
-L["Spell List #1"] = true
-L["Spell List #2"] = true
-L["Spell List #3"] = true
-L["Spell List #4"] = true
-L["Spell List #5"] = true
-L["New Spell List"] = true
-L["Create a new spell list (or select an existing one by name)."] = true
-L["Copy Spell List"] = true
-L["Copy the selected spell list into a new or existing spell list."] = true
-L["Enter Spell List Name"] = true
-L["Enter name for either a new or existing spell list."] = true
-L["Cancel creating a new spell list."] = true
-L["Delete Spell List"] = true
-L["Delete the selected spell list."] = true
-L["Delete spell list string"] = "DELETE SPELL LIST\nAre you sure you want to delete the selected spell list?"
-L["Enter Spell"] = true
-L["Delete the selected spell from the list."] = true
-L["Reset the spell list."] = true
-L['RESET\nAre you sure you want to reset the spell list?'] = true
+L["If checked, spell effect is renewed if spell is cast again while effect is active."] = "Если отмечено, эффект обновится, когда заклинание будет использовано во время действия эффета." --"If checked, spell effect is renewed if spell is cast again while effect is active."
+L["If checked, include name of caster in the label if spell effect is a buff or debuff."] = "Если отмечено, включить имя заклинателя в обозначение, если эффект - бафф или дебафф." --"If checked, include name of caster in the label if spell effect is a buff or debuff."
+L["Enter spell name or numeric identifier for spell to be associated with this effect (default is to use spell that triggers the effect)."] = "Введите назвение заклинания или ID для ассоциации с данным эффектом (обычно используется заклинания, которое провоцирует эффект)." --"Enter spell name or numeric identifier for spell to be associated with this effect (default is to use spell that triggers the effect)."
+L["Required Talent"] = "Требуемый талант" --"Required Talent"
+L["Enter name or numeric identifier for talent required for effect to happen (leave blank if no talent required)."] = "Введите название таланта или ID, требуемого для эффекта (оставьте пустым если не требуется)." --"Enter name or numeric identifier for talent required for effect to happen (leave blank if no talent required)."
+L["Required Buff"] = "Требуемый бафф" --"Required Buff"
+L["Enter name or numeric identifier for buff required to be active on player for effect to happen (leave blank if no buff required)."] = "Введите название баффа или ID, требуемого для эффекта (оставьте пустым если не требуется)." --"Enter name or numeric identifier for buff required to be active on player for effect to happen (leave blank if no buff required)."
+L["Required Condition"] = "Требуемое условие" --"Required Condition"
+L["Enter name of condition required to be true for effect to happen (leave blank if no condition required)."] = "Введите название исполняемого условия, требуемого для эффекта (оставьте пустым если не требуется)." --"Enter name of condition required to be true for effect to happen(leave blank if no buff required)."
+L["Optional Buff"] = "Опциональный бафф" --"Optional Buff"
+L["Enter name or numeric identifier for buff that changes the duration of the effect when active on player (leave blank if no buff required)."] = "Введите название баффа или ID, который изменяет длительность эффекта, когда активен на персонаже (оставьте пустым если не требуется)." --"Enter name or numeric identifier for buff that changes the duration of the effect when active on player (leave blank if no buff required)."
+L["Optional Duration"] = "Опциональная длительность" --"Optional Duration"
+L["Enter duration of spell effect when optional buff is active on player."] = "Введите длительность эффекта, когда опциональный бафф активен на персонаже." --"Enter duration of spell effect when optional buff is active on player."
+L["If checked, spell must be cast by the player to trigger the spell effect."] = "Если отмечено, заклинание должно быть произнесено игроком, чтобы запустить эффект." --"If checked, spell must be cast by the player to trigger the spell effect."
+L["If checked, spell must be cast by the player's pet to trigger the spell effect."] = "Если отмечено, заклинание должно быть произнесено питомцем игрока, чтобы запустить эффект." --"If checked, spell must be cast by the player's pet to trigger the spell effect."
+L["If checked, spell must be cast by the target to trigger the spell effect."] = "Если отмечено, заклинание должно быть произнесено целью, чтобы запустить эффект." --"If checked, spell must be cast by the target to trigger the spell effect."
+L["If checked, spell must be cast by the focus to trigger the spell effect."] = "Если отмечено, заклинание должно быть произнесено фокусом, чтобы запустить эффект." --"If checked, spell must be cast by the focus to trigger the spell effect."
+L["If checked, spell must be cast by anyone other than the player or pet to trigger the spell effect."] = "Если отмечено, заклинание должно быть произнесено кем угодно, кроме игрока, чтобы запустить эффект." --"If checked, spell must be cast by anyone other than the player or pet to trigger the spell effect."
+L["If checked, spell must be cast by the player or pet to trigger the spell effect."] = "Если отмечено, заклинание должно быть произнесено игроком или питомцем, чтобы запустить эффект." --"If checked, spell must be cast by the player or pet to trigger the spell effect."
+L["If checked, trigger the spell effect if the spell is cast by anyone, including player."] = "Если отмечено, заклинание должно быть произнесено кем угодно, включая игрока, чтобы запустить эффект." --"If checked, trigger the spell effect if the spell is cast by anyone, including player."
+L["Spell Lists"] = "Списки заклинаний" --"Spell Lists"
+L["Spell List"] = "Список заклинаний" --"Spell List"
+L["Spell List #1"] = "Список заклинаний #1" --"Spell List #1"
+L["Spell List #2"] = "Список заклинаний #2" --"Spell List #2"
+L["Spell List #3"] = "Список заклинаний #3" --"Spell List #3"
+L["Spell List #4"] = "Список заклинаний #4" --"Spell List #4"
+L["Spell List #5"] = "Список заклинаний #5" --"Spell List #5"
+L["New Spell List"] = "Новый список заклинаний"  --"New Spell List"
+L["Create a new spell list (or select an existing one by name)."] = "Создать новый список заклинаний (или выбрать существующий по названию)." --"Create a new spell list (or select an existing one by name)."
+L["Copy Spell List"] = "Копировать список заклинаний" --"Copy Spell List"
+L["Copy the selected spell list into a new or existing spell list."] = "Копировать выбранные список заклинаний в новый или существующий список заклинаний." --"Copy the selected spell list into a new or existing spell list."
+L["Enter Spell List Name"] = "Введите название списка заклинаний" --"Enter Spell List Name"
+L["Enter name for either a new or existing spell list."] = "Введите название нового или существующего списка заклинаний." --"Enter name for either a new or existing spell list."
+L["Cancel creating a new spell list."] = "Отменить создание нового списка заклинаний." --"Cancel creating a new spell list."
+L["Delete Spell List"] = "Удалить список заклинаний" --"Delete Spell List"
+L["Delete the selected spell list."] = "Удалить выбранный список заклинаний." --"Delete the selected spell list."
+L["Delete spell list string"] = "УДАЛИТЬ СПИСОК ЗАКЛИНАНИЙ\nВы уверены, что хотите удалить выбранный список заклинаний?" --"DELETE SPELL LIST\nAre you sure you want to delete the selected spell list?"
+L["Enter Spell"] = "Введите заклинание" --"Enter Spell"
+L["Delete the selected spell from the list."] = "Удалить выбранное заклинание из списка." --"Delete the selected spell from the list."
+L["Reset the spell list."] = "Сброс списка заклинаний." --"Reset the spell list."
+L['RESET\nAre you sure you want to reset the spell list?'] = 'СБРОС\nВы уверены, что хотите сбросить список заклинаний?' --'RESET\nAre you sure you want to reset the spell list?'
 
 -- Bar Groups tab
-L["Bar Groups"] = true
-L["Bar Group"] = true
-L["New Custom Group"] = true
-L["Create a new bar group with manually added bars."] = true
-L["New Auto Group"] = true
-L["Create a new bar group with automatically displayed bars."] = true
-L["Enter Custom Group Name"] = true
-L["Enter name of new custom bar group."] = true
-L["Invalid name."] = true
-L["Enter Auto Group Name"] = true
-L["Enter name of new auto bar group."] = true
-L["Cancel"] = true
-L["Cancel creating a new bar group."] = true
-L["Delete the selected bar group."] = true
-L["Delete bar group string"] = function(s) return string.format("DELETE BAR GROUP\nAre you sure you want to delete the %s bar group?", s) end
+L["Bar Groups"] = "Группы" --"Bar Groups"
+L["Bar Group"] = "Группа" --"Bar Group"
+L["New Custom Group"] = "Новая группа" --"New Custom Group"
+L["Create a new bar group with manually added bars."] = "Создание новой группы с вручную добавленными полосами." --"Create a new bar group with manually added bars."
+L["New Auto Group"] = "Новая автоматическая группа." --"New Auto Group"
+L["Create a new bar group with automatically displayed bars."] = "Создание новой группы с автоматически отображаемыми полосами." --"Create a new bar group with automatically displayed bars."
+L["Enter Custom Group Name"] = "Название группы" --"Enter Custom Group Name"
+L["Enter name of new custom bar group."] = "Введите название новой группы." --"Enter name of new custom bar group."
+L["Invalid name."] = "Неверное название." --"Invalid name."
+L["Enter Auto Group Name"] = "Назнавание автоматической группы" --"Enter Auto Group Name"
+L["Enter name of new auto bar group."] = "Введите название новой автоматической группы." --"Enter name of new auto bar group."
+L["Cancel"] = "Отмена" --"Cancel"
+L["Cancel creating a new bar group."] = "Отмена создания новой группы." --"Cancel creating a new bar group."
+L["Delete the selected bar group."] = "Удалить выбранную группу." --"Delete the selected bar group."
+L["Delete bar group string"] = function(s) return string.format("УДАЛЕНИЕ ГРУППЫ\nВы уверены, что хотите удалить группу %s?", s) end --function(s) return string.format("DELETE BAR GROUP\nAre you sure you want to delete the %s bar group?", s) end
+
 
 -- Bar Groups > General tab
 L["General"] = GENERAL
 L["Settings"] = SETTINGS
-L["General Settings"] = true
-L["Enable Bar Group"] = true
-L["Enable bar group string"] = "If checked, the bar group is enabled and its anchor and bars will be displayed, " ..
-	"otherwise the bar group is disabled and neither anchor nor bars will be displayed."
-L["Merge Bar Group"] = true
-L["Merge bar group string"] = "If checked, merge bars from this bar group into another bar group. " ..
-	"Bars are generated based on this bar group's custom or auto settings, including \"Show When\" and timer options, " ..
-	"but are sorted and displayed using the other bar group's layout and appearance settings."
-L["Rename Bar Group"] = true
-L["New Name"] = true
-L["Enter new name for the bar group."] = true
-L["Sharing"] = true
-L["Link Settings"] = true
-L["Load Settings"] = true
-L["Save Settings"] = true
-L["Link settings string"] = "If checked, the bar group's position, layout, appearance, and timer options are linked " ..
-	"to bar groups in other profiles with the same name. Shared settings are loaded when a character " ..
-	"enters the world and are saved at logout. Be careful enabling this feature since it will overwrite " ..
-	"current settings if there is a linked bar group with same name in another profile. If you want to share your current settings, " ..
-	"overwriting any previously shared settings, then click the Save Settings button before enabling this option."
+L["General Settings"] = "Общие настройки" --"General Settings"
+L["Enable Bar Group"] = "Включить группу" --"Enable Bar Group"
+L["Enable bar group string"] = "Если отмечено, группа включена и её якорь и полосы отображаются, " ..
+	"в противному случае группа отключена, как и её якорь и полосы."
+	--"If checked, the bar group is enabled and its anchor and bars will be displayed, " ..
+	--"otherwise the bar group is disabled and neither anchor nor bars will be displayed."
+L["Merge Bar Group"] = "Объединить группу"
+L["Merge bar group string"] = "Если отмечено, объединить полосы из этой группы в другую группу. " ..
+	"Полосы используют настройки этой группы, включая \"Отображать когда\" и параметры таймеров, " ..
+	"но отсортированы и отображены, используя настройки схемы и внешнего вида другой группы."
+	--"If checked, merge bars from this bar group into another bar group. " ..
+	--"Bars are generated based on this bar group's custom or auto settings, including \"Show When\" and timer options, " ..
+	--"but are sorted and displayed using the other bar group's layout and appearance settings."
+L["Rename Bar Group"] = "Переименовать группу" --"Rename Bar Group"
+L["New Name"] = "Новое название" --"New Name"
+L["Enter new name for the bar group."] = "Введите новое название для группы." --"Enter new name for the bar group."
+L["Sharing"] = "Обмен" --"Sharing"
+L["Link Settings"] = "Связать настройки" --"Link Settings"
+L["Load Settings"] = "Загрузить настройки" --"Load Settings"
+L["Save Settings"] = "Сохранить настройки" --"Save Settings"
+L["Link settings string"] = "Если отмечено, настройки расположения, схемы, внешнего вида и таймера связаны " ..
+	"с группами в других профилях с таким же названием. Общие настройки загружаются, когда персонаж " ..
+	"заходит в игру, и сохраняются при выходе. Будьте осторожны включая данную функцию, поскольу она перезаписывает " ..
+	"текущие настройки, если уже есть связанные группы с таким же именем в других профилях. Если хотите поделиться своими текущими настройками, " ..
+	"перезаписывая все предыдущие общие настройки, тогда нажмите кнопку Сохранить настройки перед использование данной функции."
+	--If checked, the bar group's position, layout, appearance, and timer options are linked " ..
+	--"to bar groups in other profiles with the same name. Shared settings are loaded when a character " ..
+	--"enters the world and are saved at logout. Be careful enabling this feature since it will overwrite " ..
+	--"current settings if there is a linked bar group with same name in another profile. If you want to share your current settings, " ..
+	--"overwriting any previously shared settings, then click the Save Settings button before enabling this option."
 L["Confirm link string"] = "LINK BAR GROUP\nAre you sure you want to overwrite current settings?"
 L["Confirm unlink string"] = "LINK BAR GROUP\nAre you sure you no longer want to link settings for this bar group?"
 L["Click to save to the shared settings used by bar groups with same name in other profiles."] = true
