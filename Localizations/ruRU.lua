@@ -727,12 +727,12 @@ L['RESET\nAre you sure you want to reset the spell list?'] = 'СБРОС\nВы �
 -- Bar Groups tab
 L["Bar Groups"] = "Группы" --"Bar Groups"
 L["Bar Group"] = "Группа" --"Bar Group"
-L["New Custom Group"] = "Новая группа" --"New Custom Group"
+L["New Custom Group"] = "Новая персональная группа" --"New Custom Group"
 L["Create a new bar group with manually added bars."] = "Создание новой группы с вручную добавленными полосами." --"Create a new bar group with manually added bars."
 L["New Auto Group"] = "Новая автоматическая группа." --"New Auto Group"
 L["Create a new bar group with automatically displayed bars."] = "Создание новой группы с автоматически отображаемыми полосами." --"Create a new bar group with automatically displayed bars."
-L["Enter Custom Group Name"] = "Название группы" --"Enter Custom Group Name"
-L["Enter name of new custom bar group."] = "Введите название новой группы." --"Enter name of new custom bar group."
+L["Enter Custom Group Name"] = "Название персональной группы" --"Enter Custom Group Name"
+L["Enter name of new custom bar group."] = "Введите название новой персональной группы." --"Enter name of new custom bar group."
 L["Invalid name."] = "Неверное название." --"Invalid name."
 L["Enter Auto Group Name"] = "Назнавание автоматической группы" --"Enter Auto Group Name"
 L["Enter name of new auto bar group."] = "Введите название новой автоматической группы." --"Enter name of new auto bar group."
@@ -767,7 +767,7 @@ L["Load Settings"] = "Загрузить настройки" --"Load Settings"
 L["Save Settings"] = "Сохранить настройки" --"Save Settings"
 L["Link settings string"] = "Если отмечено, настройки расположения, схемы, внешнего вида и таймера связаны " ..
 	"с группами в других профилях с таким же названием. Общие настройки загружаются, когда персонаж " ..
-	"заходит в игру, и сохраняются при выходе. Будьте осторожны включая данную функцию, поскольу она перезаписывает " ..
+	"заходит в игру, и сохраняются при выходе. Будьте внимательны, включая данную функцию, поскольку она перезаписывает " ..
 	"текущие настройки, если уже есть связанные группы с таким же именем в других профилях. Если хотите поделиться своими текущими настройками, " ..
 	"перезаписывая все предыдущие общие настройки, тогда нажмите кнопку Сохранить настройки перед использование данной функции."
 	--If checked, the bar group's position, layout, appearance, and timer options are linked " ..
@@ -775,48 +775,53 @@ L["Link settings string"] = "Если отмечено, настройки ра�
 	--"enters the world and are saved at logout. Be careful enabling this feature since it will overwrite " ..
 	--"current settings if there is a linked bar group with same name in another profile. If you want to share your current settings, " ..
 	--"overwriting any previously shared settings, then click the Save Settings button before enabling this option."
-L["Confirm link string"] = "LINK BAR GROUP\nAre you sure you want to overwrite current settings?"
-L["Confirm unlink string"] = "LINK BAR GROUP\nAre you sure you no longer want to link settings for this bar group?"
-L["Click to save to the shared settings used by bar groups with same name in other profiles."] = true
-L["Click to load the shared settings used by bar groups with same name in other profiles."] = true
-L["Confirm load string"] = "LOAD SETTINGS\nAre you sure you want to overwrite current settings for this bar group?"
-L["No linked settings string"] = "LOAD SETTINGS\nThere are no shared settings for this bar group."
-L["Confirm save string"] = "SAVE SETTINGS\nAre you sure you want to overwrite the shared settings used by bar groups with same name in other profiles?"
-L["Link Custom Bars"] = true
-L["Load Custom Bars"] = true
-L["Save Custom Bars"] = true
-L["Link bars string"] = "If checked, the bar group's custom bars are linked " ..
-	"to bar groups in other profiles with the same name. Shared custom bars are loaded when a character " ..
-	"enters the world and are saved at logout. Be careful enabling this feature since it will overwrite " ..
-	"current custom bars if there is a linked bar group with same name in another profile. If you want to share your current custom bars, " ..
-	"overwriting any previously shared custom bars, then click the Save Custom Bars button before enabling this option."
-L["Confirm link bars string"] = "LINK BARS\nAre you sure you want to overwrite current custom bars?"
-L["Confirm unlink bars string"] = "LINK BARS\nAre you sure you no longer want to link the custom bars for this bar group?"
-L["Click to load the shared custom bars used by bar groups with same name in other profiles."] = true
-L["Click to save to the shared custom bars used by bar groups with same name in other profiles."] = true
-L["Confirm load bars string"] = "LOAD CUSTOM BARS\nAre you sure you want to overwrite current custom bars for this bar group?"
-L["No linked bars string"] = "LOAD CUSTOM BARS\nThere are no shared custom bars for this bar group."
-L["Confirm save bars string"] = "SAVE CUSTOM BARS\nAre you sure you want to overwrite the shared custom bars used by bar groups with same name in other profiles?"
-L["Bar Group To Merge Into"] = true
-L["Select a bar group to merge into."] = true
-L["Sort Order"] = true
-L["A to Z"] = true
-L["If checked, sort in ascending alphabetical order starting at bar closest to the anchor."] = true
-L["Time Left"] = true
-L["If checked, sort by time left in ascending order starting at bar closest to the anchor."] = true
-L["Duration"] = true
-L["If checked, sort by overall duration in ascending order starting at bar closest to the anchor."] = true
-L["Creation"] = true
-L["If checked, show bars in order created with oldest bar closest to the anchor."] = true
-L["Custom"] = true
-L["If checked, allow manually setting the order of bars."] = true
-L["Reverse Order"] = true
-L['If checked, reverse the sort order (e.g., "A to Z" becomes "Z to A").'] = true
-L["Also Time Left"] = true
-L['If checked, before applying selected sort order, first sort by time left.'] = true
-L["Also Player First"] = true
-L['If checked, after applying selected sort order, sort bars with actions by player first.'] = true
-L["Show When"] = true
+L["Confirm link string"] = "СВЯЗЫВАНИЕ ГРУПП\nВы уверены, что хотите перезаписать текущие настройки?" --"LINK BAR GROUP\nAre you sure you want to overwrite current settings?"
+L["Confirm unlink string"] = "СВЯЗЫВАНИЕ ГРУПП\nВы уверены, что не хотите больше связывать настройки данной группы?" --"LINK BAR GROUP\nAre you sure you no longer want to link settings for this bar group?"
+L["Click to save to the shared settings used by bar groups with same name in other profiles."] = "Нажмите, чтобы сохранить общие настройки групп с таким же именем в других профилях." --"Click to save to the shared settings used by bar groups with same name in other profiles."
+L["Click to load the shared settings used by bar groups with same name in other profiles."] = "Нажмите, чтобы загрузить общие настройки групп с таким же именем в других профилях." --"Click to load the shared settings used by bar groups with same name in other profiles."
+L["Confirm load string"] = "ЗАГРУЗКА НАСТРОЕК\nВы уверены, что хотите перезаписать текущие настройки для этой группы?" --"LOAD SETTINGS\nAre you sure you want to overwrite current settings for this bar group?"
+L["No linked settings string"] = "ЗАГРУЗКА НАСТРОЕК\nНе существует общих настроек для этой группы." --"LOAD SETTINGS\nThere are no shared settings for this bar group."
+L["Confirm save string"] = "СОХРАНЕНИЕ НАСТРОЕК\nВы уверены, что хотите перезаписать общие настройки групп с таким же именем в других профилях?" --"SAVE SETTINGS\nAre you sure you want to overwrite the shared settings used by bar groups with same name in other profiles?"
+L["Link Custom Bars"] = "Связь персональных полос" --"Link Custom Bars"
+L["Load Custom Bars"] = "Загрузка персональных полос" --"Load Custom Bars"
+L["Save Custom Bars"] = "Сохранение персональных полос" --"Save Custom Bars"
+L["Link bars string"] = "Если отмечено, персональные полосы группы связаны " ..
+	"с полосами групп с таким же именем в других профилях. Общие персональные полосы загружаются, когда персонаж " ..
+	"входит в игру, и сохраняются при выходе. Будьте внимательны, включая данную функцию, поскольку она перезаписывает " ..
+	"текущие персональные полосы, если уже есть связанные группы с таким же именем в других профилях. Если хотите поделиться своими текущими персональными полосами, " ..
+	"перезаписывая все предыдущие персональные полосы, тогда нажмите кнопку Сохранить персональные полосы перед использование данной функции."
+	--"If checked, the bar group's custom bars are linked " ..
+	--"to bar groups in other profiles with the same name. Shared custom bars are loaded when a character " ..
+	--"enters the world and are saved at logout. Be careful enabling this feature since it will overwrite " ..
+	--"current custom bars if there is a linked bar group with same name in another profile. If you want to share your current custom bars, " ..
+	--"overwriting any previously shared custom bars, then click the Save Custom Bars button before enabling this option."
+L["Confirm link bars string"] = "СВЯЗЬ ПОЛОС\nВы уверены, что хотите перезаписать текущие персональные полосы?" --"LINK BARS\nAre you sure you want to overwrite current custom bars?"
+L["Confirm unlink bars string"] = "СВЯЗЬ ПОЛОС\nВы уверены, что не хотите больше связывать настройки персональных полос для данной группы?" --"LINK BARS\nAre you sure you no longer want to link the custom bars for this bar group?"
+L["Click to load the shared custom bars used by bar groups with same name in other profiles."] = "Нажмите, чтобы загрузить общие персональные полосы групп с таким же именем в других профилях." --"Click to load the shared custom bars used by bar groups with same name in other profiles."
+L["Click to save to the shared custom bars used by bar groups with same name in other profiles."] = "Нажмите, чтобы сохранить общие персональные полосы групп с таким же именем в других профилях." --"Click to save to the shared custom bars used by bar groups with same name in other profiles."
+L["Confirm load bars string"] = "ЗАГРУЗКА ПЕРСОНАЛЬНЫХ ПОЛОС\nВы уверены, что хотите перезаписать текущие персональные полосы для данной группы?" --"LOAD CUSTOM BARS\nAre you sure you want to overwrite current custom bars for this bar group?"
+L["No linked bars string"] = "ЗАГРУЗКА ПЕРСОНАЛЬНЫХ ПОЛОС\nНе существует общих персональных полос для этой группы." --"LOAD CUSTOM BARS\nThere are no shared custom bars for this bar group."
+L["Confirm save bars string"] = "СОХРАНЕНИЕ ПЕРСОНАЛЬНЫХ ПОЛОС\nВы уверены, что хотите перезаписать общие персональные полосы с таким же именев в других профилях?" --"SAVE CUSTOM BARS\nAre you sure you want to overwrite the shared custom bars used by bar groups with same name in other profiles?"
+L["Bar Group To Merge Into"] = "Группа для объединения" --"Bar Group To Merge Into"
+L["Select a bar group to merge into."] = "Выберите группу для объединения." --"Select a bar group to merge into."
+L["Sort Order"] = "Порядок" --"Sort Order"
+L["A to Z"] = "От А до Я" --"A to Z"
+L["If checked, sort in ascending alphabetical order starting at bar closest to the anchor."] = "Если отмечено, сортировка в алфавитном порядке, начиная от якоря." --"If checked, sort in ascending alphabetical order starting at bar closest to the anchor."
+L["Time Left"] = "Оставшееся время" --"Time Left"
+L["If checked, sort by time left in ascending order starting at bar closest to the anchor."] = "Если отмечено, сортировка по оставшемуся времени, истекающие ближе к якорю." --"If checked, sort by time left in ascending order starting at bar closest to the anchor."
+L["Duration"] = "Длительность" --"Duration"
+L["If checked, sort by overall duration in ascending order starting at bar closest to the anchor."] = "Если отмечено, сортировка по общей длительности, самые короткие ближе к якорю." --"If checked, sort by overall duration in ascending order starting at bar closest to the anchor."
+L["Creation"] = "Создание"
+L["If checked, show bars in order created with oldest bar closest to the anchor."] = "Если отмечено, сортировка по времени создания, самые ранние ближе к якорю." --"If checked, show bars in order created with oldest bar closest to the anchor."
+L["Custom"] = "Персональный" --"Custom"
+L["If checked, allow manually setting the order of bars."] = "Если отмечено, позволяет ручную настройку порядка полос." --"If checked, allow manually setting the order of bars."
+L["Reverse Order"] = "Обратный порядок" --"Reverse Order"
+L['If checked, reverse the sort order (e.g., "A to Z" becomes "Z to A").'] = 'Если отмечено, отразить порядок (например, "От А до Я" становится "От Я до А").' --'If checked, reverse the sort order (e.g., "A to Z" becomes "Z to A").'
+L["Also Time Left"] = "Также Оставшееся время" --"Also Time Left"
+L['If checked, before applying selected sort order, first sort by time left.'] = 'Если отмечено, перед применением выбранного порядка, отсортировать сначала по оставшемуся времени.' --'If checked, before applying selected sort order, first sort by time left.'
+L["Also Player First"] = "Также Игрок первым" --"Also Player First"
+L['If checked, after applying selected sort order, sort bars with actions by player first.'] = 'Если отмечено, перед применения выбранного порядка, отсортировать сначала действия игрока.' --'If checked, after applying selected sort order, sort bars with actions by player first.'
+L["Show When"] = "Показать когда" --"Show When"
 L["If checked, bar group is shown when the player is in combat."] = true
 L["If checked, bar group is shown when the player is out of combat."] = true
 L["Resting"] = true
