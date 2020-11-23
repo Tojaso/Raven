@@ -12,6 +12,7 @@ embeds.xml
 #@end-no-lib-strip@
 
 Localizations\enUS.lua
+Localizations\ruRU.lua
 
 Main.lua
 Profile.lua
