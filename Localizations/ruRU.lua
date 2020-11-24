@@ -1739,10 +1739,10 @@ L["If checked, test the target's maximum health."] = "Если отмечено,
 L["Enter minimum value for target's maximum health required for test to be true."] = "Введите максимальное значение максимального здоровья цели, необходимое для истинности теста."
 
 -- Conditions > Tests > Target's Target Status
-L["If checked, test if target's target currently exists."] = true
-L["If checked, target's target must exist."] = true
-L["If checked, target's target must not exist."] = true
-L["If checked, test if the target's target is a player."] = true
+L["If checked, test if target's target currently exists."] = "Если отмечено, тестировать наличие цели цели."
+L["If checked, target's target must exist."] = "Если отмечено, цель цели должна существовать."
+L["If checked, target's target must not exist."] = "Если отмечено, цель цели не должна существовать."
+L["If checked, test if the target's target is a player."] = "Если отмечено, тестировать, что цель цели - игрок."
 L["If checked, target's target must be a player."] = true
 L["If checked, target's target must not be a player."] = true
 L["If checked, test if the target's target is an enemy."] = true
