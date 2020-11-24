@@ -1491,77 +1491,77 @@ L["Class"] = "Класс"
 L["Show bars using the player's class color."] = "Показать полосы, используя цвет класса игрока."
 
 -- Bar Groups > Timer Options tab
-L["Timer Options"] = true
-L["Show With Uniform Duration"] = true
-L["Show timer bars scaled with a uniform duration (text still shows actual time left)."] = true
-L["Only If Longer"] = true
-L["Only scale bars if actual duration is greater than the specified uniform duration."] = true
-L["Enter minutes in the uniform duration."] = true
-L["Enter seconds in the uniform duration."] = true
-L["Show If Unlimited Duration"] = true
-L["Show bars for actions with unlimited duration (e.g., buffs that don't expire)."] = true
-L["Only Show Unlimited"] = true
-L["Show bars for actions only if they have unlimited duration."] = true
-L["Show As Full Bars"] = true
-L["If checked, bars with unlimited duration show as full bars, otherwise they show as empty bars."] = true
-L["Ready Reverse"] = true
-L["If checked, ready bars show with reverse of Full Bars setting."] = true
-L["Unlimited As Zero"] = true
-L["If checked, bars with unlimited duration sort as zero duration, otherwise as very long duration."] = true
-L["Check Overall Duration"] = true
-L["Only include timer bars with a specified minimum (or maximum) duration."] = true
-L["Enter minutes for overall duration check."] = true
-L["Enter seconds for overall duration check."] = true
-L["Check Time Left"] = true
-L["Only show timer bars with a specified minimum (or maximum) time left."] = true
-L["Enter minutes for time left check."] = true
-L["Enter seconds for time left check."] = true
-L["Time Format"] = true
-L["Time format string"] = "Select time format for bars and icons. There are separate settings for five ranges: " ..
-	"more then an hour, 2 minutes to an hour, 1 minute to 2 minutes, 10 seconds to 1 minute, less than 10 seconds. " ..
-	"These are illustrated by samples in the drop-down menu for each format option."
-L["If checked, time format options are set to default values."] = true
-L["Reset time format for this bar group back to the current defaults."] = true
-L["Spaces"] = true
-L["Include spaces between values in time format."] = true
-L["Uppercase"] = true
-L["If checked, use uppercase H, M and S in time format, otherwise use lowercase."] = true
+L["Timer Options"] = "Настройки таймеров"
+L["Show With Uniform Duration"] = "Показать с универсальной длительностью"
+L["Show timer bars scaled with a uniform duration (text still shows actual time left)."] = "Показать полосы таймеров, мастабированные под универсальную длительность (текст также отображает реальную длительность)."
+L["Only If Longer"] = "Только если дольше"
+L["Only scale bars if actual duration is greater than the specified uniform duration."] = "Масштрабировать полосы, только если реальная длительность больше чем универсальная длительность."
+L["Enter minutes in the uniform duration."] = "Введите минуты универсальной длительности."
+L["Enter seconds in the uniform duration."] = "Введите секунды универсальной длительности."
+L["Show If Unlimited Duration"] = "Показать, если неограниченная длительность"
+L["Show bars for actions with unlimited duration (e.g., buffs that don't expire)."] = "Показать полосы для действий с неограниченной длительностью (например, баффы, которые не заканчиваются)."
+L["Only Show Unlimited"] = "Показать только неограниченные"
+L["Show bars for actions only if they have unlimited duration."] = "Показать полосы для действий, только если они неограниченной длительности."
+L["Show As Full Bars"] = "Показать как заполненные полосы"
+L["If checked, bars with unlimited duration show as full bars, otherwise they show as empty bars."] = "Если отмечено, полосы с неограниченной длительностью показаны как заполненные полосы, в противном случае как пустые."
+L["Ready Reverse"] = "Реверс готовности"
+L["If checked, ready bars show with reverse of Full Bars setting."] = "Если отмечено, полосы готовности показывают реверс он настройки Заполненных полос."
+L["Unlimited As Zero"] = "Бесконечные как ноль"
+L["If checked, bars with unlimited duration sort as zero duration, otherwise as very long duration."] = "Если отмечено, бесконечные полосы отсортированы будто с нулевой длительностью, в противному случае как с очень большой."
+L["Check Overall Duration"] = "Проверка общей длительности"
+L["Only include timer bars with a specified minimum (or maximum) duration."] = "Включать только полосы таймеров с отпеределенной минимальной (или максимальной) длительностью."
+L["Enter minutes for overall duration check."] = "Введите минуты для общей проверки длительности."
+L["Enter seconds for overall duration check."] = "Введите секунды для общей проверки длительности."
+L["Check Time Left"] = "Проверка остаточного времени"
+L["Only show timer bars with a specified minimum (or maximum) time left."] = "Показывать только полосы таймеров с отпеределенным минимальным (или максимальным) оставшимся временем."
+L["Enter minutes for time left check."] = "Введите минуты для проверки остатка."
+L["Enter seconds for time left check."] = "Введите секунды для проверки остатка."
+L["Time Format"] = "Формат времени"
+L["Time format string"] = "Выберите формат времени для полос и иконок. Здесь пять различных настроек: " --"Select time format for bars and icons. There are separate settings for five ranges: " ..
+	"больше часа, от 2 минут до часа, от 1 до 2 минут, от 10 секунд до 1 минуты, меньше 10 секунд. " --"more then an hour, 2 minutes to an hour, 1 minute to 2 minutes, 10 seconds to 1 minute, less than 10 seconds. " ..
+	"Они продемонстрированы примерами в выпадающем меню для каждой опции форматирования." --"These are illustrated by samples in the drop-down menu for each format option."
+L["If checked, time format options are set to default values."] = "Если отмечено, опции форматирования времени установлены по умолчанию."
+L["Reset time format for this bar group back to the current defaults."] = "Сбросить форматирование времени для этой группы обратно по умолчанию."
+L["Spaces"] = "Пробелы"
+L["Include spaces between values in time format."] = "Включать пробелы между значениями в форматировании времени."
+L["Uppercase"] = "Заглавные"
+L["If checked, use uppercase H, M and S in time format, otherwise use lowercase."] = "Если отмечено, используются заглавные H, M и S в форматировании, в противном случае строчные."
 
 -- Conditions tab
-L["Conditions"]= true
-L["Condition"] = true
-L["New Condition"] = true
-L["Create a new condition."] = true
-L["Enter Condition Name"] = true
-L["Enter name of new condition."] = true
-L["Cancel creating a new condition."] = true
-L["Delete the selected condition."] = true
-L["Delete condition string"] = function(name) string.format('DELETE CONDITION\nAre you sure you want to delete the "%s" condition?', name) end
-L["Copy"] = true
-L["Copy the selected condition."] = true
+L["Conditions"]= "Условия"
+L["Condition"] = "Условие"
+L["New Condition"] = "Новое условие"
+L["Create a new condition."] = "Создать новое условие."
+L["Enter Condition Name"] = "Название условия"
+L["Enter name of new condition."] = "Введите название нового условия."
+L["Cancel creating a new condition."] = "Отменить создание нового условия."
+L["Delete the selected condition."] = "Удалить выбранное условие."
+L["Delete condition string"] = function(name) string.format('УДАЛИТЬ УСЛОВИЕ\nВы уверены, что хотите удалить условие "%s"?', name) end --function(name) string.format('DELETE CONDITION\nAre you sure you want to delete the "%s" condition?', name) end
+L["Copy"] = "Копировать"
+L["Copy the selected condition."] = "Копировать условие."
 
 -- Conditions > General tab
-L["Enable Condition"] = true
-L["If checked, the condition is enabled and its value is determined by evaluating the associated tests, otherwise the condition is disabled and its value is always false."] = true
-L["Notification"] = true
-L["If checked, this condition is suitable for a notification and will show up as an option for new notify bars."] = true
-L["Detailed Tooltip"] = true
-L["If checked, tooltip for notifications based on this condition will include a detailed description."] = true
-L["Share Condition"] = true
-L["If checked, this condition's settings can be copied between characters."] = true
-L["Copy Condition Settings From"] = true
-L["Select a shared condition to copy settings from, including tests, associated spells, and dependencies."] = true
-L["Reset and delete all current shared condition settings."] = true
-L["Rename Condition"] = true
-L["Enter new name for the condition."] = true
-L["Associated Spell"] = true
-L["Enter spell name (or numeric identifier) whose color and icon can be used by notification bars based on this condition."] = true
+L["Enable Condition"] = "Включить условие"
+L["If checked, the condition is enabled and its value is determined by evaluating the associated tests, otherwise the condition is disabled and its value is always false."] = "Если отмечено, условие включено и его значение определяется оценкой соответствующих тестов, в противном случае условие отключено и его значение всего ложь."
+L["Notification"] = "Оповещение"
+L["If checked, this condition is suitable for a notification and will show up as an option for new notify bars."] = "Если отмечено, это условие подходит для оповещения и будет появляться как опция для новых полос оповещения."
+L["Detailed Tooltip"] = "Подробная подсказка"
+L["If checked, tooltip for notifications based on this condition will include a detailed description."] = "Если отмечено, подсказка для оповещений, основанных на это условии, будет показывать подробное описание."
+L["Share Condition"] = "Общее условие"
+L["If checked, this condition's settings can be copied between characters."] = "Если отмечено, это настройки условия могут быть скопированы между персонажами."
+L["Copy Condition Settings From"] = "Копировать настройки условия из"
+L["Select a shared condition to copy settings from, including tests, associated spells, and dependencies."] = "Выберите откуда скопировать общее условие, включае тесты, соответствующие заклинания и зависимости."
+L["Reset and delete all current shared condition settings."] = "Сбросить и удалить все текущие общие настройки условия."
+L["Rename Condition"] = "Переименовать условие"
+L["Enter new name for the condition."] = "Введите новое название для условия."
+L["Associated Spell"] = "Соответствующие заклинания"
+L["Enter spell name (or numeric identifier) whose color and icon can be used by notification bars based on this condition."] = "Введите имя заклинания (или ID), цвет и иконка которого могут быть использованы для полос оповещения, основывающихся на данном условии."
 
 -- Conditions > Tests tab
-L["Tests"] = true
-L["Summary"] = ACHIEVEMENT_SUMMARY_CATEGORY
-L["Refresh Value"] = true
-L["Refresh current value in condition's summary."] = true
+L["Tests"] = "Тесты"
+L["Summary"] = "Сводка"
+L["Refresh Value"] = "обновить значение"
+L["Refresh current value in condition's summary."] = "обновить текущее значение в сводке условия."
 
 -- Conditions > Tests > Player Status
 L["Enable Test"] = true
