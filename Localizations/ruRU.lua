@@ -1907,78 +1907,78 @@ L["If checked, true if player has a debuff of the specified type."] = "Если 
 L["If checked, true if player does not have a debuff of the specified type."] = "Если отмечено, истина, когда на игроке нет дебаффа определенного типа."
 
 -- Conditions > Tests > All Cooldowns
-L["Spell List Entry"] = true
-L["If checked, test if spells are usable (i.e., enough mana, reagents, etc.)."] = true
-L["Enter comma-separated list of spells."] = true
-L["Enter seconds for cooldown time left check."] = true
+L["Spell List Entry"] = "Ввод списка заклинаний"
+L["If checked, test if spells are usable (i.e., enough mana, reagents, etc.)."] = "Если отмечено, тестировать возможность использования заклинания (достаточно маны, реагентов, прочего)."
+L["Enter comma-separated list of spells."] = "Введите список заклинаний через запятую."
+L["Enter seconds for cooldown time left check."] = "Введите время ввостановления в секундах для проверки."
 
 -- Conditions > Tests > Spell Ready
-L["Spell Entry"] = true
+L["Spell Entry"] = "Ввод заклинания"
 L["Spell"] = STAT_CATEGORY_SPELL
-L["Enter spell name (or numeric identifier, optionally preceded by # for a specific spell id) to test if ready to be cast."] = true
-L["If checked, test if spell is on global cooldown, otherwise ignore global cooldown."] = true
-L["Is Usable"] = true
-L["If checked, test if spell is usable (i.e., enough mana, reagents, etc.)."] = true
-L["If checked, also test if the target is in range of the spell."] = true
-L["If checked, target must be in range."] = true
-L["If checked, target must be out of range."] = true
-L["If checked, test the number of charges on the spell."] = true
+L["Enter spell name (or numeric identifier, optionally preceded by # for a specific spell id) to test if ready to be cast."] = "Введите название заклинания (или ID, опционально с # в начале для конкретного ID) для теста возможности произнесения."
+L["If checked, test if spell is on global cooldown, otherwise ignore global cooldown."] = "Если отмечено, тестировать если заклинание на ГКД, в противном случае игнорировать ГКД."
+L["Is Usable"] = "Возможно"
+L["If checked, test if spell is usable (i.e., enough mana, reagents, etc.)."] = "Если отмечено, тестировать возможность заклинания (достаточно маны, реагентов, прочего)."
+L["If checked, also test if the target is in range of the spell."] = "Если отмечено, также тестировать доступность цели."
+L["If checked, target must be in range."] = "Если отмечено, цель должна быть в зоне доступа."
+L["If checked, target must be out of range."] = "Если отмечено, цель должна быть вне зоны доступа."
+L["If checked, test the number of charges on the spell."] = "Если отмечено, тестировать количество зарядов заклинания."
 
 -- Conditions > Tests > Spell Casting
-L["Enter spell to test if being cast or channeled."] = true
-L["Who Is Casting"] = true
-L["If checked, test player casting."] = true
-L["If checked, test target casting."] = true
-L["If checked, test focus casting."] = true
+L["Enter spell to test if being cast or channeled."] = "Введите заклинание, чтобы тестировать его произнесение или поток."
+L["Who Is Casting"] = "Кто произносит"
+L["If checked, test player casting."] = "Если отмечено, тестировать произнесение игроком."
+L["If checked, test target casting."] = "Если отмечено, тестировать произнесение целью."
+L["If checked, test focus casting."] = "Если отмечено, тестировать произнесение фокусом."
 
 -- Conditions > Tests > Item Ready
-L["Item Entry"] = true
+L["Item Entry"] = "Ввод предмета"
 L["Item"] = ENCOUNTER_JOURNAL_ITEM
-L["Enter name or itemID of item to test. Item must be in the player's bags. Use generic cooldown names for Potions and Elixirs."] = true
-L["Ready"] = true
-L["If checked, test if the item is ready to use."] = true
-L["If checked, item must be ready."] = true
-L["If checked, item must not be ready."] = true
-L["If checked, test item count."] = true
-L["Enter value to compare with item count."] = true
-L["Charges"] = true
-L["If checked, test the number of charges on the item(s)."] = true
-L["Enter value to compare with the number of charges."] = true
+L["Enter name or itemID of item to test. Item must be in the player's bags. Use generic cooldown names for Potions and Elixirs."] = "Введите название или ID предмета для теста. Предмет должен быть в инвентаре. Используйте стандартные имена кулдаунов для Зелий и Эликсиров."
+L["Ready"] = "Готово"
+L["If checked, test if the item is ready to use."] = "Если отмечено, тестировать готовность предмета."
+L["If checked, item must be ready."] = "Если отмечено, предмет должен быть готов."
+L["If checked, item must not be ready."] = "Если отмечено, предмет должен быть не готов."
+L["If checked, test item count."] = "Если отмечено, тестировать количество предметов."
+L["Enter value to compare with item count."] = "Введите значение для сравнения количества."
+L["Charges"] = "Заряды"
+L["If checked, test the number of charges on the item(s)."] = "Если отмечено, тестировать количество зарядов предмета(ов)."
+L["Enter value to compare with the number of charges."] = "Введите значение для сравнения количества зарядов."
 
 -- Conditions > Tests > Result
-L["Dependencies"] = true
-L["Dependencies string"] = "Dependencies are other conditions that must evaluate to specific results for this condition's result to be true. " ..
-	"Dependencies are grouped either with a logical \"And\" (all \"And\" dependencies must evaluate to their specified results) " ..
-	"or logical \"Or\" (at least one \"Or\" dependency must evaluate to its specified result). " ..
-	"Note that all other tests are evaluated for all conditions before checking dependencies.\n"
-L["True"] = true
-L["Condition is true only if the selected condition evaluates to true."] = true
-L["False"] = true
-L["Condition is true only if the selected condition evaluates to false."] = true
-L["And/Or"] = true
-L["And"] = true
-L["Or"] = true
-L["Toggle between logical \"And\" and \"Or\" for this dependecy."] = true
+L["Dependencies"] = "Зависимости"
+L["Dependencies string"] = "Зависимости - другие условия, которые должны выдавать определенные результат для истинности данного условия. " --"Dependencies are other conditions that must evaluate to specific results for this condition's result to be true. " ..
+	"Зависимости сгруппированы при помощи логического \"И\" (все \"И\" зависимости должны выдавать определенные результаты) " --"Dependencies are grouped either with a logical \"And\" (all \"And\" dependencies must evaluate to their specified results) " ..
+	"или логического \"Или\" (хотя бы одна \"Или\" зависимость должна выдавать определенный результат). " --"or logical \"Or\" (at least one \"Or\" dependency must evaluate to its specified result). " ..
+	"Заметьте, все другие тесты рассчитываются для всех условий перед проверкой зависимостей.\n" --"Note that all other tests are evaluated for all conditions before checking dependencies.\n"
+L["True"] = "Истина"
+L["Condition is true only if the selected condition evaluates to true."] = "Условие истинно, только если выбранное условие истинно."
+L["False"] = "Ложь"
+L["Condition is true only if the selected condition evaluates to false."] = "Условие истинно, только если выбранное условие ложно."
+L["And/Or"] = "И/Или"
+L["And"] = "И"
+L["Or"] = "Или"
+L["Toggle between logical \"And\" and \"Or\" for this dependecy."] = "Переключать между логическими \"И\" и \"Или\" для этой зависимости."
 L["Delete"] = DELETE
-L["Delete this condition from the dependencies list."] = true
-L["Test Evaluation"] = true
-L["If checked, evaluate all enabled tests with logical \"And\" (i.e., all tests must be true), othewise use logical \"Or\" (i.e., only one test must be true)."] = true
-L["Toggle Result"] = true
-L["If checked, the result for this condition, after evaluating all tests and checking dependencies, is toggled."] = true
-L["Set Result"] = true
-L["If checked, the result for this condition is set to true or false (this feature is provided to help debug conditions)."] = true
-L["If checked, result is set to true."] = true
-L["If checked, result is set to false."] = true
-L["Modifiers"] = true
+L["Delete this condition from the dependencies list."] = "Удалить это условие из списка зависимостей."
+L["Test Evaluation"] = "Оценка теста"
+L["If checked, evaluate all enabled tests with logical \"And\" (i.e., all tests must be true), othewise use logical \"Or\" (i.e., only one test must be true)."] = "Если отмечено, оценить все включенные тесты с логическим \"И\" (т.е. все тесты должны быть истинны), в противном случае использовать логическое \"Или\" (т.е. только один тест должен быть истинным)."
+L["Toggle Result"] = "Переключить результат"
+L["If checked, the result for this condition, after evaluating all tests and checking dependencies, is toggled."] = "Если отмечено, результат этого условия, после оценки всех тестов и проверки зависимостей, будет переключен."
+L["Set Result"] = "Установить результат"
+L["If checked, the result for this condition is set to true or false (this feature is provided to help debug conditions)."] = "Если отмечено, результат для этого условия установлен как истина или ложь (данное своейство обеспечивает отладку условий)."
+L["If checked, result is set to true."] = "Если отмечено, результат установлен как истина."
+L["If checked, result is set to false."] = "Если отмечено, результат установлен как ложь."
+L["Modifiers"] = "Модификаторы"
 L["Shift"] = true
 L["Control"] = true
 L["Alt"] = true
-L["Toggle result if selected modifier keys are all down."] = true
-L["Modifier Key String"] = function(mks) return string.format(" Toggle result if \"%s\"", mks) end
+L["Toggle result if selected modifier keys are all down."] = "Переключить результат, если выбранные модификаторы нажаты одновременно."
+L["Modifier Key String"] = function(mks) return string.format(" Переключить результат, если \"%s\"", mks) end --function(mks) return string.format(" Toggle result if \"%s\"", mks) end
 
 -- In-Combat Buffs tab
-L["In-Combat Bar"] = true
-L["Enable In-Combat Bar"] = true
+L["In-Combat Bar"] = "Полоса в бою"
+L["Enable In-Combat Bar"] = "Включить полосу в бою"
 L["In-combat string"] = "Raven includes an optional \"in-combat bar\" that you can use to cancel buffs while in combat. You configure the bar's layout and select the buffs you want to be able to cancel using the options listed here. When any of the selected buffs become active in combat, the buff's icon pulses into visibility on the bar and you can right-click the icon to cancel the buff. |cffedd400PLEASE NOTE:|r You may need to reload your user interface in order for changes to take effect.\n"
 L["Enable in-combat buffs string"] = "Enable bar for displaying buff icons that can be right-clicked to cancel in combat."
 L["Lock Bar Layout"] = true
