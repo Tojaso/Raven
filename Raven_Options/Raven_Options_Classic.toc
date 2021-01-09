@@ -1,8 +1,8 @@
-## Interface: 90002
+## Interface: 11306
 ## Title: Raven Options
 ## Notes: Load on demand options panel for Raven
 ## Author: Tomber
-## Version: 9.0.2
+## Version: 1.13.6
 ## Dependencies: Raven
 ## LoadOnDemand: 1
 
