@@ -147,7 +147,7 @@ L["On"] = true
 L["Not All Active"] = "Не Все Активны"
 L["All Active"] = "Все Активны"
 L["None Active"] = "Все Неактивны"
-L["Any Active"] = "Любые Активны""
+L["Any Active"] = "Любые Активны"
 L["Cast By Player"] = "Произнесено Игроком"
 L["Cast By Other"] = "Произнесено Другими"
 L["Cast By Anyone"] = "Произнесено Кем Угодно"
@@ -188,7 +188,7 @@ L["Ghost"] = "Призрак"
 L["Right-to-left bars, label left, icon left"] = "Полосы справа-налево, текст слева, иконка слева"
 L["Left-to-right bars, label left, icon left"] = "Полосы слева-направо, текст слева, иконпка слева"
 L["Right-to-left bars, label right, icon left"] = "Полосы справа-налево, текст справа, иконка слева"
-L["Left-to-right bars, label right, icon left"] = "Полосы слева-направо, текст справа, иконка слева"t"
+L["Left-to-right bars, label right, icon left"] = "Полосы слева-направо, текст справа, иконка слева"
 L["Right-to-left bars, label left, icon right"] = "Полосы справа-налево, текст слева, иконка справа"
 L["Left-to-right bars, label left, icon right"] = "Полосы слева-направо, текст слева, иконка справа"
 L["Right-to-left bars, label right, icon right"] = "Полосы справа-налево, текст справа, иконка справа"
@@ -923,18 +923,18 @@ L["Lock and hide the anchor for the bar group."] = "Закрепить и скр
 L["Unlock Anchor"] = "Открепить якорь"
 L["Unlock and show the anchor for the bar group."] = "Открепить и показать якорь для группы."
 L["Non-Interactive"] = "Без взаимодействия"
-L["If checked, the bar group is non-interactive and doesn't show tooltips or respond to clicks. Tooltips must also be enabled in the bar group's Format settings."] = "Если отмечено, с группой нельзя взаимодействовать: не отображаются подсказки и нет реакции на нажатия. Подсказки также должны быть включены во вкладке "Настройки форматирования" группы."
+L["If checked, the bar group is non-interactive and doesn't show tooltips or respond to clicks. Tooltips must also be enabled in the bar group's Format settings."] = "Если отмечено, с группой нельзя взаимодействовать: не отображаются подсказки и нет реакции на нажатия. Подсказки также должны быть включены во вкладке 'Настройки форматирования' группы."
 L["Only Icons Interact"] = "Взаимодействие только с иконками"
-L["If checked, only icons show tooltips and respond to clicks, otherwise entire bar does. Tooltips must also be enabled in the bar group's Format settings."] = "Если отмечено, только иконки отображают подсказки и реагируют на нажатия, в противном случая вся полоса взаимодействует. Подсказки также должны быть включены во вкладке "Настройки форматирования" группы."
+L["If checked, only icons show tooltips and respond to clicks, otherwise entire bar does. Tooltips must also be enabled in the bar group's Format settings."] = "Если отмечено, только иконки отображают подсказки и реагируют на нажатия, в противном случая вся полоса взаимодействует. Подсказки также должны быть включены во вкладке 'Настройки форматирования' группы."
 L["Tooltip Anchor"] = "Якорь подсказки"
 L["Tooltip anchor string"] = "Выберите якорь всплывающей подсказки (\"DEFAULT\" подстраивает якори подсказок автоматически). Заметьте, такие аддоны как TipTac могу перекрыть настройки подсказок Raven'а." --"Select tooltip anchor point (\"DEFAULT\" adjusts tooltip anchors automatically). Note that addons like TipTac may override Raven's tooltip settings."
 L["Combat Tooltips"] = "Подсказки в бою"
-L["If checked, tooltips are shown during combat. Tooltips must also be enabled in the bar group's Format settings."] = "Если отмечено, подсказки отображаются в бою. Подсказки также должны быть включены во вкладке "Настройки форматирования" группы."
+L["If checked, tooltips are shown during combat. Tooltips must also be enabled in the bar group's Format settings."] = "Если отмечено, подсказки отображаются в бою. Подсказки также должны быть включены во вкладке 'Настройки форматирования' группы."
 L["Caster"] = "Заклинатель"
 L["If checked, tooltips include caster for buffs and debuffs when known."] = "Если отмечено, подсказки включают имя наложившего бафф или дебафф, если известно."
 L["Show Headers"] = "Отображать заголовки"
 L["When showing all buffs or debuffs cast by player, add headers for each affected target."] = "Когда отображаются все баффы или дебаффы наложенные игроком, добавить заголовки для каждой подверженной ими цели."
-L["Sort Target First"] = Сортировать цель сначала"
+L["Sort Target First"] = "Сортировать цель сначала"
 L["When showing all buffs or debuffs cast by player, sort ones for target first."] = "Когда отображаются все баффы или дебаффы наложенные игроком, сортировать те, что на цели в начало."
 L["Non-Target Opacity"] = "Прозрачность не-цели"
 L["When showing all buffs or debuffs cast by player, set opacity for ones not on target."] = "Когда отображаются все баффы или дебаффы наложенные игроком, установите прозрачность для тех, что не на цели."
@@ -1000,7 +1000,7 @@ L["Combat Text Includes Bar Group"] = "Текст боя включает гру
 L["If checked, combat text includes the name of the bar group."] = "Если отмечено, текст боя включает название группы."
 
 -- Bar Groups > Custom Bars tab
-L["Custom Bars"] ="Персональные полосы"
+L["Custom Bars"] = "Персональные полосы"
 L["New"] = "Новая"
 L["Create a new bar."] = "Создать новую полосу."
 L["Delete the selected bar."] = "Удалить выбранную полосу."
@@ -1128,8 +1128,8 @@ L['Include all debuffs cast by player on others.'] = 'Включить все д
 L["Only Show Dispellable"] = "Только рассеиваемые"
 L['If check, only show debuffs that can be dispelled by the player.'] = 'Если отмечено, отображать только дебаффы, которые может рассеять игрок.'
 L["If checked, exclude debuffs if they are on the player."] = "Если отмечено, исключить дебаффы, когда они на игроке."
-L["If checked, exclude debuffs if they are on the player's pet."] = Если отмечено, исключить дебаффы, когда они на питомце."
-L["If checked, exclude debuffs if they are on the target."] = Если отмечено, исключить дебаффы, когда они на цели."
+L["If checked, exclude debuffs if they are on the player's pet."] = "Если отмечено, исключить дебаффы, когда они на питомце."
+L["If checked, exclude debuffs if they are on the target."] = "Если отмечено, исключить дебаффы, когда они на цели."
 L["If checked, exclude debuffs if they are on the focus."] = "Если отмечено, исключить дебаффы, когда они на фокусе."
 L["If checked, only add bars for debuffs if they are on the player."] = "Если отмечено, добавлять полосы для дебаффов, только когда они на игроке."
 L["If checked, only add bars for debuffs if they are on the player's pet."] = "Если отмечено, добавлять полосы для дебаффов, только когда они на питомце."
@@ -1310,7 +1310,7 @@ L["Set additional vertical offset for overlapping icons."] = "Установит
 L["Hide Empty"] = "Скрыть пустые"
 L["If checked, hide the timeline when there are no active icons."] = "Если отмечено, скрыть временную шкалу, когда на ней нет активных иконок."
 L["Horizontal Stripe Options"] = "Настройки горизонтальных полосок"
-L["If checked, display a horizontal stripe under the bars."] = Если отмечено, отображать горизонтальные полоски под иконками."
+L["If checked, display a horizontal stripe under the bars."] = "Если отмечено, отображать горизонтальные полоски под иконками."
 L["Full Width"] = "Полная ширина"
 L["If checked, horizontal stripe will be the full width of the display and will automatically adjust to fit."] = "Если отмечено, горизонтальная полоска будет полной ширины и автоматически подстроится по размерам."
 L["Set width of the stripe."] = "Установить ширину полоски."
@@ -1407,7 +1407,7 @@ L["Segment"] = "Сегмент"
 L["If checked then bars are shown in segments (additional options are displayed when enabled)."] = "Если отмечено, то полосы показаны как сегменты (дополнительные настройки показаны, когда включено)."
 L["Fill"] = "Заполнение"
 L["If checked then timer bars fill up, otherwise they empty."] = "Если отмечено, тогда полосы таймеров заполняются, в противном случае опустевают."
-L["horizontal bars string"] = "Если отмечено, отображать полосы в ряд на горизонтальном фоне. Данная схема поддерживает " --"If checked, display bars side-by-side in a row on a horizontal backdrop. This layout supports " ..
+L["horizontal bars string"] = "Если отмечено, отображать полосы в ряд на горизонтальном фоне. Данная схема поддерживает " .. --"If checked, display bars side-by-side in a row on a horizontal backdrop. This layout supports " 
 	"персональные полосы для брокеров с различной шириной и специальными опциями выравнивания. Не поддерживает перенос полос между несколькими рядами." --"custom bars for brokers with variable width and special alignment options. It does not support wrapping the bars across multiple rows."
 L["Test Mode"] = "Тестовый режим"
 L["Unlimited Duration"] = "Бесконечная длительность"
@@ -1470,7 +1470,7 @@ L["Show bars in default colors for their type, including special debuff colors w
 L["Color the bars with a custom color."] = "Окрасить полосы в персональный цвет."
 L["Spell Colors"] = "Цвета заклинаний"
 L["Show bars using spell colors when possible, otherwise use default bar colors."] = "Показать полосы в цветах заклинаний, если возможно, в противном случае обычные цвета полосы."
-L["Background:"] = "Фон:
+L["Background:"] = "Фон:"
 L["Same as Foreground"] = "= Передний план"
 L["Color the background the same as the foreground."] = "Цвет фона аналогичен цвету переднего плана."
 L["Color the background with a custom color."] = "Окрасить фон в персональный цвет."
@@ -1517,8 +1517,8 @@ L["Only show timer bars with a specified minimum (or maximum) time left."] = "П
 L["Enter minutes for time left check."] = "Введите минуты для проверки остатка."
 L["Enter seconds for time left check."] = "Введите секунды для проверки остатка."
 L["Time Format"] = "Формат времени"
-L["Time format string"] = "Выберите формат времени для полос и иконок. Здесь пять различных настроек: " --"Select time format for bars and icons. There are separate settings for five ranges: " ..
-	"больше часа, от 2 минут до часа, от 1 до 2 минут, от 10 секунд до 1 минуты, меньше 10 секунд. " --"more then an hour, 2 minutes to an hour, 1 minute to 2 minutes, 10 seconds to 1 minute, less than 10 seconds. " ..
+L["Time format string"] = "Выберите формат времени для полос и иконок. Здесь пять различных настроек: " .. --"Select time format for bars and icons. There are separate settings for five ranges: " ..
+	"больше часа, от 2 минут до часа, от 1 до 2 минут, от 10 секунд до 1 минуты, меньше 10 секунд. " .. --"more then an hour, 2 minutes to an hour, 1 minute to 2 minutes, 10 seconds to 1 minute, less than 10 seconds. " ..
 	"Они продемонстрированы примерами в выпадающем меню для каждой опции форматирования." --"These are illustrated by samples in the drop-down menu for each format option."
 L["If checked, time format options are set to default values."] = "Если отмечено, опции форматирования времени установлены по умолчанию."
 L["Reset time format for this bar group back to the current defaults."] = "Сбросить форматирование времени для этой группы обратно по умолчанию."
@@ -1765,7 +1765,7 @@ L["If checked, target's target power must be at least this percentage, otherwise
 L["If checked, test the target's target maximum health."] = "Если отмечено, тестировать максимальное здоровье цели цели."
 L["Enter minimum value for target's target maximum health required for test to be true."] = "Введите максимальное значение максимального здоровья цели цели, необходимое для истинности теста."
 
--- Conditions > Tests > Focus Status     ПЕРЕПИСАТЬ
+-- Conditions > Tests > Focus Status
 L["If checked, test if focus currently exists."] = "Если отмечено, тестировать наличие фокуса."
 L["If checked, focus must exist."] = "Если отмечено, фокус должен существовать."
 L["If checked, focus must not exist."] = "Если отмечено, фокус не должен существовать."
@@ -1947,9 +1947,9 @@ L["Enter value to compare with the number of charges."] = "Введите зна
 
 -- Conditions > Tests > Result
 L["Dependencies"] = "Зависимости"
-L["Dependencies string"] = "Зависимости - другие условия, которые должны выдавать определенные результат для истинности данного условия. " --"Dependencies are other conditions that must evaluate to specific results for this condition's result to be true. " ..
-	"Зависимости сгруппированы при помощи логического \"И\" (все \"И\" зависимости должны выдавать определенные результаты) " --"Dependencies are grouped either with a logical \"And\" (all \"And\" dependencies must evaluate to their specified results) " ..
-	"или логического \"Или\" (хотя бы одна \"Или\" зависимость должна выдавать определенный результат). " --"or logical \"Or\" (at least one \"Or\" dependency must evaluate to its specified result). " ..
+L["Dependencies string"] = "Зависимости - другие условия, которые должны выдавать определенные результат для истинности данного условия. " .. --"Dependencies are other conditions that must evaluate to specific results for this condition's result to be true. " ..
+	"Зависимости сгруппированы при помощи логического \"И\" (все \"И\" зависимости должны выдавать определенные результаты) " .. --"Dependencies are grouped either with a logical \"And\" (all \"And\" dependencies must evaluate to their specified results) " ..
+	"или логического \"Или\" (хотя бы одна \"Или\" зависимость должна выдавать определенный результат). " .. --"or logical \"Or\" (at least one \"Or\" dependency must evaluate to its specified result). " ..
 	"Заметьте, все другие тесты рассчитываются для всех условий перед проверкой зависимостей.\n" --"Note that all other tests are evaluated for all conditions before checking dependencies.\n"
 L["True"] = "Истина"
 L["Condition is true only if the selected condition evaluates to true."] = "Условие истинно, только если выбранное условие истинно."
@@ -1989,7 +1989,7 @@ L["Out Of Combat"] = "Вне боя"
 L["If checked, also display buffs on the bar when out of combat."] = "Если отмечено, также отображать баффы на полосе вне боя."
 L["Enter in-combat buff string"] = "Введите название баффа, чтобы добавить в список баффов в бою." --"Enter player buff name to add to the in-combat list."
 L["Buff List"] = "Список баффов"
-L["Delete the selected buff from the in-combat list."] = Удалить выбранный бафф из списка в бою."
+L["Delete the selected buff from the in-combat list."] = "Удалить выбранный бафф из списка в бою."
 L["Reset the in-combat buff list."] = "Сбросить список баффов в бою."
 L["Set size for the buff icons."] = "Установить размер иконок баффов."
 L["Horizontal Bar"] = "Полоса горизонтально"
@@ -2064,7 +2064,7 @@ L["If checked, bar will conditionally change from normal opacity to fade opacity
 L["If checked, bar will fade if the condition is true."] = "Если отмечено, полоса затухает, если условие истинно."
 L["If checked, bar will fade if the condition is false."] = "Если отмечено, полоса затухает, если условие ложно."
 L["Fade Condition"] = "Условие затухания"
-L["If checked, spell color is overridden based on the value of the condition (in order to show spell color, the Bar Color Scheme on Appearance tab for Foreground must be set to Spell)."] = "Если отмечено, цвет заклинания перекрыт, основываясь на значении условия (с целью отображения цвета заклинания, цветовая схема полосы на странице "Внешний вид" должна быть 'Заклинание' для переднего плана)."
+L["If checked, spell color is overridden based on the value of the condition (in order to show spell color, the Bar Color Scheme on Appearance tab for Foreground must be set to Spell)."] = "Если отмечено, цвет заклинания перекрыт, основываясь на значении условия (с целью отображения цвета заклинания, цветовая схема полосы на странице 'Внешний вид' должна быть 'Заклинание' для переднего плана)."
 L["Set bar color for when condition is true (set invisible opacity to disable color change)."] = "Установить цвет полосы, если условие истинно (установите нулевую прозрачность для отключения изменения цвета)."
 L["Set bar color for when condition is false (set invisible opacity to disable color change)."] = "Установить цвет полосы, если условие ложно (установите нулевую прозрачность для отключения изменения цвета)."
 L["Color Condition"] = "Условие цвета"
@@ -2293,5 +2293,5 @@ L["Azerite"] = "Азерит"
 L["Spell Tooltip"] = "Подсказка заклинания"
 L["Tooltip comment"] = "Показать подсказку для соответствующего заклинания. Выберите позицию числа подсказки с помощью опционального текста, чтобы задать значение." --"Show tooltip for the associated spell. Select a tooltip number's position with optional text in order to set the value."
 L["Reputation comment"] = "Показать репутацию для отслеживаемой фракции." --"Show reputation for the watched faction."
-L["Cast bar comment"] = "Показать полосу применения для юнита. Если опциональный текст включает строку 'latency' и юнит - игрок, то красной отметкой отображается задержка." --"Show cast bar for the unit. If optional text includes the string 'latency' and unit is player then latency is displayed with a red tick mark. " ..
+L["Cast bar comment"] = "Показать полосу применения для юнита. Если опциональный текст включает строку 'latency' и юнит - игрок, то красной отметкой отображается задержка." .. --"Show cast bar for the unit. If optional text includes the string 'latency' and unit is player then latency is displayed with a red tick mark. " ..
 	"Если опциональный текст включает строку 'interrupt' и заклинание не может быть прервано, тогда красный X добавлен к имени заклинания." --"If optional text includes the string 'interrupt' and cast is not interruptible then a red X is added to the spell name."
