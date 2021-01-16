@@ -222,7 +222,7 @@ L["Broker data source string"] = "\n|cFF7adbf2Класс:|r Data Source" --"\n|c
 L["Broker launcher string"] = "\n|cFF7adbf2Класс:|r Launcher" --"\n|cFF7adbf2Class:|r Launcher"
 L["Value string"] = function(t, a) return string.format("|cFF7adbf2Тип:|r %s\n|cFF7adbf2Имя:|r %s", t, a) end --function(t, a) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Name:|r %s", t, a) end
 L["Color string"] = "\n|cFF7adbf2Цвет:|r " --"\n|cFF7adbf2Color:|r "
-L["Unit string"] = "\n|cFF7adbf2Единица:|r " --"\n|cFF7adbf2Unit:|r 
+L["Unit string"] = "\n|cFF7adbf2Единица:|r " --"\n|cFF7adbf2Unit:|r
 L["Type action string"] = function(a, t, s) return string.format("|cFF7adbf2Тип:|r %s\n|cFF7adbf2Действие:|r %s", t, a) end --function(a, t, s) return string.format("|cFF7adbf2Type:|r %s\n|cFF7adbf2Action:|r %s", t, a) end
 L["Type string"] = function(t, s) return string.format("|cFF7adbf2Тип:|r %s", t) end --function(t, s) return string.format("|cFF7adbf2Type:|r %s", t) end
 L["Action on cast by string"] = function(m, c) return string.format("\n|cFF7adbf2Действие на:|r %s\n|cFF7adbf2Использовано:|r %s", m, c) end --function(m, c) return string.format("\n|cFF7adbf2Action On:|r %s\n|cFF7adbf2Cast By:|r %s", m, c) end
@@ -247,7 +247,7 @@ L["Anchor description"] = "Raven позволяет отображать пол�
 	'Вы можете использовать множество опций на странице "Группы" для создания своего личного интерфейса. ' .. --'You can use the many options under the "Bar Groups" tab to set up a personalized user interface. ' ..
 	"Для начала, однако, будет проще выбрать стандартные группы перечисленные здесь. " .. --"To get started, however, it may be easier to begin with the standard bar groups listed here. " ..
 	'Выберите, что хотите, а затем кликните "Создать как Полосы" или "Создать как Иконки". ' .. --'Select the ones you want and then click either "Create As Bars" or "Create As Icons". ' ..
-	'Вы можете делать это несколько раз, чтобы настроить микс из иконок и полос.\n'  --'You can do this multiple times to configure a mix of bars and icons.\n'	
+	'Вы можете делать это несколько раз, чтобы настроить микс из иконок и полос.\n'  --'You can do this multiple times to configure a mix of bars and icons.\n'
 L["All buffs on the player."] = "Все баффы на игроке"
 L["Short Buffs"] = "Короткие баффы"
 L["Buffs on the player lasting less than 2 minutes."] = "Баффы на игроке, длящиеся меньше 2-ух минут."
@@ -285,7 +285,7 @@ L["Bar group anchor string"] = "Группы имеют якоря, которы
 	"Всплывающая подсказка якоря показывает полезные опции (например: изменение направления группы, переключение выбора настройки, показать тестовые группы). " .. --"Anchor tooltips list helpful shortcuts (e.g., change direction bars grow from the anchor, cycle through configuration choices, show test bars). " ..
 	"Вы можете перемещать якоря левой кнопкой мыши. " .. --"You can left-click and drag anchors. " ..
 	"Вы можете закрепить якорь правой кнопкой мыши, когда довольны его расположением. " .. --"You can right-click an anchor to lock it when you are satisfied with its position. " ..
-	'Закрепленные якоря скрыты - используйте кнопку "Открепить Все Якоря", чтобы отобразить их.\n' --'Locked anchors are hidden--use the "Unlock All Anchors" button to show them again.\n'	
+	'Закрепленные якоря скрыты - используйте кнопку "Открепить Все Якоря", чтобы отобразить их.\n' --'Locked anchors are hidden--use the "Unlock All Anchors" button to show them again.\n'
 L["Lock All Anchors"] = "Закрепить Все Якоря"
 L["Lock and hide the anchors for all bar groups."] = "Закрепить и скрыть якоря для всех групп."
 L["Unlock All Anchors"] = "Открепить Все Якоря"
@@ -297,11 +297,11 @@ L["Toggle test mode for all bar groups."] = "Переключить Тестов
 L["Defaults"] = "Стандартные"
 L["Defaults string"] = "Полосы в группе имеют общий внешний вид, например: размеры и шрифт с текстурами. ".. --"Bars in a bar group share appearance options such as dimensions and fonts/textures. " ..
 	"Вы можете изменять стандарт для этих опций в данной секции. " .. --"You can adjust defaults for these options with settings in this section. " ..
-	"Эти настройки общие для всех профилей для более простого использования несколькими персонажами.\n" --"These settings are shared across all profiles to simplify use with multiple characters.\n"	
+	"Эти настройки общие для всех профилей для более простого использования несколькими персонажами.\n" --"These settings are shared across all profiles to simplify use with multiple characters.\n"
 L["Hide Blizzard"] = "Скрыть Blizzard"
 L["Hide message"] = 'Когда "Скрыть Blizzard" включено на странице "Установка", Raven скроет выбранные элементы стандартного интерфейса. ' .. --"When Hide Blizzard is enabled on the Setup tab, Raven will hide selected parts of the default user interface. " ..
 		"Raven вернет скрытый элемент, когда окно настроек открыто и выбор изменен для элемента, скрытого Raven'ом (может занять несколько секунд). " .. --"Raven will only try to unhide a part when the options panel is open and selection is toggled for a part hidden by Raven (this may take several seconds). " ..
-		"Заметьте, что может быть конфликт с другими аддонами, поэтому убедитесь, что только один аддон скрывает определенный элемент." --"Note that there is potential conflict with other addons so take care to only hide any given part in one addon."		
+		"Заметьте, что может быть конфликт с другими аддонами, поэтому убедитесь, что только один аддон скрывает определенный элемент." --"Note that there is potential conflict with other addons so take care to only hide any given part in one addon."
 L["Unit Frame"] = "Панель игрока"
 L["Hide default player unit frame."] = "Скрыть стандартную панель игрока."
 L["Buffs and Debuffs"] = "Баффы и дебаффы"
@@ -320,7 +320,7 @@ L["Hide default user interface for insanity."] = "Скрыть стандарт�
 L["Hide default user interface for totems."] = "Скрыть стандартный интерфейс Тотемов."
 L["Hide default user interface for runes."] = "Скрыть стандартные Руны."
 
-L["XP and Reputation"] = "Опыт и Репутация" 
+L["XP and Reputation"] = "Опыт и Репутация"
 L["Hide XP and reputation bars in the default user interface."] = "Скрыть полосы Опыта и Репутации стандартного интерфейса."
 L["Hide Azerite bar in the default user interface."] = "Скрыть полосу Азерита стандартного интерфейса."
 L["Unit Frames"] = "Панели Юнитов"
@@ -497,14 +497,14 @@ L["UI Scale Options"] = "Настройки масштабирования ин�
 L["UI Scale warning"] = "Масшабирование интерфейса - это настройка видео, которая регулирует размер элементов пользовательского интерфейса. " .. --"UI Scale is a setting on the System menu's Advanced tab that adjusts the size of user interface elements. " ..
 	"Оно должно быть корректно настроено, чтобы идеально отображать пиксельные элементы, как тонкие границы иконок и полос.. " .. --"It must be set correctly to display pixel perfect elements like thin borders around bars and icons. " ..
 	"Масштабирование распространяется на весь интерфейс и обычно регулируется аддонами типа ElvUI. " .. --"This affects the entire UI and is commonly adjusted by addons like ElvUI. " ..
-	"Raven предоставляет данную функцию, если она ещё не установленна корректно." --"Raven provides options to adjust UI Scale in case it is not already set correctly."	
+	"Raven предоставляет данную функцию, если она ещё не установленна корректно." --"Raven provides options to adjust UI Scale in case it is not already set correctly."
 L["Adjust UI Scale"] = "Регулирование масштабирования"
 L["UIScale description"] = "Если отмечено, Raven будет регулировать масштабирование интерфейса для оптимизации пиксельного выравнивания (требуется /reload)." --"If checked, Raven will adjust the UI Scale to optimize for pixel perfect alignment (requires /reload)."
 L["Report UI Scale"] = "Оповещать о масштабировании"
 L["UIScale message"] = "Если отмечено, Raven  будет отчитываться об изменении масштабирования в окне чата. " .. --"If checked, Raven will report UI Scale changes in the chat window. " ..
 	"Пожалуйста, проверьте, что разрешение экрана определено правильно, и отрегулируйте, если необходимо " .. --"Please verify that display resolution is detected correctly and adjust system settings if necessary " ..
 	"(например, иногда переключение между оконнным и полноэкранным режимами и изменение настроек разрешение может решить проблемы). " .. --"(e.g., sometimes switching between windowed and full screen modes and adjusting display resolution can resolve issues). " ..
-	"Если данная опция включена, Raven будет оповещать при инициализации, а также при обнаружении изменений масштабирования." --"If this option is enabled then Raven will report during initialization and also after detecting UI Scale changes."	
+	"Если данная опция включена, Raven будет оповещать при инициализации, а также при обнаружении изменений масштабирования." --"If this option is enabled then Raven will report during initialization and also after detecting UI Scale changes."
 L["Override"] = "Приоритет"
 L["UIScale override"] = "Если отмечено, то при инициализации Raven будет устанавливать масштабирование интерфейса на определенное значение от 0.1 and 1 (требуется /reload)." --"If checked then, during initialization, Raven will set the UI Scale to a specified value between 0.1 and 1 (requires /reload)."
 L["UI Scale"] = "Масштабирование"
@@ -523,7 +523,7 @@ L["If checked, sound is played in Ambience channel."] = "Если отмечен
 L["Spells"] = SPELLS
 L["Spells string"] = "Заклинания имеют соответствующие цвета и текст, которые могут быть изменены. " .. --"Spells have associated colors and labels which can be customized. " ..
 	"Измененные цвета и текст общие для всех профилей для упрощенного использования на разных персонажах. " .. --"Custom colors and labels are shared across all profiles to simplify use with multiple characters. " ..
-	"Вы также можете создать список заклинаний, оповещения о заклинания и задать внутреннее время восстановления и таймеры эффектов в данной секции.\n" --"You can also create spell lists and spell alerts and specify internal cooldowns and effect timers in this section.\n"	
+	"Вы также можете создать список заклинаний, оповещения о заклинания и задать внутреннее время восстановления и таймеры эффектов в данной секции.\n" --"You can also create spell lists and spell alerts and specify internal cooldowns and effect timers in this section.\n"
 L["Colors and Labels"] = "Цвета и текст"
 L["Spell Name"] = "Название заклинания"
 L["Enter a spell name (or numeric identifier, optionally preceded by # for a specific spell id)."] = "Введите имя заклинания(или ID, опционально с # в начале для конкретного ID)."
@@ -720,11 +720,11 @@ L["Settings"] = SETTINGS
 L["General Settings"] = "Общие настройки"
 L["Enable Bar Group"] = "Включить группу"
 L["Enable bar group string"] = "Если отмечено, группа включена и её якорь и полосы отображаются, " .. --"If checked, the bar group is enabled and its anchor and bars will be displayed, " ..
-	"в противному случае группа отключена, как и её якорь и полосы." --"otherwise the bar group is disabled and neither anchor nor bars will be displayed."	
+	"в противному случае группа отключена, как и её якорь и полосы." --"otherwise the bar group is disabled and neither anchor nor bars will be displayed."
 L["Merge Bar Group"] = "Объединить группу"
 L["Merge bar group string"] = "Если отмечено, объединить полосы из этой группы в другую группу. " .. --"If checked, merge bars from this bar group into another bar group. " ..
 	"Полосы используют настройки этой группы, включая \"Отображать когда\" и параметры таймеров, " .. --"Bars are generated based on this bar group's custom or auto settings, including \"Show When\" and timer options, " ..
-	"но отсортированы и отображены, используя настройки схемы и внешнего вида другой группы." --"but are sorted and displayed using the other bar group's layout and appearance settings."	
+	"но отсортированы и отображены, используя настройки схемы и внешнего вида другой группы." --"but are sorted and displayed using the other bar group's layout and appearance settings."
 L["Rename Bar Group"] = "Переименовать группу"
 L["New Name"] = "Новое название"
 L["Enter new name for the bar group."] = "Введите новое название для группы."
@@ -736,7 +736,7 @@ L["Link settings string"] = "Если отмечено, настройки ра�
 	"с группами в других профилях с таким же названием. Общие настройки загружаются, когда персонаж " .. --"to bar groups in other profiles with the same name. Shared settings are loaded when a character " ..
 	"заходит в игру, и сохраняются при выходе. Будьте внимательны, включая данную функцию, поскольку она перезаписывает " .. --"enters the world and are saved at logout. Be careful enabling this feature since it will overwrite " ..
 	"текущие настройки, если уже есть связанные группы с таким же именем в других профилях. Если хотите поделиться своими текущими настройками, " .. --"current settings if there is a linked bar group with same name in another profile. If you want to share your current settings, " ..
-	"перезаписывая все предыдущие общие настройки, тогда нажмите кнопку Сохранить настройки перед использование данной функции." --"overwriting any previously shared settings, then click the Save Settings button before enabling this option."	
+	"перезаписывая все предыдущие общие настройки, тогда нажмите кнопку Сохранить настройки перед использование данной функции." --"overwriting any previously shared settings, then click the Save Settings button before enabling this option."
 L["Confirm link string"] = "СВЯЗЫВАНИЕ ГРУПП\nВы уверены, что хотите перезаписать текущие настройки?" --"LINK BAR GROUP\nAre you sure you want to overwrite current settings?"
 L["Confirm unlink string"] = "СВЯЗЫВАНИЕ ГРУПП\nВы уверены, что не хотите больше связывать настройки данной группы?" --"LINK BAR GROUP\nAre you sure you no longer want to link settings for this bar group?"
 L["Click to save to the shared settings used by bar groups with same name in other profiles."] = "Нажмите, чтобы сохранить общие настройки групп с таким же именем в других профилях."
@@ -751,7 +751,7 @@ L["Link bars string"] = "Если отмечено, персональные п�
 	"с полосами групп с таким же именем в других профилях. Общие персональные полосы загружаются, когда персонаж " .. --"to bar groups in other profiles with the same name. Shared custom bars are loaded when a character " ..
 	"входит в игру, и сохраняются при выходе. Будьте внимательны, включая данную функцию, поскольку она перезаписывает " .. --"enters the world and are saved at logout. Be careful enabling this feature since it will overwrite " ..
 	"текущие персональные полосы, если уже есть связанные группы с таким же именем в других профилях. Если хотите поделиться своими текущими персональными полосами, " .. --"current custom bars if there is a linked bar group with same name in another profile. If you want to share your current custom bars, " ..
-	"перезаписывая все предыдущие персональные полосы, тогда нажмите кнопку Сохранить персональные полосы перед использование данной функции." --"overwriting any previously shared custom bars, then click the Save Custom Bars button before enabling this option."	
+	"перезаписывая все предыдущие персональные полосы, тогда нажмите кнопку Сохранить персональные полосы перед использование данной функции." --"overwriting any previously shared custom bars, then click the Save Custom Bars button before enabling this option."
 L["Confirm link bars string"] = "СВЯЗЬ ПОЛОС\nВы уверены, что хотите перезаписать текущие персональные полосы?" --"LINK BARS\nAre you sure you want to overwrite current custom bars?"
 L["Confirm unlink bars string"] = "СВЯЗЬ ПОЛОС\nВы уверены, что не хотите больше связывать настройки персональных полос для данной группы?" --"LINK BARS\nAre you sure you no longer want to link the custom bars for this bar group?"
 L["Click to load the shared custom bars used by bar groups with same name in other profiles."] = "Нажмите, чтобы загрузить общие персональные полосы групп с таким же именем в других профилях."
@@ -948,6 +948,14 @@ L["External Fader"] = "Внешнее затухание"
 L["Support external fader addons by disabling bar group opacity options (requires /reload)."] = "Поддержка сторонних аддов для затухания, отключая опции прозрачности для группу (требуется /reload)."
 L["Spell ID"] = "ID заклинания"
 L["If checked, holding down control and alt keys will add spell ID to tooltips when known."] = "Если отмечено, при удержании ctrl и alt добавит ID заклинания в подсказку, если известно."
+L["Spell ID (Tooltip)"] = "ID заклинания (подсказки)"
+L["If checked and control key is down, spell ID, when known, is added to tooltips."] = "Если отмечено, при удержании ctrl добавит ID заклинания в подсказку, если известно."
+L["Caster (Tooltip)"] = "Заклинатель (подсказки)"
+L["If checked, caster for buffs and debuffs, when known, is added to tooltips."] = "Если отмечено, подсказки включают имя наложившего бафф или дебафф, если известно."
+L["Spell ID (Label)"] = "ID заклинания (Текст)"
+L["If checked, spell ID, when known, is added to labels."] = "Если отмечено, при удержании ctrl добавит ID заклинания в текст, если известно."
+L["Caster (Label)"] = "Заклинатель (Текст)"
+L["If checked, caster for buffs and debuffs, when known, is added to labels."] = "Если отмечено, текст включают имя наложившего бафф или дебафф, если известно."
 L["Start Effects"] = "Эффекты появления"
 L["Expire Effects"] = "Эффекты завершении"
 L["Finish Effects"] = "Эффекты скрытия"
@@ -1107,7 +1115,7 @@ L["Exclude buffs for resources (e.g., monk's Chi)."] = "Исключить ба�
 L["Filter List"] = "Список фильтов"
 L["Black List"] = "Черный список"
 L["White List"] = "Белый список"
-L["Use Spell List"] = "Использовать список заклинаний" 
+L["Use Spell List"] = "Использовать список заклинаний"
 L["If checked, filter list includes spells in specified spell list (these are set up on the Spells tab)."] = "Если отмечено, список фильтов включает заклинания из указанного списка заклинаний (они настраиваются на странице Заклинания)."
 L["If checked, don't display any buffs that are in the filter list."] = "Если отмечено, не отображать любые баффы из списка фильтров."
 L["If checked, only display buffs that are in the filter list."] = "Если отмечено, отображать только баффы из списка фильтров."
@@ -1407,7 +1415,7 @@ L["Segment"] = "Сегмент"
 L["If checked then bars are shown in segments (additional options are displayed when enabled)."] = "Если отмечено, то полосы показаны как сегменты (дополнительные настройки показаны, когда включено)."
 L["Fill"] = "Заполнение"
 L["If checked then timer bars fill up, otherwise they empty."] = "Если отмечено, тогда полосы таймеров заполняются, в противном случае опустевают."
-L["horizontal bars string"] = "Если отмечено, отображать полосы в ряд на горизонтальном фоне. Данная схема поддерживает " .. --"If checked, display bars side-by-side in a row on a horizontal backdrop. This layout supports " 
+L["horizontal bars string"] = "Если отмечено, отображать полосы в ряд на горизонтальном фоне. Данная схема поддерживает " .. --"If checked, display bars side-by-side in a row on a horizontal backdrop. This layout supports "
 	"персональные полосы для брокеров с различной шириной и специальными опциями выравнивания. Не поддерживает перенос полос между несколькими рядами." --"custom bars for brokers with variable width and special alignment options. It does not support wrapping the bars across multiple rows."
 L["Test Mode"] = "Тестовый режим"
 L["Unlimited Duration"] = "Бесконечная длительность"
@@ -1433,7 +1441,7 @@ L["Attachment"] = "Прикрепление"
 L["Select a bar group to attach to (for independent position, attach to self)."] = "Выберите группу, к которой прикрепить (для независимой позиции, прикрепите на себя)."
 L["Offset X"] = "Смещение по Х"
 L["Set horizontal offset from the selected bar group."] = "Установить горизонтальное смещение выбранной группы."
-L["Offset Y"] = "Смещение по Y" 
+L["Offset Y"] = "Смещение по Y"
 L["Set vertical offset from the selected bar group."] = "Установить вертекальное смещение выбранной группы."
 L["Last Bar"] = "Последняя полоса"
 L["If checked, position is relative to last bar/icon in the selected bar group."] = "Если отмечено, позиционирование относительно последней полосы/иконки для выбранной группы."
@@ -1580,57 +1588,57 @@ L["If checked, test if the player is mounted."] = "Если отмечено, т
 L["If checked, player must be mounted."] = "Если отмечено, игрок должен быть верхом."
 L["If checked, player must not be mounted."] = "Если отмечено, игрок должен быть спешен."
 L["Stealthed"] = "Незаметный"
-L["If checked, test if the player is stealthed."] = "Если отмечено, тестировать, что игрок незаметный." 
+L["If checked, test if the player is stealthed."] = "Если отмечено, тестировать, что игрок незаметный."
 L["If checked, player must be stealthed."] = "Если отмечено, игрок должен быть незаметным."
 L["If checked, player must not be stealthed."] = "Если отмечено, игрок должен быть заметным."
 L["If checked, bar group is shown when the player is stealthed."] = "Если отмечено, группа отображается, когда игрок незаметный."
 L["PvP"] = "ПвП"
-L["If checked, test if the player has PvP enabled."] = "Если отмечено, тестировать, что у игрока включен ПвП режим." 
+L["If checked, test if the player has PvP enabled."] = "Если отмечено, тестировать, что у игрока включен ПвП режим."
 L["If checked, player must have PvP enabled."] = "Если отмечено, у игрока должен быть включен ПвП режим."
 L["If checked, player must not have PvP enabled."] = "Если отмечено, у игрока должен быть выключен ПвП режим."
-L["If checked, test if player is in a party."] = "Если отмечено, тестировать, что игрок в группе." 
+L["If checked, test if player is in a party."] = "Если отмечено, тестировать, что игрок в группе."
 L["If checked, player must be in a party."] = "Если отмечено, игрок должен быть в группе."
 L["If checked, player must not be in a party."] = "Если отмечено, игрок не должен быть в группе."
-L["If checked, test if player is in raid group."] = "Если отмечено, тестировать, что игрок в рейдовой группе." 
+L["If checked, test if player is in raid group."] = "Если отмечено, тестировать, что игрок в рейдовой группе."
 L["If checked, player must be in a raid group."] = "Если отмечено, игрок должен быть в рейдовой группе."
 L["If checked, player must not be in a raid group."] = "Если отмечено, игрок не должен быть в группе."
-L["If checked, test if player is in either a party or raid with other players."] = "Если отмечено, тестировать, что игрок в обычной или рейдовой группе." 
+L["If checked, test if player is in either a party or raid with other players."] = "Если отмечено, тестировать, что игрок в обычной или рейдовой группе."
 L["If checked, player must be in either a party or raid with other players."] = "Если отмечено, игрок должен быть в обычной или рейдовой группе."
 L["If checked, player must not be in either a party or raid with other players."] = "Если отмечено, игрок не должен быть в обычной или рейдовой группе."
-L["If checked, test if player is in a 5-man or raid instance."] = "Если отмечено, тестировать, что игрок подземелье или рейде." 
+L["If checked, test if player is in a 5-man or raid instance."] = "Если отмечено, тестировать, что игрок подземелье или рейде."
 L["If checked, player must be in a 5-man or raid instance."] = "Если отмечено, игрок должен быть в подземелье или рейде."
 L["If checked, player must not be in a 5-man or raid instance."] = "Если отмечено, игрок не должен быть в подземелье или рейде."
-L["If checked, test if player is in an arena."] = "Если отмечено, тестировать, что игрок на арене." 
+L["If checked, test if player is in an arena."] = "Если отмечено, тестировать, что игрок на арене."
 L["If checked, player must be in an arena."] = "Если отмечено, игрок должен быть на арене."
 L["If checked, player must not be in an arena."] = "Если отмечено, игрок не должен быть на арене."
-L["If checked, test if player is in a battleground."] = "Если отмечено, тестировать, что игрок на поле боя." 
+L["If checked, test if player is in a battleground."] = "Если отмечено, тестировать, что игрок на поле боя."
 L["If checked, player must be in a battleground."] = "Если отмечено, игрок должен быть на поле боя."
 L["If checked, player must not be in a battleground."] = "Если отмечено, игрок не должен быть на поле боя."
-L["If checked, test if the player has a pet."] = "Если отмечено, тестировать, что у игрока призван питомец." 
+L["If checked, test if the player has a pet."] = "Если отмечено, тестировать, что у игрока призван питомец."
 L["If checked, player must have a pet."] = "Если отмечено, у игрока должен быть питомец."
 L["If checked, player must not have a pet"] = "Если отмечено, у игрока должно быть питомеца."
 L["Player"] = "Игрок" --"Player"
 L["Pet"] = PET
 L["Level"] = "Уровень"
-L["If checked, test the player's level."] = "Если отмечено, тестировать уровень игрока." 
+L["If checked, test the player's level."] = "Если отмечено, тестировать уровень игрока."
 L["If checked, player must be at least at this level, otherwise must be lower."] = "Если отмечено, игрок должен быть хотя бы этого уровня, в противном случае ниже."
-L["If checked, test the player's health."] = "Если отмечено, тестировать здоровье игрока." 
+L["If checked, test the player's health."] = "Если отмечено, тестировать здоровье игрока."
 L["If checked, player's health must be at least this percentage, otherwise must be less."] = "Если отмечено, здоровье игрока должно быть хотя бы этих процентов, в противном случае меньше."
-L["If checked, test the player's power (i.e., mana, rage, energy, focus, runic power)."] = "Если отмечено, тестировать энергию игрока (то есть: мана, ярость, энергия, концентрация, сила рун)." 
+L["If checked, test the player's power (i.e., mana, rage, energy, focus, runic power)."] = "Если отмечено, тестировать энергию игрока (то есть: мана, ярость, энергия, концентрация, сила рун)."
 L["If checked, player's power must be at least this percentage, otherwise must be less."] = "Если отмечено, энергия игрока должна быть хотя бы этих процентов, в противном случае меньше."
-L["If checked, test the player's holy power."] = "Если отмечено, тестировать Энергию Света игрока." 
+L["If checked, test the player's holy power."] = "Если отмечено, тестировать Энергию Света игрока."
 L["If checked, player's holy power must be at least this many charges, otherwise must be less."] = "Если отмечено, Энергия Света игрока должна иметь хотя бы столько зарядов, в противном случае меньше."
-L["If checked, test the player's number of soul shards."] = "Если отмечено, тестировать Осколки душ игрока." 
+L["If checked, test the player's number of soul shards."] = "Если отмечено, тестировать Осколки душ игрока."
 L["If checked, player must have at least this many soul shards, otherwise must be less."] = "Если отмечено, игрок должен иметь хотя бы столько Осколков душ, в противном случае меньше."
-L["If checked, test the player's arcane charges."] = "Если отмечено, тестировать Чародейские заряды игрока." 
+L["If checked, test the player's arcane charges."] = "Если отмечено, тестировать Чародейские заряды игрока."
 L["If checked, player must have at least this many arcane charges, otherwise must be less."] = "Если отмечено, игрок должен иметь хотя бы столько Чародейский зарядов, в противном случае меньше."
-L["If checked, test the player's insanity level."] = "Если отмечено, тестировать Безумие игрока." 
+L["If checked, test the player's insanity level."] = "Если отмечено, тестировать Безумие игрока."
 L["If checked, player must have at least this amount of insanity, otherwise must be less."] = "Если отмечено, игрок должен иметь хотя бы такой уровень Безумия, в противном случае меньше."
-L["If checked, test the player's maelstrom level."] = "Если отмечено, тестировать Энергию Водоворота игрока." 
+L["If checked, test the player's maelstrom level."] = "Если отмечено, тестировать Энергию Водоворота игрока."
 L["If checked, player must have at least this amount of maelstrom, otherwise must be less."] = "Если отмечено, игрок должен иметь хотя бы такой уровень Энергии Водоворота, в противном случае меньше."
-L["If checked, test the player's chi."] = "Если отмечено, тестировать Энергию Ци игрока." 
+L["If checked, test the player's chi."] = "Если отмечено, тестировать Энергию Ци игрока."
 L["If checked, player must have at least this much chi, otherwise must be less."] = "Если отмечено, игрок должен иметь хотя бы столько Энергии Ци, в противном случае меньше."
-L["If checked, test the player's lunar power. You can set power level and the comparison to use (either less or greater than the power level)."] = "Если отмечено, тестировать Астральную мощь игрока. Вы можете установить уровень энергии и сравнение для использования (больше или меньше, чем уровень энергии)." 
+L["If checked, test the player's lunar power. You can set power level and the comparison to use (either less or greater than the power level)."] = "Если отмечено, тестировать Астральную мощь игрока. Вы можете установить уровень энергии и сравнение для использования (больше или меньше, чем уровень энергии)."
 L["If checked, player's lunar power must be at least this level, otherwise must be less."] = "Если отмечено, Астральная мощь игрока должна быть хотя бы такого уровня, в противном случае меньше."
 L["Available"] = "Доступно"
 L["Any"] = "Любые"
