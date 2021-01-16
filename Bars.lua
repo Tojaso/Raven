@@ -41,7 +41,8 @@ function MOD:GetTimelineLabels() return defaultLabels end
 
 MOD.BarGroupTemplate = { -- default bar group settings
 	enabled = true, locked = true, merged = false, linkSettings = false, linkBars = false, checkCondition = false, noMouse = false, iconMouse = true,
-	barColors = "Spell", bgColors = "Normal", iconColors = "None", combatTips = true, casterTips = true, spellTips = true, anchorTips = "DEFAULT",
+	barColors = "Spell", bgColors = "Normal", iconColors = "None", combatTips = true,
+	casterTips = true, spellTips = false, casterLabels = false, spellLabels = false, anchorTips = "DEFAULT",
 	useDefaultDimensions = true, useDefaultFontsAndTextures = true, useDefaultColors = true, useDefaultTimeFormat = false, strata = "MEDIUM",
 	sor = "A", reverseSort = false, timeSort = true, playerSort = false,
 	configuration = 1, anchor = false, anchorX = 0, anchorY = 0, anchorLastBar = false, anchorRow = false, anchorColumn = true, anchorEmpty = false,
@@ -790,7 +791,7 @@ local function Bar_OnUpdate(bar)
 			GameTooltip:SetText(L["Test Bar"] .. " " .. tostring(unit))
 		end
 	end
-	if IsAltKeyDown() and IsControlKeyDown() then
+	if IsControlKeyDown() then
 		if spell then GameTooltip:AddLine("<Spell #" .. tonumber(spell) .. ">", 0, 1, 0.2, false) end
 		if bat.listID then GameTooltip:AddLine("<List #" .. tonumber(bat.listID) .. ">", 0, 1, 0.2, false) end
 	end
@@ -1136,7 +1137,15 @@ local function UpdateBar(bp, vbp, bg, b, icon, timeLeft, duration, count, btype,
 		end
 		bat.updated = true -- for mark/sweep bar deletion
 		bat.ghostTime = nil -- delete in case was previously a ghost bar
-		MOD.Nest_SetLabel(bar, b.barText or label)
+		if b.barText then
+			MOD.Nest_SetLabel(bar, b.barText)
+		elseif label then
+			if vbp.casterLabels and ttCaster then label = "[" .. ttCaster .. "] " .. label end
+			if vbp.spellLabels and b.spellID then label = label .. " [#" .. b.spellID .. "]" end
+			MOD.Nest_SetLabel(bar, label)
+		else
+			MOD.Nest_SetLabel(bar, nil)
+		end
 		bat.hideLabel = b.hideLabel -- suppress label setting for custom bars
 		local tex = nil
 		if b.action and MOD.db.global.SpellIcons[b.action] then tex = MOD:GetIcon(b.action) end -- check for override of the icon

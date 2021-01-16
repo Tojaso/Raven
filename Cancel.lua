@@ -121,7 +121,7 @@ local function Overlay_OnEnter(b)
 			local auraList = MOD:CheckAura("player", b.aura_id, true)
 			if #auraList > 0 then local aura = auraList[1]; GameTooltip:SetUnitAura("player", aura[12], "HELPFUL") end
 		end
-		if IsAltKeyDown() and IsControlKeyDown() then
+		if IsControlKeyDown() then
 			if b.aura_spell then GameTooltip:AddLine("<Spell #" .. tonumber(b.aura_spell) .. ">", 0, 1, 0.2, false) end
 			if b.aura_list then GameTooltip:AddLine("<List #" .. tonumber(b.aura_list) .. ">", 0, 1, 0.2, false) end
 		end
