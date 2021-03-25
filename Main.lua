@@ -142,7 +142,8 @@ if MOD.isClassic then
 	MOD.LCD = LibStub("LibClassicDurations", true)
 	if MOD.LCD then
 		MOD.LCD:Register(Raven) -- tell library it's being used and should start working
-		UnitAura = MOD.LCD.UnitAuraWrapper
+		-- UnitAura = MOD.LCD.UnitAuraWrapper
+		UnitAura = MOD.LCD.UnitAuraWithBuffs -- support buffs on enemy targets
 	end
 end
 
@@ -227,36 +228,37 @@ end
 local function CheckBlizzFrames()
 	if not MOD.isClassic and C_PetBattles.IsInBattle() then return end -- don't change visibility of any frame during pet battles
 
-	HideShow("buffs", _G.BuffFrame, MOD.db.profile.hideBlizzBuffs, "buffs")
-	HideShow("enchants", _G.TemporaryEnchantFrame, MOD.db.profile.hideBlizzBuffs, "enchants")
-	HideShow("player", _G.PlayerFrame, MOD.db.profile.hideBlizzPlayer)
-	HideShow("castbar", _G.CastingBarFrame, MOD.db.profile.hideBlizzPlayerCastBar, "noshow")
-	HideShow("mirror1", _G.MirrorTimer1, MOD.db.profile.hideBlizzMirrors, "unreg")
-	HideShow("mirror2", _G.MirrorTimer2, MOD.db.profile.hideBlizzMirrors, "unreg")
-	HideShow("mirror3", _G.MirrorTimer3, MOD.db.profile.hideBlizzMirrors, "unreg")
+	local p = MOD.db.profile
+	HideShow("buffs", _G.BuffFrame, p.hideBlizzBuffs, "buffs")
+	HideShow("enchants", _G.TemporaryEnchantFrame, p.hideBlizzBuffs, "enchants")
+	HideShow("player", _G.PlayerFrame, p.hideBlizzPlayer)
+	HideShow("castbar", _G.CastingBarFrame, p.hideBlizzPlayerCastBar, "noshow")
+	HideShow("mirror1", _G.MirrorTimer1, p.hideBlizzMirrors, "unreg")
+	HideShow("mirror2", _G.MirrorTimer2, p.hideBlizzMirrors, "unreg")
+	HideShow("mirror3", _G.MirrorTimer3, p.hideBlizzMirrors, "unreg")
 
-	if MOD.myClass == "DEATHKNIGHT" then HideShow("runes", _G.RuneFrame, MOD.db.profile.hideRunes) end
+	if MOD.myClass == "DEATHKNIGHT" then HideShow("runes", _G.RuneFrame, p.hideRunes) end
 
 	local isDruid = (MOD.myClass == "DRUID")
 	local isCat = isDruid and (GetShapeshiftForm(2) == 2)
-	if isCat or (MOD.myClass == "ROGUE") then HideShow("combo", _G.ComboPointPlayerFrame, MOD.db.profile.hideBlizzComboPoints) end
-	if isDruid and not isCat then HideShow("combo", _G.ComboPointPlayerFrame, MOD.db.profile.hideBlizzComboPoints, "noshow") end
+	if isCat or (MOD.myClass == "ROGUE") then HideShow("combo", _G.ComboPointPlayerFrame, p.hideBlizzComboPoints) end
+	if isDruid and not isCat then HideShow("combo", _G.ComboPointPlayerFrame, p.hideBlizzComboPoints, "noshow") end
 
 	if MOD.myClass == "MONK" then
-		HideShow("chi", _G.MonkHarmonyBarFrame, MOD.db.profile.hideBlizzChi)
-		if not MOD.isClassic and GetSpecializationInfoByID(268) then HideShow("stagger", _G.MonkStaggerBar, MOD.db.profile.hideBlizzStagger) end
+		HideShow("chi", _G.MonkHarmonyBarFrame, p.hideBlizzChi)
+		if not MOD.isClassic and GetSpecializationInfoByID(268) then HideShow("stagger", _G.MonkStaggerBar, p.hideBlizzStagger) end
 	end
 
-	if (MOD.myClass == "PRIEST") and (not MOD.isClassic and GetSpecializationInfoByID(258)) then HideShow("insanity", _G.InsanityBarFrame, MOD.db.profile.hideBlizzInsanity) end
+	if (MOD.myClass == "PRIEST") and (not MOD.isClassic and GetSpecializationInfoByID(258)) then HideShow("insanity", _G.InsanityBarFrame, p.hideBlizzInsanity) end
 
-	if MOD.myClass == "WARLOCK" then HideShow("shards", _G.WarlockPowerFrame, MOD.db.profile.hideBlizzShards) end
+	if MOD.myClass == "WARLOCK" then HideShow("shards", _G.WarlockPowerFrame, p.hideBlizzShards) end
 
-	if MOD.myClass == "MAGE" then HideShow("arcane", _G.MageArcaneChargesFrame, MOD.db.profile.hideBlizzArcane) end
+	if MOD.myClass == "MAGE" then HideShow("arcane", _G.MageArcaneChargesFrame, p.hideBlizzArcane) end
 
-	if MOD.myClass == "PALADIN" then HideShow("holy", _G.PaladinPowerBarFrame, MOD.db.profile.hideBlizzHoly) end
+	if MOD.myClass == "PALADIN" then HideShow("holy", _G.PaladinPowerBarFrame, p.hideBlizzHoly) end
 
 	local totems = false; for i = 1, MAX_TOTEMS do if GetTotemInfo(i) then totems = true end end
-	if totems then HideShow("totems", _G.TotemFrame, MOD.db.profile.hideBlizzTotems) end
+	if totems then HideShow("totems", _G.TotemFrame, p.hideBlizzTotems) end
 end
 
 local function CheckCastBar(event, unit)
@@ -264,9 +266,10 @@ local function CheckCastBar(event, unit)
 end
 
 local function CheckMirrorFrames()
-	HideShow("mirror1", _G.MirrorTimer1, MOD.db.profile.hideBlizzMirrors, "unreg")
-	HideShow("mirror2", _G.MirrorTimer2, MOD.db.profile.hideBlizzMirrors, "unreg")
-	HideShow("mirror23", _G.MirrorTimer3, MOD.db.profile.hideBlizzMirrors, "unreg")
+	local p = MOD.db.profile
+	HideShow("mirror1", _G.MirrorTimer1, p.hideBlizzMirrors, "unreg")
+	HideShow("mirror2", _G.MirrorTimer2, p.hideBlizzMirrors, "unreg")
+	HideShow("mirror23", _G.MirrorTimer3, p.hideBlizzMirrors, "unreg")
 end
 
 -- Functions called to trigger updates

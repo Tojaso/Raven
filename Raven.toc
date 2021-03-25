@@ -1,8 +1,8 @@
-## Interface: 90002
+## Interface: 90005
 ## Title: Raven
 ## Notes: Monitors buffs, debuffs and cooldowns and provides timer bars and icons plus helpful notifications
 ## Author: Tomber
-## Version: 9.0.2
+## Version: 9.0.5
 ## DefaultState: enabled
 ## OptionalDependencies: Masque
 ## SavedVariables: RavenDB
