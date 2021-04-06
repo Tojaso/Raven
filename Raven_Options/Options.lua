@@ -3684,7 +3684,7 @@ MOD.OptionsTable = {
 										if n and lists.list then lists.list[n] = MOD:GetSpellID(n) or true; lists.spell = n end end,
 								},
 								SelectSpell = {
-									type = "select", order = 20, name = L["Spell List"],
+									type = "select", order = 20, name = L["Spell Name"],
 									get = function(info)
 										lists.spell = CheckListEntry(lists.list, lists.spell)
 										return GetSortedListEntry(lists.list, lists.spell)
