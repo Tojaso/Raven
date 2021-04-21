@@ -1480,12 +1480,15 @@ end
 
 -- Compare caster to enforce "cast by" restrictions
 function MOD:CheckCastBy(caster, cb)
-	local isMine, isPet = (caster == "player"), (caster == "pet")
+	local isMine = (caster == "player")
+	local isPet = (caster == "pet")
 	local isOurs = isMine or isPet
+	local isTarget = UnitIsUnit("target", caster)
+	local isFocus = UnitIsUnit("focus", caster)
+	local isNother = not (isMine or isPet or isTarget)
 	if not cb then cb = "player" else cb = string.lower(cb) end -- for backward compatibility
 	return ((cb == "player") and isMine) or (cb == "anyone") or ((cb == "pet") and isPet) or ((cb == "other") and not isOurs) or ((cb == "ours") and isOurs) or
-		((cb == "target") and (caster ~= "unknown") and UnitIsUnit("target", caster)) or
-		((cb == "focus") and (caster ~= "unknown") and UnitIsUnit("focus", caster))
+		((cb == "nother") and isNother) or ((caster ~= "unknown") and (((cb == "target") and isTarget) or ((cb == "focus") and isFocus)))
 end
 
 -- Check if an action is in the associated filter bar group

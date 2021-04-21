@@ -6476,8 +6476,14 @@ MOD.OptionsTable = {
 									get = function(info) return GetBarGroupField("detectBuffsCastBy") == "other" end,
 									set = function(info, value) SetBarGroupField("detectBuffsCastBy", "other") end,
 								},
+								YourBuffNotTarget = {
+									type = "toggle", order = 35, name = L["Other, Not Target"],
+									desc = L["If checked, only add bars for buffs if cast by anyone other than player, pet or target."],
+									get = function(info) return GetBarGroupField("detectBuffsCastBy") == "nother" end,
+									set = function(info, value) SetBarGroupField("detectBuffsCastBy", "nother") end,
+								},
 								AnyBuff = {
-									type = "toggle", order = 35, name = L["Anyone"],
+									type = "toggle", order = 40, name = L["Anyone"],
 									desc = L["If checked, add bars for buffs if cast by anyone, including player."],
 									get = function(info) return GetBarGroupField("detectBuffsCastBy") == "anyone" end,
 									set = function(info, value) SetBarGroupField("detectBuffsCastBy", "anyone") end,
@@ -7155,8 +7161,14 @@ MOD.OptionsTable = {
 									get = function(info) return GetBarGroupField("detectDebuffsCastBy") == "other" end,
 									set = function(info, value) SetBarGroupField("detectDebuffsCastBy", "other") end,
 								},
+								YourBuffNotTarget = {
+									type = "toggle", order = 35, name = L["Other, Not Target"],
+									desc = L["If checked, only add bars for debuffs if cast by anyone other than player, pet or target."],
+									get = function(info) return GetBarGroupField("detectBuffsCastBy") == "nother" end,
+									set = function(info, value) SetBarGroupField("detectBuffsCastBy", "nother") end,
+								},
 								AnyBuff = {
-									type = "toggle", order = 35, name = L["Anyone"],
+									type = "toggle", order = 40, name = L["Anyone"],
 									desc = L["If checked, add bars for debuffs if cast by anyone, including player."],
 									get = function(info) return GetBarGroupField("detectDebuffsCastBy") == "anyone" end,
 									set = function(info, value) SetBarGroupField("detectDebuffsCastBy", "anyone") end,
