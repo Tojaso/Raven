@@ -7164,8 +7164,8 @@ MOD.OptionsTable = {
 								YourBuffNotTarget = {
 									type = "toggle", order = 35, name = L["Other, Not Target"],
 									desc = L["If checked, only add bars for debuffs if cast by anyone other than player, pet or target."],
-									get = function(info) return GetBarGroupField("detectBuffsCastBy") == "nother" end,
-									set = function(info, value) SetBarGroupField("detectBuffsCastBy", "nother") end,
+									get = function(info) return GetBarGroupField("detectDebuffsCastBy") == "nother" end,
+									set = function(info, value) SetBarGroupField("detectDebuffsCastBy", "nother") end,
 								},
 								AnyBuff = {
 									type = "toggle", order = 40, name = L["Anyone"],
