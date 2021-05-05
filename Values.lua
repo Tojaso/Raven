@@ -112,7 +112,7 @@ local function GetFormattedText(textFormat, value, maxValue)
 		s = GetFormattedNumber(x, 2) -- rounded to nearest 1/10
 	elseif textFormat == "pct" then
 		x = math.floor((x / xmax) * 100 + 0.5)
-		s = string.format("%d%%", x)
+		s = string.format("%.0f%%", x)
 	elseif textFormat == "slash" then
 		local xInt = (abs(x - math.floor(x)) < 0.01)
 		local xmaxInt = (abs(xmax - math.floor(xmax)) < 0.01)
@@ -360,10 +360,10 @@ local function ValuePlayerXP(unit, fmt)
 	local s = GetFormattedText(fmt, xp, xpmax)
 	local rested = GetXPExhaustion() or 0
 	xpTable[1] = "|cffffcc00Player XP|r"
-	xpTable[2] = string.format("|cffffff00Percent XP|r %d%%", (xp / xpmax) * 100)
+	xpTable[2] = string.format("|cffffff00Percent XP|r %.0f%%", (xp / xpmax) * 100)
 	xpTable[3] = string.format("|cffffff00Current XP|r %d", xp)
 	xpTable[4] = string.format("|cffffff00Maximum XP|r %d", xpmax)
-	xpTable[5] = string.format("|cffffff00Rested|r %d%%", (rested / xpmax) * 100)
+	xpTable[5] = string.format("|cffffff00Rested|r %.0f%%", (rested / xpmax) * 100)
 	return true, xp, xpmax, s, nil, iconXP, "lines", xpTable
 end
 
@@ -407,7 +407,7 @@ local function ValueReputation(unit, fmt)
 		local c = FACTION_BAR_COLORS[standing] or rc
 		local label = _G['FACTION_STANDING_LABEL' .. standing]
 		reputationTable[1] = "|cffffcc00Reputation|r"
-		reputationTable[2] = string.format("|cffffff00%s:|r %s %d/%d (%d%%)", name, label, xp, xpmax, (xp / xpmax) * 100)
+		reputationTable[2] = string.format("|cffffff00%s:|r %s %d/%d (%.0f%%)", name, label, xp, xpmax, (xp / xpmax) * 100)
 		return true, xp, xpmax, s, name, iconReputation, "lines", reputationTable, c.r, c.g, c.b
 	end
 	return false
@@ -476,7 +476,9 @@ local function ValuePosition(unit, fmt)
 end
 
 local function ValueFacing(unit, fmt)
-	local theta = 180 + (GetPlayerFacing() * 360 / (2 * math.pi))
+	local facing = GetPlayerFacing()
+	if not facing then return false end
+	local theta = 180 + (facing * 360 / (2 * math.pi))
 	if theta > 360 then theta = theta - 360 end
 	local angle = math.floor(theta + 0.5)
 	if angle > 360 then angle = 0 end
