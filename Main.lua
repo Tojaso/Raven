@@ -28,7 +28,7 @@ local addonEnabled = false -- set when the addon is enabled
 local optionsLoaded = false -- set when the load-on-demand options panel module has been loaded
 local optionsFailed = false -- set if loading the option panel module failed
 
-MOD.isClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+MOD.isClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 MOD.updateOptions = false -- set this to cause the options panel to update (checked every half second)
 MOD.LocalSpellNames = {} -- must be defined in first module loaded
 local LSPELL = MOD.LocalSpellNames
