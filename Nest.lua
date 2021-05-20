@@ -2088,31 +2088,33 @@ local function Bar_UpdateSettings(bg, bar, config)
 		local bb_r, bb_g, bb_b = MOD.Nest_AdjustColor(bar.br, bar.bg, bar.bb, bg.bgSaturation or 0, bg.bgBrightness or 0)
 		local count = bg.segmentCount -- create, size and position segments on demand
 		if bg.segmentOverride and bat.segmentCount then count = bat.segmentCount end -- override with bar setting
-		if count and (count >= 1) and (count <= 10) then
+		if count and (count >= 1) and (count <= 10) and bar.segments then
 			local x = fill * count
 			local fullSegments = math.floor(x) -- how many full segments to show
 			local px = x - fullSegments -- how much is left over
 			for i = 1, count do
 				local f = bar.segments[i]
-				local sf, sb = f.fgTexture, f.bgTexture
-				if bg.segmentGradient and (count > 1) then -- override standard foreground color with gradient
-					local sc = (i - 1) / (count - 1) -- for individual colors, select based on the segment number
-					if bg.segmentGradientAll then sc = fill end -- for colors all together, select based on current value
-					local c1, c2 = bg.segmentGradientStartColor or defaultGreen, bg.segmentGradientEndColor or defaultRed
-					bf_r, bf_g, bf_b = MOD.Nest_IntermediateColor(c1.r, c1.g, c1.b, c2.r, c2.g, c2.b, sc)
-				end
-				sf:SetVertexColor(bf_r, bf_g, bf_b); sb:SetVertexColor(bb_r, bb_g, bb_b)
-				if i <= (fullSegments + ((px >= (1 / f.segmentWidth)) and 1 or 0)) then -- configure all visible segments including partial
-					sf:SetAlpha(bg.fgAlpha); PSetSize(sf, f.segmentWidth, f.segmentHeight) -- settings that might be changed for partial segments
-					if i > fullSegments then -- partial segment
-						if bg.segmentFadePartial then sf:SetAlpha(bg.fgAlpha * px) end
-						if bg.segmentShrinkWidth then PSetWidth(sf, f.segmentWidth * px) end
-						if bg.segmentShrinkHeight then PSetHeight(sf, f.segmentHeight * px) end
+				if f then
+					local sf, sb = f.fgTexture, f.bgTexture
+					if bg.segmentGradient and (count > 1) then -- override standard foreground color with gradient
+						local sc = (i - 1) / (count - 1) -- for individual colors, select based on the segment number
+						if bg.segmentGradientAll then sc = fill end -- for colors all together, select based on current value
+						local c1, c2 = bg.segmentGradientStartColor or defaultGreen, bg.segmentGradientEndColor or defaultRed
+						bf_r, bf_g, bf_b = MOD.Nest_IntermediateColor(c1.r, c1.g, c1.b, c2.r, c2.g, c2.b, sc)
 					end
-					sf:Show(); sb:Show(); f:Show()
-				else -- empty segment
-					sf:Hide()
-					if bg.segmentHideEmpty then sb:Hide(); f:Hide() else sb:Show(); f:Show() end
+					sf:SetVertexColor(bf_r, bf_g, bf_b); sb:SetVertexColor(bb_r, bb_g, bb_b)
+					if i <= (fullSegments + ((px >= (1 / f.segmentWidth)) and 1 or 0)) then -- configure all visible segments including partial
+						sf:SetAlpha(bg.fgAlpha); PSetSize(sf, f.segmentWidth, f.segmentHeight) -- settings that might be changed for partial segments
+						if i > fullSegments then -- partial segment
+							if bg.segmentFadePartial then sf:SetAlpha(bg.fgAlpha * px) end
+							if bg.segmentShrinkWidth then PSetWidth(sf, f.segmentWidth * px) end
+							if bg.segmentShrinkHeight then PSetHeight(sf, f.segmentHeight * px) end
+						end
+						sf:Show(); sb:Show(); f:Show()
+					else -- empty segment
+						sf:Hide()
+						if bg.segmentHideEmpty then sb:Hide(); f:Hide() else sb:Show(); f:Show() end
+					end
 				end
 			end
 		elseif (w > 0) and (h > 0) then -- non-zero dimensions to fix the zombie bar bug
