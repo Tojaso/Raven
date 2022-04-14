@@ -58,6 +58,7 @@ MOD.suppress = true -- this is set when certain special effects are to be disabl
 MOD.combatTimer = 0 -- if not 0 then this is set to the time when the player last entered combat
 MOD.status = {} -- global status info cached by conditions module on every update
 
+local hasFocus = WOW_PROJECT_ID != WOW_PROJECT_CLASSIC
 local doUpdate = true -- set by any event that can change bars (used to throttle major updates)
 local forceUpdate = false -- set to cause immediate update (reserved for critical changes like to player's target or focus)
 local suppressTime = nil -- set when addon code is loaded
@@ -841,11 +842,14 @@ function MOD:OnEnable()
 			end)
 		end
 	else -- register events that are not implemented in classic
-		self:RegisterEvent("PLAYER_FOCUS_CHANGED")
 		self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckTalentSpecialization)
 		self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED", CheckTalentSpecialization)
 		self:RegisterEvent("VEHICLE_UPDATE")
 		self:RegisterEvent("RUNE_POWER_UPDATE", TriggerCooldownUpdate)
+	end
+	
+	if hasFocus then
+		self:RegisterEvent("PLAYER_FOCUS_CHANGED")
 	end
 
 	MOD:InitializeBars() -- initialize routine that manages the bar library
