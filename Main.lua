@@ -1511,8 +1511,8 @@ local function GetTracking()
 	if MOD.isClassic then return end -- not supported in classic
 
 	local notTracking, notTrackingIcon, found = L["Not Tracking"], "Interface\\Minimap\\Tracking\\None", false
-	for i = 1, GetNumTrackingTypes() do
-		local tracking, trackingIcon, active = GetTrackingInfo(i)
+	for i = 1, C_Minimap.GetNumTrackingTypes() do
+		local tracking, trackingIcon, active = C_Minimap.GetTrackingInfo(i)
 		if active then
 			found = true
 			AddAura("player", tracking, true, nil, 1, "Tracking", 0, "player", nil, nil, nil, trackingIcon, 0, "tracking", tracking)
